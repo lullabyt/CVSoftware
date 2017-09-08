@@ -1,10 +1,10 @@
-import { AppPage } from './app.po';
+import { CvsPage } from './app.po';
 
-describe('cy-v-proyecto App', () => {
-  let page: AppPage;
+describe('cvs App', () => {
+  let page: CvsPage;
 
   beforeEach(() => {
-    page = new AppPage();
+    page = new CvsPage();
   });
 
   it('should display welcome message', () => {

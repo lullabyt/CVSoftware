@@ -1,0 +1,20 @@
+
+ .bg-barra {
+  background-color: #3b3a30!important;
+}
+
+.drop-link::selection {
+  background-color:#b2c2bf !important;
+  color:#3b3a30;
+}
+
+.drop-link:hover {
+  background-color: #b2c2bf;
+  color:#3b3a30;
+}
+
+.dropdown-item.active, 
+.dropdown-item:active {
+  background-color: #b2c2bf!important;
+  color:#3b3a30!important;
+}

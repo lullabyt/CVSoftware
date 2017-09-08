@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-barra" style="margin-bottom:40px;">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" [routerLink]="['bienvenida']" routerLinkActive="active">Inicio</a>
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+      <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Órdenes
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item drop-link" [routerLink]="['wizard']" routerLinkActive="active">Asignar personal</a>
+              </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link link disabled" > Trabajos </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" > Acerca de</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2 " type="text" placeholder="Buscar" aria-label="Buscar">
+      <button class="btn  my-2 my-sm-0 disabled" type="submit">Buscar</button>
+    </form>
+  </div>
+</nav>
