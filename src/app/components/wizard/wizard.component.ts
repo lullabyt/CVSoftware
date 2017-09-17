@@ -47,9 +47,16 @@ export class WizardComponent implements OnInit {
 
   }
 
+  getOrdenes(): void {
+    this._ordenesService.getOrdenes().then(ordenes => this.ordenes = ordenes);
+  }
+
+
   ngOnInit() {
     this.atributosOrden = this._ordenesService.getAtributos();
-    this.ordenes = this._ordenesService.getOrdenes();
+
+    this.getOrdenes();
+    //this.ordenes = this._ordenesService.getOrdenes();
 
     this.atributosTrabajo = this._trabajosService.getAtributos();
 
