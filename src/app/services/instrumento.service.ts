@@ -2,9 +2,15 @@ import { Injectable } from '@angular/core';
 import { Instrumento } from './../classes/instrumento';
 import { TipoTrabajo } from './../classes/tipoTrabajo';
 
+import { Headers, Http } from '@angular/http';
+import 'rxjs/add/operator/toPromise';
+
+
 @Injectable()
 export class InstrumentoService {
 
+    private instrumentosUrl = 'http://localhost:3000/api/instrumentos'
+/*
   private instrumentos: Instrumento[] = [
     { numeroInstrumento: "1", nombre: "instrumento1", estado: "Libre", disponibilidad: "Libre", fechaIngreso: "15/01/2017", tipoTrabajo: { id: "819", nombre: "limpieza", descripcion: "Alguna descripción" } },
     { numeroInstrumento: "2", nombre: "instrumento2", estado: "Libre", disponibilidad: "Libre", fechaIngreso: "15/01/2015", tipoTrabajo: { id: "819", nombre: "limpieza", descripcion: "Alguna descripción" } },
@@ -18,25 +24,33 @@ export class InstrumentoService {
 
 
   ];
-
+*/
   private atributos: string[] = [
     "Número de Instrumento", "Nombre", "Estado", "Disponibilidad", "Fecha de Ingreso"
   ];
 
-  constructor() {
+  constructor(private http:Http) {
     console.log("SERVICIO LISTO");
   }
 
-  getInstrumentos() {
-    return this.instrumentos;
+  getInstrumentos(): Promise<Instrumento[]> {
+    return this.http.get(this.instrumentosUrl)
+      .toPromise()
+      .then(response => response.json() as Instrumento[])
+      .catch(this.handleError);
   }
 
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error); // for demo purposes only
+    return Promise.reject(error.message || error);
+  }
+/*
 
   getInstrumentoTipoTrabajo(idTipo: string) {
     return this.instrumentos.filter(ins => ins.tipoTrabajo.id === idTipo);
   }
 
-
+*/
 
   getAtributos() {
     return this.atributos;

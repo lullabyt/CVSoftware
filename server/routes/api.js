@@ -4,6 +4,8 @@ const router = express.Router();
 var Orden = require('../models/orden');
 var Personal = require('../models/personal');
 var Asignacion = require('../models/asignacion');
+var Instrumento = require('../models/instrumento');
+var TipoInstrumento = require('../models/tipoInstrumento');
 
 // middleware to use for all requests
 router.use(function(req, res, next) {
@@ -35,6 +37,21 @@ router.get('/personal', (req, res) => {
   });
 });
 
+router.get('/instrumentos', (req, res) => {
+  Instrumento.find().then(function(instrumentos) {
+    res.json(instrumentos);
+  }, function(err) {
+    res.send(err);
+  });
+});
+
+router.get('/asignaciones', (req, res) => {
+  Asignacion.find().then(function(asignaciones) {
+    res.json(asignaciones);
+  }, function(err) {
+    res.send(err);
+  });
+});
 
 
 module.exports = router;
