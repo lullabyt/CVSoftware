@@ -10,6 +10,14 @@
 
     <wizard-step title="Seleccionar orden" navigationSymbol="1" (stepEnter)="resetStep1()">
       <div class="centered-content margin-top">
+
+        <div class="row">
+          <div class="col-md-11 ">
+            <button (click)="calcularTrabajos()" type="button" [disabled]="ordenVacia()" class="btn btn-secondary boton" nextStep>Continuar</button>
+            <button type="button" class="btn btn-secondary boton" disabled>Volver</button>
+          </div>
+        </div>
+
         <div class="row">
           <!-- tabla -->
           <div class="col-md-4">
@@ -25,7 +33,7 @@
                 <tr *ngFor="let item of ordenes ; let i = index" (click)="onSelectOrden(item)" [class.selected]="isOrdenSelected(item)">
                   <td scope="row">{{i}}</td>
                   <td>{{item.numeroOrden}}</td>
-                  <td>{{item.fechaIngreso}}</td>
+                  <td>{{item.fechaIngreso | date:'d-MM-y' }}</td>
                 </tr>
               </tbody>
             </table>
@@ -40,7 +48,7 @@
                 <div class="card-text" *ngIf="!ordenVacia()">
 
                   <h6>Numero de Orden: {{selectedOrden.numeroOrden}} </h6>
-                  <h6>Fecha de Ingreso: {{selectedOrden.fechaIngreso}}</h6>
+                  <h6>Fecha de Ingreso: {{selectedOrden.fechaIngreso | date:'d-MM-y'}}</h6>
                   <h6>Progreso: {{selectedOrden.progreso}}</h6>
                   <h6>Observaciones: {{selectedOrden.observaciones}}</h6>
                 </div>
@@ -64,9 +72,6 @@
           </div>
 
     -->
-            <button type="button" class="btn btn-secondary" disabled>Volver</button>
-            <button (click)="calcularTrabajos()" type="button" [disabled]="ordenVacia()" class="btn btn-secondary boton" nextStep>Continuar</button>
-
           </div>
 
           <!--Asignacion-->
@@ -91,7 +96,6 @@
               </div>
             </div>
           </div>
-
         </div>
 
       </div>
@@ -104,6 +108,14 @@
 
     <wizard-step title="Seleccionar trabajo" navigationSymbol="2" (stepEnter)="resetStep2()">
       <div class="centered-content margin-top">
+
+        <div class="row">
+            <div class="col-md-11">
+              <button (click)="calcularInstrumentos()" type="button" class="btn btn-secondary boton" [disabled]="trabajoVacia()" nextStep>Continuar</button>
+              <button type="button" class="btn btn-secondary boton" previousStep>Volver</button>
+            </div>
+        </div>
+
         <div class="row">
 
           <!-- tabla -->
@@ -134,7 +146,7 @@
               <div class="card-body">
                 <div class="card-text" *ngIf="!trabajoVacia()">
                   <h6>Numero de Trabajo: {{selectedTrabajo.numeroTrabajo}}</h6>
-                  <h6>Fecha de Realización: {{selectedTrabajo.fechaRealizacion}}</h6>
+                  <h6>Fecha de Realización: {{selectedTrabajo.fechaRealizacion | date:'d-MM-y'}}</h6>
                   <h6>Evaluación: {{selectedTrabajo.evaluacion}}</h6>
                   <h6>Observación: {{selectedTrabajo.observacion}}</h6>
                   <h6>Tipo de Trabajo: {{selectedTrabajo.tipoTrabajo.nombre}}</h6>
@@ -151,8 +163,6 @@
               </div>
             </div>
             <br><br><br>
-            <button type="button" class="btn btn-secondary" previousStep>Volver</button>
-            <button (click)="calcularInstrumentos()" type="button" class="btn btn-secondary" [disabled]="trabajoVacia()" nextStep>Continuar</button>
           </div>
 
           <!--Asignacion-->
@@ -162,7 +172,7 @@
               <div class="card-body">
                 <div class="card-text">
                   <h6>Numero de Orden: {{selectedOrden.numeroOrden}} </h6>
-                  <h6>Fecha de Ingreso: {{selectedOrden.fechaIngreso}}</h6>
+                  <h6>Fecha de Ingreso: {{selectedOrden.fechaIngreso | date:'d-MM-y'}}</h6>
                   <!--
                               <div *ngIf="!trabajoVacia()">
                                 <hr>
@@ -176,8 +186,6 @@
               </div>
             </div>
           </div>
-
-
         </div>
       </div>
     </wizard-step>
@@ -187,6 +195,16 @@
 
     <wizard-step title="Seleccionar personal" navigationSymbol="3" (stepEnter)="resetStep3()">
       <div class="centered-content margin-top">
+
+        <div class="row">
+            <div class="col-md-11">
+              <button [disabled]="personalVacia()" *ngIf="!hayInstrumentos()" type="button" class="btn btn-secondary boton" (click)="errorInstrumento()">Continuar</button>
+              <button [disabled]="personalVacia()" *ngIf="hayInstrumentos()" type="button" class="btn btn-secondary boton" nextStep>Continuar</button>
+              <button type="button" class="btn btn-secondary boton" previousStep>Volver</button>
+
+            </div>
+        </div>
+
         <div class="row">
 
           <!-- tabla -->
@@ -243,9 +261,6 @@
               </div>
             </div>
             <br><br><br>
-            <button type="button" class="btn btn-secondary" previousStep>Volver</button>
-            <button [disabled]="personalVacia()" *ngIf="!hayInstrumentos()" type="button" class="btn btn-secondary" (click)="errorInstrumento()">Continuar</button>
-            <button [disabled]="personalVacia()" *ngIf="hayInstrumentos()" type="button" class="btn btn-secondary" nextStep>Continuar</button>
 
           </div>
 
@@ -256,10 +271,10 @@
               <div class="card-body">
                 <div class="card-text">
                   <h6>Numero de Orden: {{selectedOrden.numeroOrden}} </h6>
-                  <h6>Fecha de Ingreso: {{selectedOrden.fechaIngreso}}</h6>
+                  <h6>Fecha de Ingreso: {{selectedOrden.fechaIngreso | date:'d-MM-y'}}</h6>
                   <hr>
                   <h6>Numero de Trabajo: {{selectedTrabajo.numeroTrabajo}}</h6>
-                  <h6>Fecha de Realización: {{selectedTrabajo.fechaRealizacion}}</h6>
+                  <h6>Fecha de Realización: {{selectedTrabajo.fechaRealizacion | date:'d-MM-y'}}</h6>
                   <h6>Evaluación: {{selectedTrabajo.evaluacion}}</h6>
                   <h6>Tipo de Trabajo: {{selectedTrabajo.tipoTrabajo.nombre}}</h6>
                   <!--
@@ -287,6 +302,14 @@
 
     <wizard-step title="Seleccionar instrumento" navigationSymbol="4">
       <div class="centered-content margin-top">
+
+        <div class="row">
+            <div class="col-md-11">
+              <button type="button" class="btn btn-secondary boton" [disabled]="instrumentoVacia()" nextStep>Continuar</button>
+              <button type="button" class="btn btn-secondary boton" previousStep>Volver</button>
+            </div>
+        </div>
+
         <div class="row">
 
           <!-- tabla -->
@@ -323,7 +346,7 @@
                   <h6>Nombre: {{selectedInstrumento.nombre}}</h6>
                   <h6>Estado: {{selectedInstrumento.estado}}</h6>
                   <h6>Disponibilidad: {{selectedInstrumento.disponibilidad}}</h6>
-                  <h6>Fecha de Ingreso: {{selectedInstrumento.fechaIngreso}}</h6>
+                  <h6>Fecha de Ingreso: {{selectedInstrumento.fechaIngreso | date:'d-MM-y'}}</h6>
 
                 </div>
                 <div class="card-text" *ngIf="instrumentoVacia()">
@@ -337,8 +360,6 @@
               </div>
             </div>
             <br><br><br>
-            <button type="button" class="btn btn-secondary" previousStep>Volver</button>
-            <button type="button" class="btn btn-secondary" [disabled]="instrumentoVacia()" nextStep>Continuar</button>
 
 
           </div>
@@ -350,10 +371,10 @@
               <div class="card-body">
                 <div class="card-text">
                   <h6>Numero de Orden: {{selectedOrden.numeroOrden}} </h6>
-                  <h6>Fecha de Ingreso: {{selectedOrden.fechaIngreso}}</h6>
+                  <h6>Fecha de Ingreso: {{selectedOrden.fechaIngreso | date:'d-MM-y'}}</h6>
                   <hr>
                   <h6>Numero de Trabajo: {{selectedTrabajo.numeroTrabajo}}</h6>
-                  <h6>Fecha de Realización: {{selectedTrabajo.fechaRealizacion}}</h6>
+                  <h6>Fecha de Realización: {{selectedTrabajo.fechaRealizacion | date:'d-MM-y'}}</h6>
                   <h6>Evaluación: {{selectedTrabajo.evaluacion}}</h6>
                   <h6>Tipo de Trabajo: {{selectedTrabajo.tipoTrabajo.nombre}}</h6>
                   <hr>
@@ -377,6 +398,15 @@
 
     <wizard-step title="Finalizar asignación" navigationSymbol="5">
       <div class="centered-content margin-top">
+
+        <div class="row">
+            <div class="col-md-11">
+              <button type="button" class="btn btn-secondary boton" [routerLink]="['/bienvenida']" routerLinkActive="active" (click)="asignacionRealizada()">Finalizar</button>
+              <button type="button" class="btn btn-secondary boton" (click)="confirmacion();wizard.reset()">Reset</button>
+
+            </div>
+        </div>
+
         <div class="row">
 
           <!--Asignacion-->
@@ -386,10 +416,10 @@
               <div class="card-body">
                 <div class="card-text">
                   <h6>Numero de Orden: {{selectedOrden.numeroOrden}} </h6>
-                  <h6>Fecha de Ingreso: {{selectedOrden.fechaIngreso}}</h6>
+                  <h6>Fecha de Ingreso: {{selectedOrden.fechaIngreso | date:'d-MM-y'}}</h6>
                   <hr>
                   <h6>Numero de Trabajo: {{selectedTrabajo.numeroTrabajo}}</h6>
-                  <h6>Fecha de Realización: {{selectedTrabajo.fechaRealizacion}}</h6>
+                  <h6>Fecha de Realización: {{selectedTrabajo.fechaRealizacion | date:'d-MM-y'}}</h6>
                   <h6>Evaluación: {{selectedTrabajo.evaluacion}}</h6>
                   <h6>Tipo de Trabajo: {{selectedTrabajo.tipoTrabajo.nombre}}</h6>
                   <hr>
@@ -404,10 +434,6 @@
                 </div>
               </div>
             </div>
-
-            <button type="button" class="btn btn-secondary boton" (click)="confirmacion();wizard.reset()">Reset</button>
-            <button type="button" class="btn btn-secondary boton" [routerLink]="['/bienvenida']" routerLinkActive="active" (click)="asignacionRealizada()">Finalizar</button>
-
           </div>
         </div>
       </div>

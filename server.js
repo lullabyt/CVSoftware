@@ -4,11 +4,13 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 // Get our API routes
+
 const api = require('./server/routes/api');
 
 const app = express();
 
-
+//var Orden = require('./server/models/orden');
+var Personal = require('./server/models/personal');
 
 
 //Import the mongoose module
@@ -42,22 +44,44 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 
-
+/*
 //create a new user called chris
-//var orden = new Orden({
-//  numeroOrden: '1',
-//progreso: 'en curso',
-//observaciones: 'algo',
-//});
+var orden = new Orden({
+  numeroOrden: '1',
+progreso: 'en curso',
+observaciones: 'algo',
+});
 
 // call the built-in save method to save to the database
-//orden.save().then(function() {
-//  console.log('User saved successfully!');
-//}, function(err) {
-//  console.log(String(err));
-//});
+orden.save().then(function() {
+  console.log('User saved successfully!');
+}, function(err) {
+  console.log(String(err));
+});
 
 
+
+//create a new personal
+
+for (var i = 0; i < 5; i++) {
+      var personal = new Personal({
+      cuil: "76918371723"+i,
+      nombre: "Juan",
+      apellido: "Perez",
+      direccion: "una direccion",
+      puesto: "un puesto",
+      telefono: "12381313",
+      asignado: "asignado"
+    });
+
+    // call the built-in save method to save to the database
+    personal.save().then(function() {
+      console.log('Personal saved successfully!');
+    }, function(err) {
+      console.log(String(err));
+    });
+}
+ */
 
 // Point static path to dist
 app.use(express.static(path.join(__dirname, 'dist')));
