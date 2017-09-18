@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
+
 import { OrdenesService } from '../../services/ordenes.service';
 import { TrabajosService } from '../../services/trabajos.service';
 import { PersonalService } from '../../services/personal.service';
@@ -47,6 +47,12 @@ export class WizardComponent implements OnInit {
 
   }
 
+  getOrdenes(): void {
+    this._ordenesService.getOrdenes().then(ordenes => this.ordenes = ordenes);
+  }
+  getPersonal(): void {
+    this._personalService.getPersonal().then(personal => this.personal = personal);
+  }
 
 
   ngOnInit() {
@@ -60,8 +66,8 @@ export class WizardComponent implements OnInit {
     this.atributosPersonal = this._personalService.getAtributos();
 
     //asignar personal de todos los trabajos en curso
+    //  this.personal = this._personalService.getPersonal();
     this.getPersonal();
-
     // ver calcularTrabajos()
     //this.trabajos = this._trabajosService.getTrabajos();
 
@@ -112,12 +118,6 @@ export class WizardComponent implements OnInit {
   }
 
 
-// OrdenesService
-
-  getOrdenes(): void {
-    this._ordenesService.getOrdenes().then(ordenes => this.ordenes = ordenes);
-  }
-
   onSelectOrden(orden: Orden): void {
 
     this.selectedOrden = orden;
@@ -132,7 +132,7 @@ export class WizardComponent implements OnInit {
   //TRABAJOS
 
   calcularTrabajos() {
-    this.trabajos = this._trabajosService.getTrabajosOrden(this.selectedOrden.numeroOrden);
+    this._trabajosService.getTrabajosOrden(this.selectedOrden._id).then(trabajos => this.trabajos = trabajos);
   }
 
 
@@ -151,10 +151,6 @@ export class WizardComponent implements OnInit {
 
   //PERSONAL
 
-  getPersonal(): void {
-    this._personalService.getPersonal().then(personal => this.personal = personal);
-  }
-
   isPersonalSelected(personal: Personal) { return personal === this.selectedPersonal; }
 
   personalVacia() {
@@ -170,7 +166,7 @@ export class WizardComponent implements OnInit {
   // INSTRUMENTO
 
   calcularInstrumentos() {
-    this.instrumentos = this._instrumentoService.getInstrumentoTipoTrabajo(this.selectedTrabajo.tipoTrabajo.id);
+    this._instrumentoService.getInstrumentoTipoTrabajo(this.selectedTrabajo.tipoTrabajo.id).then(instrumentos => this.instrumentos = instrumentos);
   }
 
 

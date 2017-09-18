@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 var Orden = require('../models/orden');
+var Trabajo = require('../models/trabajo');
+var TipoTrabajo = require('../models/tipoTrabajo');
 var Personal = require('../models/personal');
 var Asignacion = require('../models/asignacion');
 var Instrumento = require('../models/instrumento');
@@ -22,12 +24,66 @@ router.get('/', (req, res) => {
 
 // Get all ordenes
 router.get('/ordenes', (req, res) => {
-  Orden.find({}, "numeroOrden fechaIngreso progreso observaciones").then(function(ordenes) {
+
+  Orden.find({}, "_id numeroOrden fechaIngreso progreso observaciones").then(function(ordenes) {
     res.json(ordenes);
   }, function(err) {
     res.send(err);
   });
 });
+
+
+// Get all trabajos
+router.get('/trabajos', (req, res) => {
+
+  Trabajo.find({}, "numeroTrabajo fechaRealizacion evaluacion observacion ordenServicio tipoTrabajo").then(function(trabajos) {
+    res.json(trabajos);
+  }, function(err) {
+    res.send(err);
+  });
+});
+
+router.get('/trabajos/:_id', (req, res) => {
+
+  Trabajo.find({
+      ordenServicio: req.params._id
+    }, "numeroTrabajo fechaRealizacion evaluacion observacion ordenServicio tipoTrabajo")
+    //.populate(
+    //  'tipoTrabajo.nombre')
+    .then(function(trabajos) {
+      //  TipoTrabajo.populate(trabajos, {
+      //    path: "tipoTrabajo"
+      //  }).then(function(trabajos) {
+      console.log(trabajos);
+      res.json(trabajos);
+      /*  var or = orden;
+        Trabajo.find({
+          ordenServicio: or
+        }, "numeroTrabajo fechaRealizacion evaluacion observacion tipoTrabajo ").then(function(trabajos) {
+          res.json(trabajos);
+      }, function(err) {
+        res.send(err);
+      });*/
+
+    }, function(err) {
+      res.send(err);
+    });
+
+
+});
+
+
+// Get all tipoTrabajos
+router.get('/tipoTrabajos', (req, res) => {
+
+  TipoTrabajo.find({}, "idTipoTrabajo nombre descripcion").then(function(tipoTrabajos) {
+    res.json(tipoTrabajos);
+  }, function(err) {
+    res.send(err);
+  });
+});
+
+
 
 router.get('/personal', (req, res) => {
   Personal.find().then(function(personal) {
