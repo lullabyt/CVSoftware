@@ -36,34 +36,41 @@ router.get('/ordenes', (req, res) => {
 // Get all trabajos
 router.get('/trabajos', (req, res) => {
 
-  Trabajo.find({}, "numeroTrabajo fechaRealizacion evaluacion observacion ordenServicio tipoTrabajo").then(function(trabajos) {
-    res.json(trabajos);
-  }, function(err) {
-    res.send(err);
-  });
+  Trabajo.find({}, "numeroTrabajo fechaRealizacion evaluacion observacion ordenServicio tipoTrabajo")
+    //  .populate('tipoTrabajo')
+    .then(function(trabajos) {
+      res.json(trabajos);
+    }, function(err) {
+
+      res.send(err);
+
+    });
 });
 
 router.get('/trabajos/:_id', (req, res) => {
 
+
+  //console.log(req.params._id);
+  //console.log(trabajos.toString());
   Trabajo.find({
       ordenServicio: req.params._id
     }, "numeroTrabajo fechaRealizacion evaluacion observacion ordenServicio tipoTrabajo")
-    //.populate(
-    //  'tipoTrabajo.nombre')
+    .populate(
+      'tipoTrabajo')
     .then(function(trabajos) {
       //  TipoTrabajo.populate(trabajos, {
       //    path: "tipoTrabajo"
       //  }).then(function(trabajos) {
-      console.log(trabajos);
+
       res.json(trabajos);
       /*  var or = orden;
         Trabajo.find({
           ordenServicio: or
         }, "numeroTrabajo fechaRealizacion evaluacion observacion tipoTrabajo ").then(function(trabajos) {
-          res.json(trabajos);
-      }, function(err) {
-        res.send(err);
-      });*/
+          res.json(trabajos);*/
+      //  }, function(err) {
+      //    res.send(err);
+      //  });
 
     }, function(err) {
       res.send(err);
@@ -76,7 +83,7 @@ router.get('/trabajos/:_id', (req, res) => {
 // Get all tipoTrabajos
 router.get('/tipoTrabajos', (req, res) => {
 
-  TipoTrabajo.find({}, "idTipoTrabajo nombre descripcion").then(function(tipoTrabajos) {
+  TipoTrabajo.find({}, "_id idTipoTrabajo nombre descripcion tiposInstrumentos").then(function(tipoTrabajos) {
     res.json(tipoTrabajos);
   }, function(err) {
     res.send(err);
@@ -93,13 +100,16 @@ router.get('/personal', (req, res) => {
   });
 });
 
+
 router.get('/instrumentos', (req, res) => {
+  console.log(req.params)
   Instrumento.find().then(function(instrumentos) {
     res.json(instrumentos);
   }, function(err) {
     res.send(err);
   });
 });
+
 
 router.get('/asignaciones', (req, res) => {
   Asignacion.find().then(function(asignaciones) {
@@ -108,6 +118,16 @@ router.get('/asignaciones', (req, res) => {
     res.send(err);
   });
 });
+
+
+router.get('/tipoInstrumentos', (req, res) => {
+  TipoInstrumento.find().then(function(tipoInstrumentos) {
+    res.json(tipoInstrumentos);
+  }, function(err) {
+    res.send(err);
+  });
+});
+
 
 
 module.exports = router;

@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 var Schema = mongoose.Schema;
 //var Trabajo = mongoose.model('Trabajo');
-var Personal = mongoose.model('Personal');
+//var Personal = mongoose.model('Personal');
 //var Instrumento = mongoose.model('Instrumento');
 
 // create a schema
@@ -11,8 +11,11 @@ var asignacionSchema = new Schema({
   progreso: String,
   fechaAsignacion: Date,
   //Trabajo: { type: Schema.ObjectId, ref: "Trabajo" },
-  Personal:{ type: Schema.ObjectId, ref: "Personal" }
-  //Instrumento: { type: Schema.ObjectId, ref: "Instrumento" } 
+  personal: {
+    type: Schema.ObjectId,
+    ref: "Personal"
+  }
+  //Instrumento: { type: Schema.ObjectId, ref: "Instrumento" }
 });
 
 // on every save, add the date

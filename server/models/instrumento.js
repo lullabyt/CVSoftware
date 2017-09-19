@@ -3,12 +3,10 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 var Schema = mongoose.Schema;
 
-var TipoInstrumento = mongoose.model('TipoInstrumento');
-
 // create a schema
 var instrumentoSchema = new Schema({
 
-  numeroInstrumento:{
+  numeroInstrumento: {
     type: String,
     unique: true,
     required: true
@@ -16,7 +14,11 @@ var instrumentoSchema = new Schema({
   nombre: String,
   estado: String,
   disponibilidad: String,
-  tipoInstrumento:{ type: Schema.ObjectId, ref: "TipoInstrumento" }
+  tipoInstrumento: {
+    type: Schema.ObjectId,
+    ref: "TipoInstrumento",
+    required: true
+  },
   fechaIngreso: Date,
 });
 

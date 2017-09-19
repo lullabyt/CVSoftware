@@ -13,6 +13,11 @@ var tipoTrabajoSchema = new Schema({
   },
   nombre: String,
   descripcion: String,
+  tiposInstrumentos: [{
+    type: Schema.ObjectId,
+    ref: "TipoInstrumento",
+    required: true
+  }]
 });
 
 

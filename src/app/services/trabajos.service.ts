@@ -54,12 +54,11 @@ export class TrabajosService {
 
   getTrabajosOrden(_idOrden: string): Promise<Trabajo[]> {
 
-    //const url = `${this.trabajosUrl}/${idOrden}`;
-    console.log("hola" + _idOrden)
-    let params = new HttpParams();
-    params = params.append('_id', _idOrden)
-    return this.http.get(this.trabajosUrl, { params: params })
-      //return this.http.get(url)
+    const url = `${this.trabajosUrl}/${_idOrden}`;
+    //  let params = new HttpParams();
+    //  params = params.append('_id', _idOrden);
+    //  return this.http.get(this.trabajosUrl, { params: params })
+    return this.http.get(url)
       .toPromise()
       .then(response => response.json() as Trabajo[])
       .catch(this.handleError);

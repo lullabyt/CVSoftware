@@ -1,40 +1,52 @@
 import { Injectable } from '@angular/core';
 import { Instrumento } from './../classes/instrumento';
-import { TipoTrabajo } from './../classes/tipoTrabajo';
+import { TipoInstrumento } from './../classes/tipoInstrumento';
 
 import { Headers, Http } from '@angular/http';
+import { HttpParams } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 
 
 @Injectable()
 export class InstrumentoService {
 
-    private instrumentosUrl = 'http://localhost:3000/api/instrumentos'
-/*
-  private instrumentos: Instrumento[] = [
-    { numeroInstrumento: "1", nombre: "instrumento1", estado: "Libre", disponibilidad: "Libre", fechaIngreso: "15/01/2017", tipoTrabajo: { id: "819", nombre: "limpieza", descripcion: "Alguna descripción" } },
-    { numeroInstrumento: "2", nombre: "instrumento2", estado: "Libre", disponibilidad: "Libre", fechaIngreso: "15/01/2015", tipoTrabajo: { id: "819", nombre: "limpieza", descripcion: "Alguna descripción" } },
-    { numeroInstrumento: "3", nombre: "instrumento3", estado: "Roto", disponibilidad: "No disponible", fechaIngreso: "15/01/2017", tipoTrabajo: { id: "817", nombre: "reparacion", descripcion: "Alguna descripción" } },
-    { numeroInstrumento: "4", nombre: "instrumento4", estado: "En reparación", disponibilidad: "No disponible", fechaIngreso: "15/01/2017", tipoTrabajo: { id: "817", nombre: "reparacion", descripcion: "Alguna descripción" } },
-    { numeroInstrumento: "5", nombre: "instrumento5", estado: "Prestado", disponibilidad: "Ocupado", fechaIngreso: "15/01/2017", tipoTrabajo: { id: "817", nombre: "reparacion", descripcion: "Alguna descripción" } },
-    { numeroInstrumento: "6", nombre: "instrumento6", estado: "Libre", disponibilidad: "Libre", fechaIngreso: "15/01/2017", tipoTrabajo: { id: "819", nombre: "limpieza", descripcion: "Alguna descripción" } },
-    { numeroInstrumento: "7", nombre: "instrumento7", estado: "Libre", disponibilidad: "Ocupado", fechaIngreso: "15/01/2017", tipoTrabajo: { id: "817", nombre: "reparacion", descripcion: "Alguna descripción" } }
+  private instrumentosUrl = 'http://localhost:3000/api/instrumentos'
+  /*
+    private instrumentos: Instrumento[] = [
+      { numeroInstrumento: "1", nombre: "instrumento1", estado: "Libre", disponibilidad: "Libre", fechaIngreso: "15/01/2017", tipoTrabajo: { id: "819", nombre: "limpieza", descripcion: "Alguna descripción" } },
+      { numeroInstrumento: "2", nombre: "instrumento2", estado: "Libre", disponibilidad: "Libre", fechaIngreso: "15/01/2015", tipoTrabajo: { id: "819", nombre: "limpieza", descripcion: "Alguna descripción" } },
+      { numeroInstrumento: "3", nombre: "instrumento3", estado: "Roto", disponibilidad: "No disponible", fechaIngreso: "15/01/2017", tipoTrabajo: { id: "817", nombre: "reparacion", descripcion: "Alguna descripción" } },
+      { numeroInstrumento: "4", nombre: "instrumento4", estado: "En reparación", disponibilidad: "No disponible", fechaIngreso: "15/01/2017", tipoTrabajo: { id: "817", nombre: "reparacion", descripcion: "Alguna descripción" } },
+      { numeroInstrumento: "5", nombre: "instrumento5", estado: "Prestado", disponibilidad: "Ocupado", fechaIngreso: "15/01/2017", tipoTrabajo: { id: "817", nombre: "reparacion", descripcion: "Alguna descripción" } },
+      { numeroInstrumento: "6", nombre: "instrumento6", estado: "Libre", disponibilidad: "Libre", fechaIngreso: "15/01/2017", tipoTrabajo: { id: "819", nombre: "limpieza", descripcion: "Alguna descripción" } },
+      { numeroInstrumento: "7", nombre: "instrumento7", estado: "Libre", disponibilidad: "Ocupado", fechaIngreso: "15/01/2017", tipoTrabajo: { id: "817", nombre: "reparacion", descripcion: "Alguna descripción" } }
 
 
 
 
-  ];
-*/
+    ];
+  */
   private atributos: string[] = [
     "Número de Instrumento", "Nombre", "Estado", "Disponibilidad", "Fecha de Ingreso"
   ];
 
-  constructor(private http:Http) {
+  constructor(private http: Http) {
     console.log("SERVICIO LISTO");
   }
 
-  getInstrumentos(): Promise<Instrumento[]> {
-    return this.http.get(this.instrumentosUrl)
+  getInstrumentosTipoTrabajo(tipoInstrumentos: [TipoInstrumento]): Promise<Instrumento[]> {
+
+    //const url = `${this.trabajosUrl}/${_idOrden}`;
+    var params = new HttpParams();
+    for (var i = 0; i < tipoInstrumentos.length; i++) {
+      params = params.append('_id' + i, tipoInstrumentos[i]._id);
+
+    }
+    console.log(tipoInstrumentos);
+    console.log(tipoInstrumentos[0]._id);
+    console.log(params);
+    return this.http.get(this.instrumentosUrl, { params: params })
+      //return this.http.get(this.instrumentosUrl)
       .toPromise()
       .then(response => response.json() as Instrumento[])
       .catch(this.handleError);
@@ -44,13 +56,13 @@ export class InstrumentoService {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
   }
-/*
+  /*
 
-  getInstrumentoTipoTrabajo(idTipo: string) {
-    return this.instrumentos.filter(ins => ins.tipoTrabajo.id === idTipo);
-  }
+    getInstrumentoTipoTrabajo(idTipo: string) {
+      return this.instrumentos.filter(ins => ins.tipoTrabajo.id === idTipo);
+    }
 
-*/
+  */
 
   getAtributos() {
     return this.atributos;

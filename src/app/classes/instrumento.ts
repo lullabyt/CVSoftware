@@ -1,10 +1,10 @@
-import {TipoTrabajo} from './tipoTrabajo';
+import { TipoInstrumento } from './tipoInstrumento';
 
 export class Instrumento {
-    numeroInstrumento:string;
-    nombre:string;
-    estado:string;
-    disponibilidad:string;
-    fechaIngreso: string;
-    tipoTrabajo: TipoTrabajo;
+  numeroInstrumento: string;
+  nombre: string;
+  estado: string;
+  disponibilidad: string;
+  fechaIngreso: string;
+  tipoInstrumento: TipoInstrumento;
 }

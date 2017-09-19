@@ -1,6 +1,9 @@
+import { TipoInstrumento } from './tipoInstrumento';
 
 export class TipoTrabajo {
-    id:string;
-    nombre:string;
-    descripcion:string;
+  _id: string;
+  id: string;
+  nombre: string;
+  descripcion: string;
+  tiposInstrumentos: [TipoInstrumento];
 }
