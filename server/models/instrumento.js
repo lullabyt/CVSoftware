@@ -3,6 +3,8 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 var Schema = mongoose.Schema;
 
+//var TipoInstrumento = mongoose.model('TipoInstrumento');
+
 // create a schema
 var instrumentoSchema = new Schema({
 

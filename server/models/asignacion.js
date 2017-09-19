@@ -26,7 +26,9 @@ asignacionSchema.pre('save', function(next) {
   // if created_at doesn't exist, add to that field
   if (!this.fechaAsignacion)
     this.fechaAsignacion = currentDate;
-
+  if(!this.progreso){
+    this.progreso = 'En curso';
+  }
   next();
 });
 

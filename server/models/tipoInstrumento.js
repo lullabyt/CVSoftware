@@ -11,8 +11,7 @@ var tipoInstrumentoSchema = new Schema({
     unique: true,
     required: true
   },
-  nombre: String,
-  proposito: String
+  nombre: String
 });
 
 

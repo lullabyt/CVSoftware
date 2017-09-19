@@ -4,10 +4,12 @@ import { OrdenesService } from '../../services/ordenes.service';
 import { TrabajosService } from '../../services/trabajos.service';
 import { PersonalService } from '../../services/personal.service';
 import { InstrumentoService } from '../../services/instrumento.service';
+import { AsignacionService } from '../../services/asignacion.service';
 import { Orden } from '../../classes/orden';
 import { Trabajo } from '../../classes/trabajo';
 import { Personal } from '../../classes/personal';
 import { Instrumento } from '../../classes/instrumento';
+import { Asignacion } from '../../classes/asignacion';
 
 
 declare var swal: any;
@@ -41,7 +43,8 @@ export class WizardComponent implements OnInit {
     private _ordenesService: OrdenesService,
     private _trabajosService: TrabajosService,
     private _personalService: PersonalService,
-    private _instrumentoService: InstrumentoService
+    private _instrumentoService: InstrumentoService,
+    private _asignacionService: AsignacionService
 
   ) {
 
@@ -87,13 +90,25 @@ export class WizardComponent implements OnInit {
   }
 
   asignacionRealizada() {
-    swal({
-      title: 'Hecho!',
-      text: 'Asignación Realizada.',
-      type: 'success',
-      confirmButtonText: 'Ok',
-      confirmButtonColor: '#3b3a30'
-    })
+    var asig = this._asignacionService.createAsignacion(this.selectedTrabajo._id, this.selectedPersonal._id, this.selectedInstrumento._id);
+    if (asig){
+      swal({
+        title: 'Hecho!',
+        text: 'Asignación Realizada.',
+        type: 'success',
+        confirmButtonText: 'Ok',
+        confirmButtonColor: '#3b3a30'
+      })
+    } else {
+      swal({
+        title: 'Error!',
+        text: 'No se pudo realizar la asignación. Pruebe más tarde.',
+        type: 'error',
+        confirmButtonText: 'Ok',
+        confirmButtonColor: '#3b3a30'
+      })
+    }
+
   }
 
   confirmacion() {

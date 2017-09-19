@@ -6,4 +6,6 @@ export class Personal {
     direccion: string;
     puesto: string;
     asignado: string;
+    _id: string;
+
 }
