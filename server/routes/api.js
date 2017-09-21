@@ -9,12 +9,18 @@ var Asignacion = require('../models/asignacion');
 var Instrumento = require('../models/instrumento');
 var TipoInstrumento = require('../models/tipoInstrumento');
 
+
+
+/*
 // middleware to use for all requests
+
 router.use(function(req, res, next) {
   // do logging
   console.log('Something is happening.');
   next(); // make sure we go to the next routes and don't stop here
 });
+
+*/
 
 
 /* GET api listing. */
@@ -49,28 +55,15 @@ router.get('/trabajos', (req, res) => {
 
 router.get('/trabajos/:_id', (req, res) => {
 
+  //get todos los trabajos pertenecientes a una orden especifica, junto con sus respectivos tipos de trabajo
 
-  //console.log(req.params._id);
-  //console.log(trabajos.toString());
   Trabajo.find({
       ordenServicio: req.params._id
     }, "numeroTrabajo fechaRealizacion evaluacion observacion ordenServicio tipoTrabajo")
     .populate(
       'tipoTrabajo')
     .then(function(trabajos) {
-      //  TipoTrabajo.populate(trabajos, {
-      //    path: "tipoTrabajo"
-      //  }).then(function(trabajos) {
-
       res.json(trabajos);
-      /*  var or = orden;
-        Trabajo.find({
-          ordenServicio: or
-        }, "numeroTrabajo fechaRealizacion evaluacion observacion tipoTrabajo ").then(function(trabajos) {
-          res.json(trabajos);*/
-      //  }, function(err) {
-      //    res.send(err);
-      //  });
 
     }, function(err) {
       res.send(err);
@@ -102,12 +95,38 @@ router.get('/personal', (req, res) => {
 
 
 router.get('/instrumentos', (req, res) => {
-  console.log(req.params)
+
   Instrumento.find().then(function(instrumentos) {
     res.json(instrumentos);
   }, function(err) {
     res.send(err);
+
   });
+});
+
+
+router.get('/instrumentos/:_id', (req, res) => {
+
+  //get todos los instrumentos que pueden ser usados para un tipo de trabajo determinado
+
+  TipoTrabajo.findById(req.params._id)
+    .then(function(tipoTrabajo) {
+
+      Instrumento.find({
+        tipoInstrumento: {
+          $in: tipoTrabajo.tiposInstrumentos
+        }
+      }).then(function(instrumentos) {
+        res.json(instrumentos);
+      }, function(err) {
+        res.send(err);
+
+      });
+
+    }, function(err) {
+      res.send(err);
+    });
+
 });
 
 

@@ -59,23 +59,121 @@ app.use(bodyParser.urlencoded({
 }));
 
 /*
+var orden = new Orden({
+  numeroOrden: '4',
+  progreso: "en curso",
+  observaciones: "algo"
+});
+
+
 var ins1 = new TipoInstrumento({
-  idInstrumento: '1',
-  nombre: "A",
+  idInstrumento: '3',
+  nombre: "C",
   proposito: "algo"
 });
+
+
+var ins2 = new TipoInstrumento({
+  idInstrumento: '4',
+  nombre: "D",
+  proposito: "algo"
+});
+
+var tipoTrabajo3 = new TipoTrabajo({
+  idTipoTrabajo: '3',
+  nombre: "sonido",
+  descripcion: "algo",
+  tiposInstrumentos: [ins1._id, ins2._id]
+});
+
+
+var trabajo = new Trabajo({
+  numeroTrabajo: '2',
+  observacion: 'algo',
+  ordenServicio: orden._id,
+  tipoTrabajo: tipoTrabajo3._id
+});
+
+
+
+var inst = new Instrumento({
+  numeroInstrumento: '2',
+  nombre: "ins",
+  estado: "perfecto",
+  disponibilidad: "libre",
+  tipoInstrumento: ins1._id
+});
+
+
+// call the built-in save method to save to the database
+orden.save().then(function() {
+  console.log('User saved successfully!');
+}, function(err) {
+  console.log(String(err));
+});
+
+
+ins1.save().then(function() {
+  console.log('User saved successfully!');
+}, function(err) {
+  console.log(String(err));
+});
+
+ins2.save().then(function() {
+  console.log('User saved successfully!');
+}, function(err) {
+  console.log(String(err));
+});
+
+
+inst.save().then(function() {
+  console.log('User saved successfully!');
+}, function(err) {
+  console.log(String(err));
+});
+
+//create a new user called chris
+
+
+tipoTrabajo3.save().then(function() {
+  console.log('User saved successfully!');
+}, function(err) {
+  console.log(String(err));
+});
+
+
+trabajo.save().then(function() {
+  console.log('User saved successfully!');
+}, function(err) {
+  console.log(String(err));
+});
+
+
+
+
+
+
+
+tipoTrabajo2.save().then(function() {
+  console.log('User saved successfully!');
+}, function(err) {
+  console.log(String(err));
+});
+
+inst.save().then(function() {
+  console.log('User saved successfully!');
+}, function(err) {
+  console.log(String(err));
+});
+
+
+
 var ins2 = new TipoInstrumento({
   idInstrumento: '2',
   nombre: "B",
   proposito: "algo"
 });
 
-var tipoTrabajo1 = new TipoTrabajo({
-  idTipoTrabajo: '1',
-  nombre: "pintura",
-  descripcion: "algo",
-  tiposInstrumentos: [ins1._id]
-});
 var tipoTrabajo2 = new TipoTrabajo({
   idTipoTrabajo: '2',
   nombre: "presion",
@@ -100,12 +198,6 @@ var orden = new Orden({
 });
 
 
-var trabajo = new Trabajo({
-  numeroTrabajo: '1',
-  observacion: 'algo',
-  ordenServicio: orden._id,
-  tipoTrabajo: tipoTrabajo1._id
-});
 
 ins1.save().then(function() {
   console.log('User saved successfully!');
@@ -133,28 +225,6 @@ tipoTrabajo2.save().then(function() {
 
 
 
-inst.save().then(function() {
-  console.log('User saved successfully!');
-}, function(err) {
-  console.log(String(err));
-});
-
-//create a new user called chris
-
-
-// call the built-in save method to save to the database
-orden.save().then(function() {
-  console.log('User saved successfully!');
-}, function(err) {
-  console.log(String(err));
-});
-
-
-trabajo.save().then(function() {
-  console.log('User saved successfully!');
-}, function(err) {
-  console.log(String(err));
-});
 
 
 //create a new user called chris

@@ -166,7 +166,7 @@ export class WizardComponent implements OnInit {
   // INSTRUMENTO
 
   calcularInstrumentos() {
-    this._instrumentoService.getInstrumentosTipoTrabajo(this.selectedTrabajo.tipoTrabajo.tiposInstrumentos).then(instrumentos => this.instrumentos = instrumentos);
+    this._instrumentoService.getInstrumentosTipoTrabajo(this.selectedTrabajo.tipoTrabajo._id).then(instrumentos => this.instrumentos = instrumentos);
   }
 
 

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Instrumento } from './../classes/instrumento';
-import { TipoInstrumento } from './../classes/tipoInstrumento';
 
 import { Headers, Http } from '@angular/http';
 import { HttpParams } from '@angular/common/http';
@@ -34,19 +33,20 @@ export class InstrumentoService {
     console.log("SERVICIO LISTO");
   }
 
-  getInstrumentosTipoTrabajo(tipoInstrumentos: [TipoInstrumento]): Promise<Instrumento[]> {
+  getInstrumentosTipoTrabajo(_idTipoTrabajo: string): Promise<Instrumento[]> {
 
-    //const url = `${this.trabajosUrl}/${_idOrden}`;
-    var params = new HttpParams();
-    for (var i = 0; i < tipoInstrumentos.length; i++) {
-      params = params.append('_id' + i, tipoInstrumentos[i]._id);
+    const url = `${this.instrumentosUrl}/${_idTipoTrabajo}`;
+    //  var params = new HttpParams();
+    //  var i = 1;
+    //  for (var i = 0; i < tipoInstrumentos.length; i++) {
+    //  for (let ins of tipoInstrumentos) {
+    //    params = params.append('_id' + i, ins.toString());
+    //    console.log(ins.toString())
+    //    i++;
+    //  }
+    //  return this.http.get(this.instrumentosUrl, { params: params })
 
-    }
-    console.log(tipoInstrumentos);
-    console.log(tipoInstrumentos[0]._id);
-    console.log(params);
-    return this.http.get(this.instrumentosUrl, { params: params })
-      //return this.http.get(this.instrumentosUrl)
+    return this.http.get(url)
       .toPromise()
       .then(response => response.json() as Instrumento[])
       .catch(this.handleError);
