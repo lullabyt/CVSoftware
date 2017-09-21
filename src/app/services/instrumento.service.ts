@@ -64,6 +64,7 @@ export class InstrumentoService {
 
   */
 
+*/
   getAtributos() {
     return this.atributos;
   }

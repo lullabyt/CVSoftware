@@ -8,4 +8,5 @@ export class Trabajo {
     observacion:string;
     ordenServicio: Orden;
     tipoTrabajo: TipoTrabajo;
+    _id: string;
 }

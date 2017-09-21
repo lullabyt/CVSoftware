@@ -53,6 +53,8 @@ router.get('/trabajos', (req, res) => {
     });
 });
 
+
+/*
 router.get('/trabajos/:_id', (req, res) => {
 
   //get todos los trabajos pertenecientes a una orden especifica, junto con sus respectivos tipos de trabajo
@@ -68,8 +70,17 @@ router.get('/trabajos/:_id', (req, res) => {
     }, function(err) {
       res.send(err);
     });
+}); */
 
 
+
+router.get('/trabajos/:_id', (req, res) => {
+  Trabajo.find({ ordenServicio: req.params._id }).
+  populate('TipoTrabajo').
+  exec(function (err, trabajos) {
+    if (err) return handleError(err);
+    console.log(trabajos + "noppp");
+  });
 });
 
 
@@ -136,6 +147,22 @@ router.get('/asignaciones', (req, res) => {
   }, function(err) {
     res.send(err);
   });
+});
+
+
+//Creates
+
+router.post('/asignacion', (req, res) => {
+  console.log("Entre a crear asignacion");
+  var asig = new Asignacion({trabajo: req.body.trabajo, personal: req.body.personal, instrumento: req.body.instrumento});
+
+asig.save().then(function(){
+  console.log( 'se guardo la asignacion');
+      res.send(asig);
+    }, function(err){
+      console.log(String(err));
+      res.send("Error al crear asignacion");
+    });
 });
 
 

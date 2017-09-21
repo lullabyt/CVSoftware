@@ -9,6 +9,8 @@ import { OrdenesService} from './services/ordenes.service';
 import { TrabajosService} from './services/trabajos.service';
 import { PersonalService} from './services/personal.service';
 import {InstrumentoService} from './services/instrumento.service';
+import {AsignacionService} from './services/asignacion.service';
+
 
 
 
@@ -46,7 +48,8 @@ import { OrdenesComponent } from './components/ordenes/ordenes.component';
     OrdenesService,
     TrabajosService,
     PersonalService,
-    InstrumentoService
+    InstrumentoService,
+    AsignacionService
   ],
   bootstrap: [AppComponent]
 })

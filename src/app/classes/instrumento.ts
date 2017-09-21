@@ -7,4 +7,5 @@ export class Instrumento {
   disponibilidad: string;
   fechaIngreso: string;
   tipoInstrumento: TipoInstrumento;
+    _id: string;
 }

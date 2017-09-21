@@ -27,6 +27,9 @@ var TipoInstrumento = require('./server/models/tipoInstrumento');
 //var Personal = require('./server/models/personal');
 
 
+
+
+
 //Import the mongoose module
 var mongoose = require('mongoose');
 
@@ -58,6 +61,7 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 
+//create a new personal
 /*
 var orden = new Orden({
   numeroOrden: '4',
@@ -265,6 +269,13 @@ tipoTrabajo.save().then(function() {
   console.log(String(err));
 });
 
+              var instrumento = new Instrumento({
+              numeroInstrumento: '009'+i,
+              nombre: 'un nombre',
+              estado: 'bien',
+              disponibilidad: 'libre',
+              tipoInstrumento: tipo._id
+            });
 
 trabajo.save().then(function() {
   console.log('User saved successfully!');
@@ -295,6 +306,10 @@ for (var i = 0; i < 5; i++) {
   });
 }
 */
+
+}*/
+
+
 
 // Point static path to dist
 app.use(express.static(path.join(__dirname, 'dist')));
