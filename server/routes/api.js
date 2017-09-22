@@ -25,7 +25,7 @@ router.use(function(req, res, next) {
 
 /* GET api listing. */
 router.get('/', (req, res) => {
-  res.send('api works');
+  res.send('api funciona correctamente!');
 });
 
 // Get all ordenes
@@ -54,11 +54,9 @@ router.get('/trabajos', (req, res) => {
 });
 
 
-/*
+
+//get todos los trabajos pertenecientes a una orden especifica, junto con sus respectivos tipos de trabajo
 router.get('/trabajos/:_id', (req, res) => {
-
-  //get todos los trabajos pertenecientes a una orden especifica, junto con sus respectivos tipos de trabajo
-
   Trabajo.find({
       ordenServicio: req.params._id
     }, "numeroTrabajo fechaRealizacion evaluacion observacion ordenServicio tipoTrabajo")
@@ -70,10 +68,10 @@ router.get('/trabajos/:_id', (req, res) => {
     }, function(err) {
       res.send(err);
     });
-}); */
+});
 
 
-
+/*
 router.get('/trabajos/:_id', (req, res) => {
   Trabajo.find({ ordenServicio: req.params._id }).
   populate('TipoTrabajo').
@@ -82,6 +80,7 @@ router.get('/trabajos/:_id', (req, res) => {
     console.log(trabajos + "noppp");
   });
 });
+*/
 
 
 // Get all tipoTrabajos
@@ -95,7 +94,7 @@ router.get('/tipoTrabajos', (req, res) => {
 });
 
 
-
+// Get all personal
 router.get('/personal', (req, res) => {
   Personal.find().then(function(personal) {
     res.json(personal);
@@ -105,6 +104,7 @@ router.get('/personal', (req, res) => {
 });
 
 
+// Get all instrumentos
 router.get('/instrumentos', (req, res) => {
 
   Instrumento.find().then(function(instrumentos) {
@@ -116,14 +116,14 @@ router.get('/instrumentos', (req, res) => {
 });
 
 
+//get todos los instrumentos que pueden ser usados para un tipo de trabajo determinado
 router.get('/instrumentos/:_id', (req, res) => {
-
-  //get todos los instrumentos que pueden ser usados para un tipo de trabajo determinado
 
   TipoTrabajo.findById(req.params._id)
     .then(function(tipoTrabajo) {
 
       Instrumento.find({
+        //busca todos los instrumentos de los tipos de instrumento requeridos por el tipo de trabajo
         tipoInstrumento: {
           $in: tipoTrabajo.tiposInstrumentos
         }
@@ -141,6 +141,17 @@ router.get('/instrumentos/:_id', (req, res) => {
 });
 
 
+//get all tipos de instrumento
+router.get('/tipoInstrumentos', (req, res) => {
+  TipoInstrumento.find().then(function(tipoInstrumentos) {
+    res.json(tipoInstrumentos);
+  }, function(err) {
+    res.send(err);
+  });
+});
+
+
+//get all asignaciones
 router.get('/asignaciones', (req, res) => {
   Asignacion.find().then(function(asignaciones) {
     res.json(asignaciones);
@@ -150,27 +161,23 @@ router.get('/asignaciones', (req, res) => {
 });
 
 
+
 //Creates
 
 router.post('/asignacion', (req, res) => {
   console.log("Entre a crear asignacion");
-  var asig = new Asignacion({trabajo: req.body.trabajo, personal: req.body.personal, instrumento: req.body.instrumento});
+  var asig = new Asignacion({
+    trabajo: req.body.trabajo,
+    personal: req.body.personal,
+    instrumento: req.body.instrumento
+  });
 
-asig.save().then(function(){
-  console.log( 'se guardo la asignacion');
-      res.send(asig);
-    }, function(err){
-      console.log(String(err));
-      res.send("Error al crear asignacion");
-    });
-});
-
-
-router.get('/tipoInstrumentos', (req, res) => {
-  TipoInstrumento.find().then(function(tipoInstrumentos) {
-    res.json(tipoInstrumentos);
+  asig.save().then(function() {
+    console.log('se guardo la asignacion');
+    res.send(asig);
   }, function(err) {
-    res.send(err);
+    console.log(String(err));
+    res.send("Error al crear asignacion");
   });
 });
 

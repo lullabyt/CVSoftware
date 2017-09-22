@@ -10,12 +10,21 @@ var Schema = mongoose.Schema;
 var asignacionSchema = new Schema({
   progreso: String,
   fechaAsignacion: Date,
-  //Trabajo: { type: Schema.ObjectId, ref: "Trabajo" },
+  trabajo: {
+    type: Schema.ObjectId,
+    ref: "Trabajo",
+    required: true
+  },
   personal: {
     type: Schema.ObjectId,
-    ref: "Personal"
+    ref: "Personal",
+    required: true
+  },
+  instrumento: {
+    type: Schema.ObjectId,
+    ref: "Instrumento",
+    required: true
   }
-  //Instrumento: { type: Schema.ObjectId, ref: "Instrumento" }
 });
 
 // on every save, add the date
@@ -26,7 +35,7 @@ asignacionSchema.pre('save', function(next) {
   // if created_at doesn't exist, add to that field
   if (!this.fechaAsignacion)
     this.fechaAsignacion = currentDate;
-  if(!this.progreso){
+  if (!this.progreso) {
     this.progreso = 'En curso';
   }
   next();

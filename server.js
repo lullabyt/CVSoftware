@@ -3,32 +3,23 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
-// Get our API routes
 
+// Get our API routes
 const api = require('./server/routes/api');
 
 const app = express();
 
-
+/*
 var Trabajo = require('./server/models/trabajo');
-
 var Orden = require('./server/models/orden');
-
 var TipoTrabajo = require('./server/models/tipoTrabajo');
-
-
-
 var Personal = require('./server/models/personal');
 var Asignacion = require('./server/models/asignacion');
 var Instrumento = require('./server/models/instrumento');
 var TipoInstrumento = require('./server/models/tipoInstrumento');
-
-//var Orden = require('./server/models/orden');
-//var Personal = require('./server/models/personal');
-
-
-
-
+var Orden = require('./server/models/orden');
+var Personal = require('./server/models/personal');
+*/
 
 //Import the mongoose module
 var mongoose = require('mongoose');
@@ -61,7 +52,7 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 
-//create a new personal
+
 /*
 var orden = new Orden({
   numeroOrden: '4',
@@ -77,11 +68,6 @@ var ins1 = new TipoInstrumento({
 });
 
 
-var ins2 = new TipoInstrumento({
-  idInstrumento: '4',
-  nombre: "D",
-  proposito: "algo"
-});
 
 var tipoTrabajo3 = new TipoTrabajo({
   idTipoTrabajo: '3',
@@ -155,9 +141,6 @@ trabajo.save().then(function() {
 
 
 
-
-
-
 tipoTrabajo2.save().then(function() {
   console.log('User saved successfully!');
 }, function(err) {
@@ -226,8 +209,6 @@ tipoTrabajo2.save().then(function() {
 }, function(err) {
   console.log(String(err));
 });
-
-
 
 
 
@@ -306,9 +287,6 @@ for (var i = 0; i < 5; i++) {
   });
 }
 */
-
-}*/
-
 
 
 // Point static path to dist
