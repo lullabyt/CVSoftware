@@ -8,17 +8,16 @@ const bodyParser = require('body-parser');
 const api = require('./server/routes/api');
 
 const app = express();
-
 /*
-var Trabajo = require('./server/models/trabajo');
 var Orden = require('./server/models/orden');
-var TipoTrabajo = require('./server/models/tipoTrabajo');
 var Personal = require('./server/models/personal');
 var Asignacion = require('./server/models/asignacion');
 var Instrumento = require('./server/models/instrumento');
-var TipoInstrumento = require('./server/models/tipoInstrumento');
 var Orden = require('./server/models/orden');
 var Personal = require('./server/models/personal');
+var TipoInstrumento = require('./server/models/tipoInstrumento');
+var Trabajo = require('./server/models/trabajo');
+var TipoTrabajo = require('./server/models/tipoTrabajo');
 */
 
 //Import the mongoose module
@@ -55,30 +54,28 @@ app.use(bodyParser.urlencoded({
 
 /*
 var orden = new Orden({
-  numeroOrden: '4',
+  numeroOrden: '0000000',
   progreso: "en curso",
-  observaciones: "algo"
+  observaciones: "ELEGIR"
 });
 
 
 var ins1 = new TipoInstrumento({
-  idInstrumento: '3',
+  idInstrumento: '000000',
   nombre: "C",
   proposito: "algo"
 });
 
-
-
 var tipoTrabajo3 = new TipoTrabajo({
-  idTipoTrabajo: '3',
+  idTipoTrabajo: '00000',
   nombre: "sonido",
-  descripcion: "algo",
-  tiposInstrumentos: [ins1._id, ins2._id]
+  descripcion: "ELEGIR",
+  tiposInstrumentos: [ins1._id]
 });
 
 
 var trabajo = new Trabajo({
-  numeroTrabajo: '2',
+  numeroTrabajo: '0000000',
   observacion: 'algo',
   ordenServicio: orden._id,
   tipoTrabajo: tipoTrabajo3._id
@@ -87,10 +84,10 @@ var trabajo = new Trabajo({
 
 
 var inst = new Instrumento({
-  numeroInstrumento: '2',
-  nombre: "ins",
+  numeroInstrumento: '000000',
+  nombre: "instrumentillo",
   estado: "perfecto",
-  disponibilidad: "libre",
+  disponibilidad: "Libre",
   tipoInstrumento: ins1._id
 });
 
@@ -108,7 +105,7 @@ ins1.save().then(function() {
 }, function(err) {
   console.log(String(err));
 });
-
+/*
 ins2.save().then(function() {
   console.log('User saved successfully!');
 }, function(err) {
@@ -139,8 +136,6 @@ trabajo.save().then(function() {
 });
 
 
-
-
 tipoTrabajo2.save().then(function() {
   console.log('User saved successfully!');
 }, function(err) {
@@ -152,8 +147,6 @@ inst.save().then(function() {
 }, function(err) {
   console.log(String(err));
 });
-
-
 
 var ins2 = new TipoInstrumento({
   idInstrumento: '2',
@@ -167,8 +160,6 @@ var tipoTrabajo2 = new TipoTrabajo({
   descripcion: "algo",
   tiposInstrumentos: [ins2._id]
 });
-
-
 
 var inst = new Instrumento({
   numeroInstrumento: '1',

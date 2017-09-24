@@ -174,7 +174,14 @@ router.post('/asignacion', (req, res) => {
 
   asig.save().then(function() {
     console.log('se guardo la asignacion');
-    res.send(asig);
+    //Busca el instrumento y Actualiza el estado
+    Instrumento.findByIdAndUpdate(req.body.instrumento, {disponibilidad: 'Ocupado'}).then(function(){
+      console.log('se actualizo el instrumento');
+      res.send(asig);
+    }, function(err){
+      res.send("Error al actualizar el instrumento");
+    });
+
   }, function(err) {
     console.log(String(err));
     res.send("Error al crear asignacion");
