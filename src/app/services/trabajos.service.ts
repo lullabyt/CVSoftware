@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Trabajo } from './../classes/trabajo';
 
 import { Headers, Http } from '@angular/http';
-
+import { VariablesGlobales } from '../utiles/variablesGlobales';
 import { HttpParams } from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
@@ -10,7 +10,7 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class TrabajosService {
 
-  private trabajosUrl = 'api/trabajos';  // URL to web api
+  private trabajosUrl = VariablesGlobales.BASE_API_URL+'/api/trabajos';  // URL to web api
 
   /*
     private trabajos: Trabajo[] = [

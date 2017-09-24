@@ -1,6 +1,7 @@
 
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
+import { VariablesGlobales } from '../utiles/variablesGlobales';
 import 'rxjs/add/operator/toPromise';
 import {Asignacion} from './../classes/asignacion';
 
@@ -8,7 +9,7 @@ import {Asignacion} from './../classes/asignacion';
 export class AsignacionService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
-  private asignacionUrl = 'http://localhost:3000/api/asignacion'
+  private asignacionUrl = VariablesGlobales.BASE_API_URL+'/api/asignacion';
 
 
   constructor(private http: Http) {  }

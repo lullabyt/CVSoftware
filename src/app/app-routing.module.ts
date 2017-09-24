@@ -6,14 +6,12 @@ import {BienvenidaComponent }   from './components/bienvenida/bienvenida.compone
 //import { HeroDetailComponent }  from './hero-detail.component';
 //import { CrisisComponent }   from './crisis.component';
 import { PageNotFoundComponent }   from './not-found.component';
-import {OrdenesComponent} from './components/ordenes/ordenes.component';
 import {WizardComponent} from './components/wizard/wizard.component';
 
 
 const routes: Routes = [
 //  { path: 'crisis-center', component: CrisisComponent },
   { path: 'bienvenida',  component: BienvenidaComponent },
-  { path: 'ordenes',  component: OrdenesComponent },
   { path: 'wizard',  component: WizardComponent },
 
   //{ path: 'detail/:id', component: HeroDetailComponent },

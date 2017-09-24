@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Orden } from './../classes/orden';
 
 import { Headers, Http } from '@angular/http';
-
+import { VariablesGlobales } from '../utiles/variablesGlobales';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class OrdenesService {
 
 
-  private ordenesUrl = 'http://localhost:3000/api/ordenes';  // URL to web api
+  private ordenesUrl = VariablesGlobales.BASE_API_URL+'/api/ordenes';  // URL to web api
 
   //private ordenes:Orden[] = [
   //      {numeroOrden:'5',fechaIngreso:'12/5/2017',progreso:"En curso",observaciones:"Alguna observación importante"},

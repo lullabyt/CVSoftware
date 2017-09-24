@@ -3,13 +3,15 @@ import { Instrumento } from './../classes/instrumento';
 
 import { Headers, Http } from '@angular/http';
 import { HttpParams } from '@angular/common/http';
+import { VariablesGlobales } from '../utiles/variablesGlobales';
+
 import 'rxjs/add/operator/toPromise';
 
 
 @Injectable()
 export class InstrumentoService {
 
-  private instrumentosUrl = 'http://localhost:3000/api/instrumentos'
+  private instrumentosUrl = VariablesGlobales.BASE_API_URL+'/api/instrumentos';
   /*
     private instrumentos: Instrumento[] = [
       { numeroInstrumento: "1", nombre: "instrumento1", estado: "Libre", disponibilidad: "Libre", fechaIngreso: "15/01/2017", tipoTrabajo: { id: "819", nombre: "limpieza", descripcion: "Alguna descripción" } },

@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { Personal } from './../classes/personal';
 import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
+import { VariablesGlobales } from '../utiles/variablesGlobales';
 
 
 @Injectable()
 export class PersonalService {
 
-  private personalUrl = 'http://localhost:3000/api/personal';
-  private personalLibreUrl = 'http://localhost:3000/api/personalLibre';
-  private personalOcupadoUrl = 'http://localhost:3000/api/personalOcupado';
+  private personalUrl = VariablesGlobales.BASE_API_URL;
+  private personalLibreUrl = VariablesGlobales.BASE_API_URL+'/api/personalLibre';
+  private personalOcupadoUrl = VariablesGlobales.BASE_API_URL+'/api/personalOcupado';
 
 /*
 private personal:Personal[] = [
