@@ -147,16 +147,12 @@
               <div class="card-body">
                 <div class="card-text" *ngIf="!trabajoVacia()">
                   <h6>Numero de Trabajo: {{selectedTrabajo.numeroTrabajo}}</h6>
-                  <h6>Fecha de Realización: {{selectedTrabajo.fechaRealizacion | date:'d-MM-y'}}</h6>
-                  <h6>Evaluación: {{selectedTrabajo.evaluacion}}</h6>
                   <h6>Observación: {{selectedTrabajo.observacion}}</h6>
                   <h6>Tipo de Trabajo: {{selectedTrabajo.tipoTrabajo.nombre}}</h6>
                   <h6>Descripción: {{selectedTrabajo.tipoTrabajo.descripcion}}</h6>
                 </div>
                 <div class="card-text" *ngIf="trabajoVacia()">
                   <h6>Numero de Trabajo: -</h6>
-                  <h6>Fecha de Realización: -</h6>
-                  <h6>Evaluación: -</h6>
                   <h6>Observación: - </h6>
                   <h6>Tipo de trabajo: - </h6>
                   <h6>Descripción: - </h6>
@@ -275,8 +271,6 @@
                   <h6>Fecha de Ingreso: {{selectedOrden.fechaIngreso | date:'d-MM-y'}}</h6>
                   <hr>
                   <h6>Numero de Trabajo: {{selectedTrabajo.numeroTrabajo}}</h6>
-                  <h6>Fecha de Realización: {{selectedTrabajo.fechaRealizacion | date:'d-MM-y'}}</h6>
-                  <h6>Evaluación: {{selectedTrabajo.evaluacion}}</h6>
                   <h6>Tipo de Trabajo: {{selectedTrabajo.tipoTrabajo.nombre}}</h6>
                   <!--
                             <div *ngIf="!personalVacia()">
@@ -375,8 +369,6 @@
                   <h6>Fecha de Ingreso: {{selectedOrden.fechaIngreso | date:'d-MM-y'}}</h6>
                   <hr>
                   <h6>Numero de Trabajo: {{selectedTrabajo.numeroTrabajo}}</h6>
-                  <h6>Fecha de Realización: {{selectedTrabajo.fechaRealizacion | date:'d-MM-y'}}</h6>
-                  <h6>Evaluación: {{selectedTrabajo.evaluacion}}</h6>
                   <h6>Tipo de Trabajo: {{selectedTrabajo.tipoTrabajo.nombre}}</h6>
                   <hr>
                   <h6>Nombre: {{selectedPersonal.nombre}}</h6>
@@ -420,8 +412,6 @@
                   <h6>Fecha de Ingreso: {{selectedOrden.fechaIngreso | date:'d-MM-y'}}</h6>
                   <hr>
                   <h6>Numero de Trabajo: {{selectedTrabajo.numeroTrabajo}}</h6>
-                  <h6>Fecha de Realización: {{selectedTrabajo.fechaRealizacion | date:'d-MM-y'}}</h6>
-                  <h6>Evaluación: {{selectedTrabajo.evaluacion}}</h6>
                   <h6>Tipo de Trabajo: {{selectedTrabajo.tipoTrabajo.nombre}}</h6>
                   <hr>
                   <h6>Nombre: {{selectedPersonal.nombre}}</h6>

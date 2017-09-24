@@ -28,10 +28,10 @@ router.get('/', (req, res) => {
   res.send('api funciona correctamente!');
 });
 
-// Get all ordenes
+// Get all ordenes en curso
 router.get('/ordenes', (req, res) => {
 
-  Orden.find({}, "_id numeroOrden fechaIngreso progreso observaciones").then(function(ordenes) {
+  Orden.find({progreso: 'En curso'}, "_id numeroOrden fechaIngreso progreso observaciones").then(function(ordenes) {
     res.json(ordenes);
   }, function(err) {
     res.send(err);
@@ -103,6 +103,40 @@ router.get('/personal', (req, res) => {
   });
 });
 
+router.get('/personalOcupado', (req, res) => {
+
+  Asignacion.find({progreso: 'En curso'}).then(function(asignacion) {
+
+    Personal.find({
+      _id: {$in: asignacion.personal}
+    }).then(function(personal) {
+      res.json(personal);
+    }, function(err) {
+      res.send(err);
+    });
+  }, function(err) {
+    res.send(err);
+  });
+});
+
+router.get('/personalLibre', (req, res) => {
+  Asignacion.find({progreso: 'En curso'}).then(function(asignacion) {
+    Personal.find({
+      _id: {$nin: asignacion.personal}
+    }).then(function(personal) {
+      res.json(personal);
+    }, function(err) {
+      res.send(err);
+    });
+  }, function(err) {
+    res.send(err);
+  });
+
+});
+
+
+
+
 
 // Get all instrumentos
 router.get('/instrumentos', (req, res) => {
@@ -117,6 +151,7 @@ router.get('/instrumentos', (req, res) => {
 
 
 //get todos los instrumentos que pueden ser usados para un tipo de trabajo determinado
+// tienen que estar libres y aptos
 router.get('/instrumentos/:_id', (req, res) => {
 
   TipoTrabajo.findById(req.params._id)
@@ -126,7 +161,9 @@ router.get('/instrumentos/:_id', (req, res) => {
         //busca todos los instrumentos de los tipos de instrumento requeridos por el tipo de trabajo
         tipoInstrumento: {
           $in: tipoTrabajo.tiposInstrumentos
-        }
+        },
+        disponibilidad: 'libre',
+        estado: 'apto'
       }).then(function(instrumentos) {
         res.json(instrumentos);
       }, function(err) {
@@ -175,7 +212,7 @@ router.post('/asignacion', (req, res) => {
   asig.save().then(function() {
     console.log('se guardo la asignacion');
     //Busca el instrumento y Actualiza el estado
-    Instrumento.findByIdAndUpdate(req.body.instrumento, {disponibilidad: 'Ocupado'}).then(function(){
+    Instrumento.findByIdAndUpdate(req.body.instrumento, {disponibilidad: 'ocupado'}).then(function(){
       console.log('se actualizo el instrumento');
       res.send(asig);
     }, function(err){

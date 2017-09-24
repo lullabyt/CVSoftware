@@ -12,7 +12,7 @@ var trabajoSchema = new Schema({
     unique: true
   },
   fechaRealizacion: Date,
-  evaluacion: String,
+  evaluacion: { type: String, default:'En curso'},
   observacion: String,
   ordenServicio: {
     type: Schema.ObjectId,

@@ -24,8 +24,6 @@ import { WizardModule } from 'ng2-archwizard';
 import { WizardComponent } from './components/wizard/wizard.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 
-import { OrdenesComponent } from './components/ordenes/ordenes.component';
-
 
 
 @NgModule({
@@ -34,8 +32,7 @@ import { OrdenesComponent } from './components/ordenes/ordenes.component';
     PageNotFoundComponent,
     BienvenidaComponent,
     WizardComponent,
-    NavbarComponent,
-    OrdenesComponent
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

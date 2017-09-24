@@ -8,7 +8,7 @@ var Schema = mongoose.Schema;
 
 // create a schema
 var asignacionSchema = new Schema({
-  progreso: String,
+  progreso: { type: String, default: 'En curso'},
   fechaAsignacion: Date,
   trabajo: {
     type: Schema.ObjectId,
@@ -35,9 +35,6 @@ asignacionSchema.pre('save', function(next) {
   // if created_at doesn't exist, add to that field
   if (!this.fechaAsignacion)
     this.fechaAsignacion = currentDate;
-  if (!this.progreso) {
-    this.progreso = 'En curso';
-  }
   next();
 });
 

@@ -14,8 +14,8 @@ var instrumentoSchema = new Schema({
     required: true
   },
   nombre: String,
-  estado: String,
-  disponibilidad: String,
+  estado: {type: String, default: 'apto'},
+  disponibilidad: {type: String, default: 'libre'},
   tipoInstrumento: {
     type: Schema.ObjectId,
     ref: "TipoInstrumento",

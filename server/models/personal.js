@@ -14,8 +14,7 @@ var personalSchema = new Schema({
   apellido: String,
   direccion: String,
   puesto: String,
-  telefono: String,
-  asignado: String
+  telefono: String
 });
 
 // we need to create a model using it

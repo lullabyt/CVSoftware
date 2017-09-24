@@ -50,13 +50,6 @@ export class WizardComponent implements OnInit {
 
   }
 
-  getOrdenes(): void {
-    this._ordenesService.getOrdenes().then(ordenes => this.ordenes = ordenes);
-  }
-  getPersonal(): void {
-    this._personalService.getPersonal().then(personal => this.personal = personal);
-  }
-
 
   ngOnInit() {
     this.atributosOrden = this._ordenesService.getAtributos();
@@ -90,8 +83,8 @@ export class WizardComponent implements OnInit {
   }
 
   asignacionRealizada() {
-    var asig = this._asignacionService.createAsignacion(this.selectedTrabajo._id, this.selectedPersonal._id, this.selectedInstrumento._id);
-    if (asig){
+    try {
+      this._asignacionService.createAsignacion(this.selectedTrabajo._id, this.selectedPersonal._id, this.selectedInstrumento._id);
       swal({
         title: 'Hecho!',
         text: 'Asignación Realizada.',
@@ -99,7 +92,7 @@ export class WizardComponent implements OnInit {
         confirmButtonText: 'Ok',
         confirmButtonColor: '#3b3a30'
       })
-    } else {
+    } catch (err) {
       swal({
         title: 'Error!',
         text: 'No se pudo realizar la asignación. Pruebe más tarde.',
@@ -107,8 +100,7 @@ export class WizardComponent implements OnInit {
         confirmButtonText: 'Ok',
         confirmButtonColor: '#3b3a30'
       })
-    }
-
+    };
   }
 
   confirmacion() {
@@ -144,6 +136,10 @@ export class WizardComponent implements OnInit {
     return this.selectedOrden === null;
   }
 
+  getOrdenes(): void {
+    this._ordenesService.getOrdenes().then(ordenes => this.ordenes = ordenes);
+  }
+
   //TRABAJOS
 
   calcularTrabajos() {
@@ -175,9 +171,33 @@ export class WizardComponent implements OnInit {
   onSelectPersonal(personal: Personal): void {
 
     this.selectedPersonal = personal;
-
   }
 
+  getPersonal(): void {
+
+    this._personalService.getPersonalLibre().then(personal =>
+      {
+        var libres: Personal[];
+        var ocupados: Personal[];
+        libres = personal;
+        for (let personal of libres) {
+            personal.asignado = 'Libre';
+        };
+
+        this._personalService.getPersonalOcupado().then(personal => {
+          ocupados = personal;
+          for (let personal of ocupados) {
+              personal.asignado = 'Ocupado';
+          };
+          this.personal = libres.concat(ocupados);
+        });
+      });
+
+  }
+/*
+  getPersonal(): void {
+    this._personalService.getPersonalLibre().then(personal => this.personal = personal);
+  }*/
   // INSTRUMENTO
 
   calcularInstrumentos() {

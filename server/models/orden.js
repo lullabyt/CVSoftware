@@ -11,7 +11,7 @@ var ordenSchema = new Schema({
     required: true,
     unique: true
   },
-  progreso: String,
+  progreso: {type: String, default: 'En curso'},
   observaciones: String,
   fechaIngreso: Date,
 });
