@@ -11,8 +11,11 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class InstrumentoService {
 
-  private instrumentosUrl = VariablesGlobales.BASE_API_URL+'/api/instrumentos';
+  private instrumentosUrl = VariablesGlobales.BASE_API_URL + '/api/instrumentos';
   /*
+
+    //antes de incluir base de datos
+
     private instrumentos: Instrumento[] = [
       { numeroInstrumento: "1", nombre: "instrumento1", estado: "Libre", disponibilidad: "Libre", fechaIngreso: "15/01/2017", tipoTrabajo: { id: "819", nombre: "limpieza", descripcion: "Alguna descripción" } },
       { numeroInstrumento: "2", nombre: "instrumento2", estado: "Libre", disponibilidad: "Libre", fechaIngreso: "15/01/2015", tipoTrabajo: { id: "819", nombre: "limpieza", descripcion: "Alguna descripción" } },
@@ -21,8 +24,6 @@ export class InstrumentoService {
       { numeroInstrumento: "5", nombre: "instrumento5", estado: "Prestado", disponibilidad: "Ocupado", fechaIngreso: "15/01/2017", tipoTrabajo: { id: "817", nombre: "reparacion", descripcion: "Alguna descripción" } },
       { numeroInstrumento: "6", nombre: "instrumento6", estado: "Libre", disponibilidad: "Libre", fechaIngreso: "15/01/2017", tipoTrabajo: { id: "819", nombre: "limpieza", descripcion: "Alguna descripción" } },
       { numeroInstrumento: "7", nombre: "instrumento7", estado: "Libre", disponibilidad: "Ocupado", fechaIngreso: "15/01/2017", tipoTrabajo: { id: "817", nombre: "reparacion", descripcion: "Alguna descripción" } }
-
-
 
 
     ];
@@ -58,6 +59,7 @@ export class InstrumentoService {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
   }
+
   /*
 
     getInstrumentoTipoTrabajo(idTipo: string) {

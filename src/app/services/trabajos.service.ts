@@ -10,9 +10,11 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class TrabajosService {
 
-  private trabajosUrl = VariablesGlobales.BASE_API_URL+'/api/trabajos';  // URL to web api
+  private trabajosUrl = VariablesGlobales.BASE_API_URL + '/api/trabajos';  // URL to web api
 
   /*
+    //antes de incluir base de datos
+
     private trabajos: Trabajo[] = [
       { numeroTrabajo: '5', fechaRealizacion: '12/5/2017', evaluacion: "Prioritario", observacion: "Alguna observación", ordenServicio: { numeroOrden: '5', fechaIngreso: '12/5/2017', progreso: "En curso", observaciones: "Alguna observación importante" }, tipoTrabajo: { id: "614", nombre: "Reparación", descripcion: "Reparar manijas" } },
       { numeroTrabajo: '14', fechaRealizacion: '3/02/2016', evaluacion: "Alguna evaluación", observacion: "Alguna observación", ordenServicio: { numeroOrden: '5', fechaIngreso: '12/5/2017', progreso: "En curso", observaciones: "Alguna observación importante" }, tipoTrabajo: { id: "817", nombre: "Reparación", descripcion: "Alguna descripción" } },

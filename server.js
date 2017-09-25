@@ -4,25 +4,25 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 
+
 // Get our API routes
 const api = require('./server/routes/api');
+const trabajos = require('./server/routes/trabajos');
+const asignaciones = require('./server/routes/asignaciones');
+const instrumentos = require('./server/routes/instrumentos');
+const ordenes = require('./server/routes/ordenes');
+const personal = require('./server/routes/personal');
+const tipoInstrumentos = require('./server/routes/tipoInstrumentos');
+const tipoTrabajos = require('./server/routes/tipoTrabajos');
+
 
 const app = express();
-/*
-var Orden = require('./server/models/orden');
-var Personal = require('./server/models/personal');
-var Asignacion = require('./server/models/asignacion');
-var Instrumento = require('./server/models/instrumento');
-var Orden = require('./server/models/orden');
-var Personal = require('./server/models/personal');
-var TipoInstrumento = require('./server/models/tipoInstrumento');
-var Trabajo = require('./server/models/trabajo');
-var TipoTrabajo = require('./server/models/tipoTrabajo');
-*/
+
 
 //Import the mongoose module
 var mongoose = require('mongoose');
 
+//direccion a la base de datos
 var dbURI = 'mongodb://localhost/bmInsp';
 
 
@@ -34,6 +34,7 @@ mongoose.connect(dbURI, {
   useMongoClient: true
 });
 
+//mensajes de conexion
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.on('connected', function() {
@@ -52,239 +53,20 @@ app.use(bodyParser.urlencoded({
 }));
 
 
-/*
-var orden = new Orden({
-  numeroOrden: '0000000',
-  progreso: "en curso",
-  observaciones: "ELEGIR"
-});
-
-
-var ins1 = new TipoInstrumento({
-  idInstrumento: '000000',
-  nombre: "C",
-  proposito: "algo"
-});
-
-var tipoTrabajo3 = new TipoTrabajo({
-  idTipoTrabajo: '00000',
-  nombre: "sonido",
-  descripcion: "ELEGIR",
-  tiposInstrumentos: [ins1._id]
-});
-
-
-var trabajo = new Trabajo({
-  numeroTrabajo: '0000000',
-  observacion: 'algo',
-  ordenServicio: orden._id,
-  tipoTrabajo: tipoTrabajo3._id
-});
-
-
-
-var inst = new Instrumento({
-  numeroInstrumento: '000000',
-  nombre: "instrumentillo",
-  estado: "perfecto",
-  disponibilidad: "Libre",
-  tipoInstrumento: ins1._id
-});
-
-
-// call the built-in save method to save to the database
-orden.save().then(function() {
-  console.log('User saved successfully!');
-}, function(err) {
-  console.log(String(err));
-});
-
-
-ins1.save().then(function() {
-  console.log('User saved successfully!');
-}, function(err) {
-  console.log(String(err));
-});
-/*
-ins2.save().then(function() {
-  console.log('User saved successfully!');
-}, function(err) {
-  console.log(String(err));
-});
-
-
-inst.save().then(function() {
-  console.log('User saved successfully!');
-}, function(err) {
-  console.log(String(err));
-});
-
-//create a new user called chris
-
-
-tipoTrabajo3.save().then(function() {
-  console.log('User saved successfully!');
-}, function(err) {
-  console.log(String(err));
-});
-
-
-trabajo.save().then(function() {
-  console.log('User saved successfully!');
-}, function(err) {
-  console.log(String(err));
-});
-
-
-tipoTrabajo2.save().then(function() {
-  console.log('User saved successfully!');
-}, function(err) {
-  console.log(String(err));
-});
-
-inst.save().then(function() {
-  console.log('User saved successfully!');
-}, function(err) {
-  console.log(String(err));
-});
-
-var ins2 = new TipoInstrumento({
-  idInstrumento: '2',
-  nombre: "B",
-  proposito: "algo"
-});
-
-var tipoTrabajo2 = new TipoTrabajo({
-  idTipoTrabajo: '2',
-  nombre: "presion",
-  descripcion: "algo",
-  tiposInstrumentos: [ins2._id]
-});
-
-var inst = new Instrumento({
-  numeroInstrumento: '1',
-  nombre: "ins",
-  estado: "perfecto",
-  disponibilidad: "libre",
-  tipoInstrumento: ins1._id
-});
-
-var orden = new Orden({
-  numeroOrden: '3',
-  progreso: "en curso",
-  observaciones: "algo"
-});
-
-
-
-ins1.save().then(function() {
-  console.log('User saved successfully!');
-}, function(err) {
-  console.log(String(err));
-});
-
-ins2.save().then(function() {
-  console.log('User saved successfully!');
-}, function(err) {
-  console.log(String(err));
-});
-
-tipoTrabajo1.save().then(function() {
-  console.log('User saved successfully!');
-}, function(err) {
-  console.log(String(err));
-});
-
-tipoTrabajo2.save().then(function() {
-  console.log('User saved successfully!');
-}, function(err) {
-  console.log(String(err));
-});
-
-
-
-//create a new user called chris
-var orden = new Orden({
-  numeroOrden: '2',
-  fechaIngreso: "2017-09-17",
-  progreso: "en curso",
-  observaciones: "algo"
-});
-
-
-//create a new user called chris
-var tipoTrabajo = new TipoTrabajo({
-  idTipoTrabajo: '2',
-  nombre: "presion",
-  descripcion: "algo"
-});
-
-
-//create a new user called chris
-var trabajo = new Trabajo({
-  numeroTrabajo: '1',
-  observacion: 'algo',
-  ordenServicio: orden._id,
-  tipoTrabajo: tipoTrabajo._id
-});
-
-// call the built-in save method to save to the database
-orden.save().then(function() {
-  console.log('User saved successfully!');
-}, function(err) {
-  console.log(String(err));
-});
-
-tipoTrabajo.save().then(function() {
-  console.log('User saved successfully!');
-}, function(err) {
-  console.log(String(err));
-});
-
-              var instrumento = new Instrumento({
-              numeroInstrumento: '009'+i,
-              nombre: 'un nombre',
-              estado: 'bien',
-              disponibilidad: 'libre',
-              tipoInstrumento: tipo._id
-            });
-
-trabajo.save().then(function() {
-  console.log('User saved successfully!');
-}, function(err) {
-  console.log(String(err));
-});
-
-}
-
-//create a new personal
-
-for (var i = 0; i < 5; i++) {
-  var personal = new Personal({
-    cuil: "76918371723" + i,
-    nombre: "Juan",
-    apellido: "Perez",
-    direccion: "una direccion",
-    puesto: "un puesto",
-    telefono: "12381313",
-    asignado: "asignado"
-  });
-
-  // call the built-in save method to save to the database
-  personal.save().then(function() {
-    console.log('Personal saved successfully!');
-  }, function(err) {
-    console.log(String(err));
-  });
-}
-*/
-
-
 // Point static path to dist
 app.use(express.static(path.join(__dirname, 'dist')));
 
+
 // Set our api routes
 app.use('/api', api);
+app.use('/api/trabajos', trabajos);
+app.use('/api/asignaciones', asignaciones);
+app.use('/api/instrumentos', instrumentos);
+app.use('/api/ordenes', ordenes);
+app.use('/api/personal', personal);
+app.use('/api/tipoInstrumentos', tipoInstrumentos);
+app.use('/api/tipoTrabajos', tipoTrabajos);
+
 
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {

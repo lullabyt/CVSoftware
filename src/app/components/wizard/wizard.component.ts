@@ -1,17 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 
+//servicios
 import { OrdenesService } from '../../services/ordenes.service';
 import { TrabajosService } from '../../services/trabajos.service';
 import { PersonalService } from '../../services/personal.service';
 import { InstrumentoService } from '../../services/instrumento.service';
 import { AsignacionService } from '../../services/asignacion.service';
+
+//clases
 import { Orden } from '../../classes/orden';
 import { Trabajo } from '../../classes/trabajo';
 import { Personal } from '../../classes/personal';
 import { Instrumento } from '../../classes/instrumento';
 import { Asignacion } from '../../classes/asignacion';
 
-
+//sweet alert
 declare var swal: any;
 
 @Component({
@@ -37,8 +40,6 @@ export class WizardComponent implements OnInit {
   private instrumentos: Instrumento[] = [];
   private atributosInstrumento: string[] = [];
 
-  conf: boolean = false;
-
   constructor(
     private _ordenesService: OrdenesService,
     private _trabajosService: TrabajosService,
@@ -52,25 +53,21 @@ export class WizardComponent implements OnInit {
 
 
   ngOnInit() {
+
+    //obtenemos nombres de columnas de las tablas
     this.atributosOrden = this._ordenesService.getAtributos();
-
-    this.getOrdenes();
-    //this.ordenes = this._ordenesService.getOrdenes();
-
+    this.atributosInstrumento = this._instrumentoService.getAtributos();
     this.atributosTrabajo = this._trabajosService.getAtributos();
-
     this.atributosPersonal = this._personalService.getAtributos();
 
-    //asignar personal de todos los trabajos en curso
-    //  this.personal = this._personalService.getPersonal();
+    //se obtiene ordenes y personal
+    this.getOrdenes();
     this.getPersonal();
-    // ver calcularTrabajos()
-    //this.trabajos = this._trabajosService.getTrabajos();
-
-    this.atributosInstrumento = this._instrumentoService.getAtributos();
 
   }
 
+
+  // mensajes para el usuario en formato sweet alert
 
   errorInstrumento() {
     swal({
@@ -85,6 +82,7 @@ export class WizardComponent implements OnInit {
   asignacionRealizada() {
     try {
       this._asignacionService.createAsignacion(this.selectedTrabajo._id, this.selectedPersonal._id, this.selectedInstrumento._id);
+
       swal({
         title: 'Hecho!',
         text: 'Asignación Realizada.',
@@ -92,6 +90,7 @@ export class WizardComponent implements OnInit {
         confirmButtonText: 'Ok',
         confirmButtonColor: '#3b3a30'
       })
+
     } catch (err) {
       swal({
         title: 'Error!',
@@ -115,15 +114,7 @@ export class WizardComponent implements OnInit {
   }
 
 
-  setConf(b: boolean) {
-
-    this.conf = b;
-  }
-
-  getConf(): boolean {
-    return this.conf;
-  }
-
+  //ORDENES
 
   onSelectOrden(orden: Orden): void {
 
@@ -136,22 +127,23 @@ export class WizardComponent implements OnInit {
     return this.selectedOrden === null;
   }
 
+  //obtiene ordenes
   getOrdenes(): void {
     this._ordenesService.getOrdenes().then(ordenes => this.ordenes = ordenes);
   }
 
+
+
   //TRABAJOS
 
+  //obtiene trabajos segun la orden seleccionada
   calcularTrabajos() {
     this._trabajosService.getTrabajosOrden(this.selectedOrden._id).then(trabajos => this.trabajos = trabajos);
   }
 
 
-
   onSelectTrabajo(trabajo: Trabajo): void {
-
     this.selectedTrabajo = trabajo;
-
   }
 
   isTrabajoSelected(trabajo: Trabajo) { return trabajo === this.selectedTrabajo; }
@@ -159,6 +151,8 @@ export class WizardComponent implements OnInit {
   trabajoVacia() {
     return this.selectedTrabajo === null;
   }
+
+
 
   //PERSONAL
 
@@ -173,37 +167,47 @@ export class WizardComponent implements OnInit {
     this.selectedPersonal = personal;
   }
 
+  //obtiene personal libre y ocupado de manera de brindar mas informacion al usuario ademas de obtener solo el personal
   getPersonal(): void {
 
-    this._personalService.getPersonalLibre().then(personal =>
-      {
-        var libres: Personal[];
-        var ocupados: Personal[];
-        libres = personal;
-        for (let personal of libres) {
-            personal.asignado = 'Libre';
-        };
+    this._personalService.getPersonalLibre().then(personal => {
+      var libres: Personal[];
 
-        this._personalService.getPersonalOcupado().then(personal => {
-          ocupados = personal;
-          for (let personal of ocupados) {
-              personal.asignado = 'Ocupado';
-          };
-          this.personal = libres.concat(ocupados);
-        });
+      libres = personal;
+      for (let personal of libres) {
+        personal.asignado = 'Libre';
+      };
+
+      this._personalService.getPersonalOcupado().then(personal => {
+        var ocupados: Personal[];
+
+        ocupados = personal;
+
+        for (let personal of ocupados) {
+          personal.asignado = 'Ocupado';
+        };
+        this.personal = libres.concat(ocupados);
       });
+    });
 
   }
-/*
-  getPersonal(): void {
-    this._personalService.getPersonalLibre().then(personal => this.personal = personal);
-  }*/
-  // INSTRUMENTO
 
+  /*
+  //metodo anterior
+
+    getPersonal(): void {
+      this._personalService.getPersonalLibre().then(personal => this.personal = personal);
+    }
+    */
+
+
+
+  // INSTRUMENTOS
+
+  // obtiene instrumentos segun el tipo de trabajo del trabajo seleccionado
   calcularInstrumentos() {
     this._instrumentoService.getInstrumentosTipoTrabajo(this.selectedTrabajo.tipoTrabajo._id).then(instrumentos => this.instrumentos = instrumentos);
   }
-
 
   isInstrumentoSelected(instrumento: Instrumento) { return instrumento === this.selectedInstrumento; }
 
@@ -216,13 +220,13 @@ export class WizardComponent implements OnInit {
   }
 
   onSelectInstrumento(instrumento: Instrumento): void {
-
     this.selectedInstrumento = instrumento;
-
   }
 
 
-  //Reset pasos
+
+  //Reset pasos del wizard
+  //de manera que no quede informacion desactualizada al volver a pasos anteriores
 
   resetStep1() {
     this.selectedTrabajo = null;
@@ -230,13 +234,14 @@ export class WizardComponent implements OnInit {
     this.selectedInstrumento = null;
     this.instrumentos = [];
     this.trabajos = [];
-    this.conf = false;
   }
+
   resetStep2() {
     this.selectedPersonal = null;
     this.selectedInstrumento = null;
     this.instrumentos = [];
   }
+
   resetStep3() {
     this.selectedInstrumento = null;
   }
