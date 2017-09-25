@@ -3,6 +3,7 @@ const router = express.Router();
 
 
 var Asignacion = require('../models/asignacion');
+var Instrumento = require('../models/instrumento');
 
 
 //get all asignaciones
