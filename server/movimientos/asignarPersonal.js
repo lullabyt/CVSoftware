@@ -22,7 +22,7 @@ router.get('/obtenerOrdenes', (req, res) => {
   const urlOrdenes = VariablesGlobales.BASE_API_URL + '/api/ordenes';
 
   getContent(urlOrdenes)
-    .then((html) => res.send(html))
+    .then((ordenes) => res.send(ordenes))
     .catch((err) => res.send(err));
 
 });
@@ -36,7 +36,7 @@ router.get('/obtenerTrabajosOrden/:_id', (req, res) => {
   const urlTrabajos = VariablesGlobales.BASE_API_URL + '/api/trabajos/' + ordenServicio;
 
   getContent(urlTrabajos)
-    .then((html) => res.send(html))
+    .then((trabajos) => res.send(trabajos))
     .catch((err) => res.send(err));
 
 });
@@ -48,7 +48,7 @@ router.get('/obtenerPersonalLibre', (req, res) => {
   const urlPersonalLibre = VariablesGlobales.BASE_API_URL + '/api/personal/libre';
 
   getContent(urlPersonalLibre)
-    .then((html) => res.send(html))
+    .then((libre) => res.send(libre))
     .catch((err) => res.send(err));
 
 });
@@ -59,7 +59,7 @@ router.get('/obtenerPersonalOcupado', (req, res) => {
   const urlPersonalOcupado = VariablesGlobales.BASE_API_URL + '/api/personal/ocupado';
 
   getContent(urlPersonalOcupado)
-    .then((html) => res.send(html))
+    .then((ocupado) => res.send(ocupado))
     .catch((err) => res.send(err));
 
 });
@@ -73,7 +73,7 @@ router.get('/obtenerInstrumentosTipoTrabajo/:_id', (req, res) => {
   const urlInstrumentos = VariablesGlobales.BASE_API_URL + '/api/instrumentos/' + tipoTrabajo;
 
   getContent(urlInstrumentos)
-    .then((html) => res.send(html))
+    .then((instrumentos) => res.send(instrumentos))
     .catch((err) => res.send(err));
 
 });
