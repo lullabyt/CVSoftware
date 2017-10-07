@@ -10,8 +10,8 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class TrabajosService {
 
-  private trabajosUrl = VariablesGlobales.BASE_API_URL + '/api/trabajos';  // URL to web api
-
+  //  private trabajosUrl = VariablesGlobales.BASE_API_URL + '/api/trabajos';  // URL to web api
+  private trabajosUrl = VariablesGlobales.BASE_API_URL + '/movimiento/asignarPersonal/obtenerTrabajosOrden';
   /*
     //antes de incluir base de datos
 

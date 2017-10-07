@@ -9,8 +9,8 @@ import 'rxjs/add/operator/toPromise';
 export class OrdenesService {
 
 
-  private ordenesUrl = VariablesGlobales.BASE_API_URL + '/api/ordenes';  // URL to web api
-
+  //private ordenesUrl = VariablesGlobales.BASE_API_URL + '/api/ordenes';  // URL to web api
+  private ordenesUrl = VariablesGlobales.BASE_API_URL + '/movimiento/asignarPersonal/obtenerOrdenes';
 
   //antes de incluir base de datos
 

@@ -8,9 +8,7 @@ import { VariablesGlobales } from '../utiles/variablesGlobales';
 @Injectable()
 export class PersonalService {
 
-  private personalUrl = VariablesGlobales.BASE_API_URL + '/api/personal/';
-  private personalLibreUrl = VariablesGlobales.BASE_API_URL + '/api/personal/libre';
-  private personalOcupadoUrl = VariablesGlobales.BASE_API_URL + '/api/personal/ocupado';
+  private personalUrl = VariablesGlobales.BASE_API_URL + '/movimiento/asignarPersonal/obtenerPersonal';
 
   /*
     //antes de incluir base de datos
@@ -32,24 +30,35 @@ export class PersonalService {
     console.log("SERVICIO LISTO");
   }
 
-  getPersonal(): Promise<Personal[]> {
 
-    return this.http.get(this.personalUrl)
-      .toPromise()
-      .then(response => response.json() as Personal[])
-      .catch(this.handleError);
+  /*
+    getPersonal(): Promise<Personal[]> {
 
-  }
+      return this.http.get(this.personalUrl)
+        .toPromise()
+        .then(response => response.json() as Personal[])
+        .catch(this.handleError);
+
+    }
+  */
+
+
 
   getPersonalLibre(): Promise<Personal[]> {
-    return this.http.get(this.personalLibreUrl)
+
+    const urlLibre = this.personalUrl + 'Libre';
+
+    return this.http.get(urlLibre)
       .toPromise()
       .then(response => response.json() as Personal[])
       .catch(this.handleError);
 
   }
   getPersonalOcupado(): Promise<Personal[]> {
-    return this.http.get(this.personalOcupadoUrl)
+
+    const urlOcupado = this.personalUrl + 'Ocupado';
+
+    return this.http.get(urlOcupado)
       .toPromise()
       .then(response => response.json() as Personal[])
       .catch(this.handleError);

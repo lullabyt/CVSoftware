@@ -5,6 +5,10 @@ const http = require('http');
 const bodyParser = require('body-parser');
 
 
+//get rutas movimientos
+const asignarPersonal = require('./server/movimientos/asignarPersonal');
+
+
 // Get our API routes
 const api = require('./server/routes/api');
 const trabajos = require('./server/routes/trabajos');
@@ -38,7 +42,7 @@ mongoose.connect(dbURI, {
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.on('connected', function() {
-  console.log('Mongoose connected');
+  console.log('Mongoose connected a: ' + dbURI);
 });
 db.on('disconnected', function() {
   console.log('Mongoose disconnected');
@@ -55,6 +59,10 @@ app.use(bodyParser.urlencoded({
 
 // Point static path to dist
 app.use(express.static(path.join(__dirname, 'dist')));
+
+
+//set rutas movimientos
+app.use('/movimiento/asignarPersonal', asignarPersonal);
 
 
 // Set our api routes

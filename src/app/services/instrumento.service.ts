@@ -11,7 +11,7 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class InstrumentoService {
 
-  private instrumentosUrl = VariablesGlobales.BASE_API_URL + '/api/instrumentos';
+  private instrumentosUrl = VariablesGlobales.BASE_API_URL + '/movimiento/asignarPersonal/obtenerInstrumentosTipoTrabajo';
   /*
 
     //antes de incluir base de datos

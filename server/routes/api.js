@@ -18,7 +18,7 @@ router.use(function(req, res, next) {
 
 /* GET api listing. */
 router.get('/', (req, res) => {
-  res.send('api funciona correctamente!');
+  res.send('Api funciona correctamente!');
 });
 
 
