@@ -10,7 +10,7 @@ export class AsignacionService {
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
 
-  private asignacionUrl = VariablesGlobales.BASE_API_URL + '/api/asignaciones';
+  private asignacionUrl = VariablesGlobales.BASE_API_URL + '/movimiento/asignarPersonal/crearAsignacion';
 
 
   constructor(private http: Http) { }
@@ -30,10 +30,10 @@ export class AsignacionService {
 
 
   createAsignacion(trabajo: string, personal: string, instrumento: string): Promise<Asignacion> {
-    const url = this.asignacionUrl + '/post';
+  //  const url = this.asignacionUrl + '/post';
 
     return this.http
-      .post(url, JSON.stringify({ trabajo: trabajo, personal: personal, instrumento: instrumento }), { headers: this.headers })
+      .post(this.asignacionUrl, JSON.stringify({ trabajo: trabajo, personal: personal, instrumento: instrumento }), { headers: this.headers })
       .toPromise()
       .then(res => {
         return res.json().obj;

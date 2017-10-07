@@ -1,8 +1,10 @@
 const http = require('http');
 const express = require('express');
 const router = express.Router();
+const request = require('request');
 
 const VariablesGlobales = require('../utiles/variablesGlobales');
+const Asignacion = require('../models/asignacion');
 
 
 
@@ -79,6 +81,19 @@ router.get('/obtenerInstrumentosTipoTrabajo/:_id', (req, res) => {
 });
 
 
+router.post('/crearAsignacion', (req, res) => {
+console.log("ENTRO A CREAR ASIGNACION");
+
+  const urlAsignacion = VariablesGlobales.BASE_API_URL + '/api/asignaciones/post';
+
+  postContent(urlAsignacion,req.body)
+    .then((html) => res.send(html))
+    .catch((err) => res.send(err));
+
+
+});
+
+
 
 // funcion que realiza el http get
 
@@ -103,6 +118,37 @@ const getContent = function(url) {
     request.on('error', (err) => reject(err))
   })
 };
+
+// funcion que realiza el http post
+const postContent = function(url,postData) {
+return new Promise((resolve, reject) => {
+
+  console.log("ENTRO A CREAR POSTCONTENT");
+  // return new pending promise
+    // select http or https module, depending on reqested url
+    //  const lib = url.startsWith('https') ? require('https') : require('http');
+
+    var options = {
+        method: 'post',
+        body: postData, // Javascript object
+        json: true, // Use,If you are sending JSON data
+        url: url,
+        headers: {
+    // Specify headers, If any
+      }
+    }
+
+      request(options, function (err, res, body) {
+        if (err) {
+          console.log('Error :', err)
+          return
+        }
+        console.log(' Body :', body)
+
+      });
+ })
+};
+
 
 
 
