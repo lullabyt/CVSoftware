@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 
 //Create de asignacion
 
-router.post('/post', (req, res) => {
+router.post('/', (req, res) => {
 
   var asig = new Asignacion({
     trabajo: req.body.trabajo,
@@ -34,7 +34,7 @@ router.post('/post', (req, res) => {
       disponibilidad: 'ocupado'
 
     }).then(function() {
-      res.send(asig);
+      res.json(asig);
 
     }, function(err) {
       res.send("Error al actualizar el instrumento");

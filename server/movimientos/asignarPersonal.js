@@ -81,14 +81,14 @@ router.get('/obtenerInstrumentosTipoTrabajo/:_id', (req, res) => {
 });
 
 
-router.post('/crearAsignacion', (req, res) => {
+router.post('/registrarAsignacion', (req, res) => {
 
-  const urlAsignacion = VariablesGlobales.BASE_API_URL + '/api/asignaciones/post';
+  const urlAsignacion = VariablesGlobales.BASE_API_URL + '/api/asignaciones';
 
-  postContent(urlAsignacion,req.body)
-    .then((html) => res.send(html))
+  postContent(urlAsignacion, req.body)
+    .then((asig) => res.send(asig))
     .catch((err) => res.send(err));
-  
+
 
 });
 
@@ -118,30 +118,32 @@ const getContent = function(url) {
   })
 };
 
+
+
 // funcion que realiza el http post
-const postContent = function(url,postData) {
-return new Promise((resolve, reject) => {
-  // return new pending promise
+
+const postContent = function(url, postData) {
+  return new Promise((resolve, reject) => {
+    // return new pending promise
     // select http or https module, depending on reqested url
     //  const lib = url.startsWith('https') ? require('https') : require('http');
 
     var options = {
-        method: 'post',
-        body: postData, // Javascript object
-        json: true, // Use,If you are sending JSON data
-        url: url,
-        headers: {
-    // Specify headers, If any
+      method: 'post',
+      body: postData, // Javascript object
+      json: true, // Use,If you are sending JSON data
+      url: url,
+      headers: {
+        // Specify headers, If any
       }
     }
 
-      request(options, (err, response, body2) => {
-        // handle http errors
-      if(err){
+    request(options, (err, response, body2) => {
+      // handle http errors
+      if (err) {
         reject(err);
-      }
-    else   {
-      if (response.statusCode < 200 || response.statusCode > 299) {
+      } else {
+        if (response.statusCode < 200 || response.statusCode > 299) {
           reject(new Error('Failed to load page, status code: ' + response.statusCode));
         }
         // temporary data holder
@@ -155,8 +157,8 @@ return new Promise((resolve, reject) => {
     });
 
 
-    })
- };
+  })
+};
 
 
 
