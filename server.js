@@ -61,7 +61,7 @@ app.use(bodyParser.urlencoded({
 app.use(express.static(path.join(__dirname, 'dist')));
 
 
-//set rutas movimientos
+// Set rutas movimientos
 app.use('/movimiento/asignarPersonal', asignarPersonal);
 
 

@@ -75,7 +75,9 @@ export class WizardComponent implements OnInit {
       text: 'Ningún instrumento se encuentra disponible en este momento. Pruebe más tarde.',
       type: 'error',
       confirmButtonText: 'Ok',
-      confirmButtonColor: '#3b3a30'
+      confirmButtonColor: '#3b3a30',
+      allowOutsideClick: false,
+      allowEscapeKey: false
     })
   }
 
@@ -88,7 +90,9 @@ export class WizardComponent implements OnInit {
         text: 'Asignación Realizada.',
         type: 'success',
         confirmButtonText: 'Ok',
-        confirmButtonColor: '#3b3a30'
+        confirmButtonColor: '#3b3a30',
+        allowOutsideClick: false,
+        allowEscapeKey: false
       })
 
     } catch (err) {
@@ -97,7 +101,9 @@ export class WizardComponent implements OnInit {
         text: 'No se pudo realizar la asignación. Pruebe más tarde.',
         type: 'error',
         confirmButtonText: 'Ok',
-        confirmButtonColor: '#3b3a30'
+        confirmButtonColor: '#3b3a30',
+        allowOutsideClick: false,
+        allowEscapeKey: false
       })
     };
   }
@@ -109,7 +115,9 @@ export class WizardComponent implements OnInit {
       text: "Ha regresado al primer paso.",
       type: 'info',
       confirmButtonText: 'Ok',
-      confirmButtonColor: '#3b3a30'
+      confirmButtonColor: '#3b3a30',
+      allowOutsideClick: false,
+      allowEscapeKey: false
     })
   }
 
