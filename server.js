@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 
 //get rutas movimientos
 const asignarPersonal = require('./server/movimientos/asignarPersonal');
+const tipoPiezaInspeccionada = require('./server/movimientos/tipoPiezaInspeccionada');
+const trabajosSupervisadosEmpleado = require('./server/movimientos/trabajosSupervisadosEmpleado');
 
 
 // Get our API routes
@@ -63,6 +65,8 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 // Set rutas movimientos
 app.use('/movimiento/asignarPersonal', asignarPersonal);
+app.use('/movimiento/tipoPiezaInspeccionada', tipoPiezaInspeccionada);
+app.use('/movimiento/trabajosSupervisadosEmpleado', trabajosSupervisadosEmpleado);
 
 
 // Set our api routes

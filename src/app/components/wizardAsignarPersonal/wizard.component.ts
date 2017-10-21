@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
 //servicios
+import { AsignarPersonalService } from '../../services/asignarPersonal.service';
+
+/*
 import { OrdenesService } from '../../services/ordenes.service';
 import { TrabajosService } from '../../services/trabajos.service';
 import { PersonalService } from '../../services/personal.service';
 import { InstrumentoService } from '../../services/instrumento.service';
 import { AsignacionService } from '../../services/asignacion.service';
+*/
+
 
 //clases
 import { Orden } from '../../classes/orden';
@@ -22,7 +27,9 @@ declare var swal: any;
   templateUrl: './wizard.component.html',
   styleUrls: ['./wizard.component.css']
 })
-export class WizardComponent implements OnInit {
+
+
+export class WizardAsignarPersonalComponent implements OnInit {
 
   selectedOrden: Orden = null;
   private ordenes: Orden[] = [];
@@ -40,12 +47,16 @@ export class WizardComponent implements OnInit {
   private instrumentos: Instrumento[] = [];
   private atributosInstrumento: string[] = [];
 
+
   constructor(
-    private _ordenesService: OrdenesService,
-    private _trabajosService: TrabajosService,
-    private _personalService: PersonalService,
-    private _instrumentoService: InstrumentoService,
-    private _asignacionService: AsignacionService
+    /*
+        private _ordenesService: OrdenesService,
+        private _trabajosService: TrabajosService,
+        private _personalService: PersonalService,
+        private _instrumentoService: InstrumentoService,
+        private _asignacionService: AsignacionService
+    */
+    private _asignarPersonalService: AsignarPersonalService
 
   ) {
 
@@ -55,10 +66,10 @@ export class WizardComponent implements OnInit {
   ngOnInit() {
 
     //obtenemos nombres de columnas de las tablas
-    this.atributosOrden = this._ordenesService.getAtributos();
-    this.atributosInstrumento = this._instrumentoService.getAtributos();
-    this.atributosTrabajo = this._trabajosService.getAtributos();
-    this.atributosPersonal = this._personalService.getAtributos();
+    this.atributosOrden = this._asignarPersonalService.getAtributosOrden();
+    this.atributosInstrumento = this._asignarPersonalService.getAtributosInstrumento();
+    this.atributosTrabajo = this._asignarPersonalService.getAtributosTrabajo();
+    this.atributosPersonal = this._asignarPersonalService.getAtributosPersonal();
 
     //se obtiene ordenes y personal
     this.getOrdenes();
@@ -83,7 +94,7 @@ export class WizardComponent implements OnInit {
 
   asignacionRealizada() {
     try {
-      this._asignacionService.createAsignacion(this.selectedTrabajo._id, this.selectedPersonal._id, this.selectedInstrumento._id);
+      this._asignarPersonalService.createAsignacion(this.selectedTrabajo._id, this.selectedPersonal._id, this.selectedInstrumento._id);
 
       swal({
         title: 'Hecho!',
@@ -137,7 +148,7 @@ export class WizardComponent implements OnInit {
 
   //obtiene ordenes
   getOrdenes(): void {
-    this._ordenesService.getOrdenes().then(ordenes => this.ordenes = ordenes);
+    this._asignarPersonalService.getOrdenes().then(ordenes => this.ordenes = ordenes);
   }
 
 
@@ -146,7 +157,7 @@ export class WizardComponent implements OnInit {
 
   //obtiene trabajos segun la orden seleccionada
   calcularTrabajos() {
-    this._trabajosService.getTrabajosOrden(this.selectedOrden._id).then(trabajos => this.trabajos = trabajos);
+    this._asignarPersonalService.getTrabajosOrden(this.selectedOrden._id).then(trabajos => this.trabajos = trabajos);
   }
 
 
@@ -178,7 +189,7 @@ export class WizardComponent implements OnInit {
   //obtiene personal libre y ocupado de manera de brindar mas informacion al usuario ademas de obtener solo el personal
   getPersonal(): void {
 
-    this._personalService.getPersonalLibre().then(personal => {
+    this._asignarPersonalService.getPersonalLibre().then(personal => {
       var libres: Personal[];
 
       libres = personal;
@@ -186,7 +197,7 @@ export class WizardComponent implements OnInit {
         personal.asignado = 'Libre';
       };
 
-      this._personalService.getPersonalOcupado().then(personal => {
+      this._asignarPersonalService.getPersonalOcupado().then(personal => {
         var ocupados: Personal[];
 
         ocupados = personal;
@@ -214,7 +225,7 @@ export class WizardComponent implements OnInit {
 
   // obtiene instrumentos segun el tipo de trabajo del trabajo seleccionado
   calcularInstrumentos() {
-    this._instrumentoService.getInstrumentosTipoTrabajo(this.selectedTrabajo.tipoTrabajo._id).then(instrumentos => this.instrumentos = instrumentos);
+    this._asignarPersonalService.getInstrumentosTipoTrabajo(this.selectedTrabajo.tipoTrabajo._id).then(instrumentos => this.instrumentos = instrumentos);
   }
 
   isInstrumentoSelected(instrumento: Instrumento) { return instrumento === this.selectedInstrumento; }

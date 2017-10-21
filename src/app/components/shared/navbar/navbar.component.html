@@ -9,10 +9,12 @@
 
       <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Órdenes
+                Tareas
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item drop-link" [routerLink]="['wizard']" routerLinkActive="active">Asignar personal</a>
+                <a class="dropdown-item drop-link" [routerLink]="['wizardAsignarPersonal']" routerLinkActive="active">Asignar personal</a>
+                <a class="dropdown-item drop-link" [routerLink]="['wizardTipoPiezaInspeccionada']" routerLinkActive="active">Tipo pieza más inspeccionada</a>
+                <a class="dropdown-item drop-link" [routerLink]="['wizardTrabajosSupervisadosEmpleado']" routerLinkActive="active">Trabajos supervisados</a>
               </div>
       </li>
 
@@ -20,7 +22,7 @@
         <a class="nav-link link disabled" > Trabajos </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link disabled" > Acerca de</a>
+        <a class="nav-link disabled" > Acerca de </a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
