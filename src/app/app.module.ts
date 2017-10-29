@@ -62,7 +62,6 @@ import { WizardTipoPiezaInspeccionadaComponent } from './components/wizardTipoPi
 import { WizardTrabajosSupervisadosEmpleadoComponent } from './components/wizardTrabajosSupervisadosEmpleado/wizard.component';
 
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
-import { DatepickerComponent } from './components/shared/datepicker/datepicker.component';
 
 
 
@@ -74,8 +73,7 @@ import { DatepickerComponent } from './components/shared/datepicker/datepicker.c
     WizardAsignarPersonalComponent,
     WizardTipoPiezaInspeccionadaComponent,
     WizardTrabajosSupervisadosEmpleadoComponent,
-    NavbarComponent,
-    DatepickerComponent
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
