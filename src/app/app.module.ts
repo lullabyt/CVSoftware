@@ -1,8 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import {MatAutocompleteModule,
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+//material imports
+import {
+  MatAutocompleteModule,
   MatButtonModule,
   MatButtonToggleModule,
   MatCardModule,
@@ -32,9 +36,8 @@ import {MatAutocompleteModule,
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
-  MatStepperModule} from '@angular/material';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
+  MatStepperModule
+} from '@angular/material';
 
 
 //Servicios
@@ -63,31 +66,16 @@ import { WizardTrabajosSupervisadosEmpleadoComponent } from './components/wizard
 
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 
-
-
+// material module
 @NgModule({
-  declarations: [
-    AppComponent,
-    PageNotFoundComponent,
-    BienvenidaComponent,
-    WizardAsignarPersonalComponent,
-    WizardTipoPiezaInspeccionadaComponent,
-    WizardTrabajosSupervisadosEmpleadoComponent,
-    NavbarComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpModule,
-    WizardModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
+  exports: [
+    MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
     MatCheckboxModule,
     MatChipsModule,
+    MatStepperModule,
     MatDatepickerModule,
     MatDialogModule,
     MatExpansionModule,
@@ -112,8 +100,31 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatStepperModule
+  ]
+})
+export class MaterialModule { }
 
+
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    PageNotFoundComponent,
+    BienvenidaComponent,
+    WizardAsignarPersonalComponent,
+    WizardTipoPiezaInspeccionadaComponent,
+    WizardTrabajosSupervisadosEmpleadoComponent,
+    NavbarComponent
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpModule,
+    WizardModule,
+    MaterialModule,
+    AppRoutingModule
   ],
   providers: [
     OrdenesService,
