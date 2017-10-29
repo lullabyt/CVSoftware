@@ -5,12 +5,14 @@
   </div>
   <img src="../../assets/img/logo.jpg" class="img-fluid mx-auto d-block" alt="logo">
 
-<!--
+
   <mat-form-field>
-  <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+  <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="selectedDate">
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
--->
+
+<button type="button" name="button" (click)="ver()">probar</button>
+
 
 </div>

@@ -9,10 +9,17 @@ declare var swal: any;
 })
 export class BienvenidaComponent implements OnInit {
 
+  private selectedDate: Date;
+
   constructor() { }
 
   ngOnInit() {
 
+  }
+
+
+  ver(){
+    alert(this.selectedDate);
   }
 
 }
