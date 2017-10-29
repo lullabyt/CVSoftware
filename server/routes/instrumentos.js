@@ -19,6 +19,7 @@ router.get('/', (req, res) => {
 });
 
 
+/*
 //modificación instrumento particular a ocupado
 router.get('/ocupado/:_id', (req, res) => {
 
@@ -35,6 +36,25 @@ router.get('/ocupado/:_id', (req, res) => {
 
 
 });
+*/
+
+
+//para cualquier modifcacion de un instrumento
+router.patch('/:_id', (req, res) => {
+
+  Instrumento.findByIdAndUpdate(req.params._id,
+    //solo hace update de los atributos que vengan en body, pueden ser uno o muchos
+    req.body, {
+      //para que devuelva actualizado
+      new: true
+    }).then(function(ins) {
+    res.json(ins);
+
+  }, function(err) {
+    res.send(err);
+  });
+});
+
 
 
 // get todos los instrumentos que pueden ser usados para un tipo de trabajo determinado

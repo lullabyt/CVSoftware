@@ -8,29 +8,43 @@ var Asignacion = require('../models/asignacion');
 //ruta /
 router.route('/')
 
-//Create de asignacion
-.post((req, res) => {
+  //Create de asignacion
+  .post((req, res) => {
 
-  var asig = new Asignacion({
-    trabajo: req.body.trabajo,
-    personal: req.body.personal,
-    instrumento: req.body.instrumento
+    var asig = new Asignacion({
+      trabajo: req.body.trabajo,
+      personal: req.body.personal,
+      instrumento: req.body.instrumento
+    });
+
+    //una vez creada se guarda en la base de datos
+    asig.save().then(function() {
+      res.json(asig);
+
+    }, function(err) {
+      res.send("Error al crear asignacion");
+    });
+  })
+
+
+  //get all asignaciones
+  .get((req, res) => {
+    Asignacion.find().then(function(asignaciones) {
+      res.json(asignaciones);
+    }, function(err) {
+      res.send(err);
+    });
   });
 
-  //una vez creada se guarda en la base de datos
-  asig.save().then(function() {
-    res.json(asig);
 
-  }, function(err) {
-    res.send("Error al crear asignacion");
-  });
-})
-
-
-//get all asignaciones
-.get((req, res) => {
-  Asignacion.find().then(function(asignaciones) {
-    res.json(asignaciones);
+//borrar una asignacion especifica
+router.delete('/:_id', (req, res) => {
+  Asignacion.findByIdAndRemove(
+    req.params._id
+  ).then(function() {
+    res.json({
+      message: 'Successfully deleted asignacion'
+    });
   }, function(err) {
     res.send(err);
   });

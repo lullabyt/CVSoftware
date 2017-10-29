@@ -83,18 +83,26 @@ router.get('/obtenerInstrumentosTipoTrabajo/:_id', (req, res) => {
 router.post('/registrarAsignacion', (req, res) => {
 
   var idInstrumento = req.body.instrumento;
-  var modif = "";
+
+  var modif = {
+
+    disponibilidad: "ocupado"
+
+  };
 
   const urlAsignacion = VariablesGlobales.BASE_API_URL + '/api/asignaciones';
-  const urlInstrumento = VariablesGlobales.BASE_API_URL + '/api/instrumentos/ocupado/' + idInstrumento;
+  const urlInstrumento = VariablesGlobales.BASE_API_URL + '/api/instrumentos/' + idInstrumento;
 
   postContent(urlAsignacion, req.body, req.headers)
-    .then((asig) =>
-       res.json(asig),
+    .then((asig) => {
+
       //Busca el instrumento y Actualiza el estado ya que ahora se encuentra en una asignacion
-       putContent(urlInstrumento, modif)
-     )
-  .catch((err) => res.send(err));
+      patchContent(urlInstrumento, modif, req.headers).then(() => {
+
+        res.json(asig);
+      })
+    })
+    .catch((err) => res.send(err));
 });
 
 
@@ -128,11 +136,11 @@ const getContent = function(url) {
 // funcion que realiza el http post
 
 const postContent = function(url, postData, headers) {
-   // return new pending promise
-  return new Promise((resolve, reject) => {
-    // select http or https module, depending on reqested url
-    //  const lib = url.startsWith('https') ? require('https') : require('http');
 
+  // return new pending promise
+  return new Promise((resolve, reject) => {
+
+    //optiones para request post
     var options = {
       method: 'post',
       body: postData, // Javascript object
@@ -144,21 +152,17 @@ const postContent = function(url, postData, headers) {
       }
     };
 
-    request = request(options, (err, response, body) => {
+    request(options, (err, response, body) => {
       // handle http errors
       if (err) {
         reject(err);
-      } else {
-        if (response.statusCode < 200 || response.statusCode > 299) {
-          reject(new Error('Failed to load page, status code: ' + response.statusCode));
-        }
-        // temporary data holder
-        const holder = [];
-        // on every content chunk, push it to the data array
-        response.on('data', (chunk) => holder.push(chunk));
-        // we are done, resolve promise with those joined chunks
-        response.on('end', () => resolve(holder.join('')));
       }
+
+      if (response.statusCode < 200 || response.statusCode > 299) {
+        reject(new Error('Failed to load page, status code: ' + response.statusCode));
+      }
+      //devuelve respuesta post
+      resolve(body);
 
     });
 
@@ -166,27 +170,37 @@ const postContent = function(url, postData, headers) {
 };
 
 
-// funcion que realiza el http put
+// funcion que realiza el http patch
 
-const putContent = function(url, putData) {
+const patchContent = function(url, patchData, headers) {
   // return new pending promise
   return new Promise((resolve, reject) => {
-    // select http or https module, depending on reqested url
-    //  const lib = url.startsWith('https') ? require('https') : require('http');
-    const request = http.get(url, (response) => {
+
+    //optiones para request patch
+    var options = {
+      method: 'patch',
+      body: patchData, // Javascript object
+      json: true, // Use,If you are sending JSON data
+      url: url,
+      headers: {
+        // Specify headers, If any
+        headers
+      }
+    };
+
+    request(options, (err, response, body) => {
       // handle http errors
+      if (err) {
+        reject(err);
+      }
+
       if (response.statusCode < 200 || response.statusCode > 299) {
         reject(new Error('Failed to load page, status code: ' + response.statusCode));
       }
-      // temporary data holder
-      const body = [];
-      // on every content chunk, push it to the data array
-      response.on('data', (chunk) => body.push(chunk));
-      // we are done, resolve promise with those joined chunks
-      response.on('end', () => resolve(body.join('')));
+      //devuelve respuesta patch
+      resolve(body);
     });
-    // handle connection errors of the request
-    request.on('error', (err) => reject(err))
+
   })
 };
 
