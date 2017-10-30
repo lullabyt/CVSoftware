@@ -52,6 +52,8 @@ import { AsignarPersonalService } from './services/asignarPersonal.service';
 import { TipoPiezaInspeccionadaService } from './services/tipoPiezaInspeccionada.service';
 import { TrabajosSupervisadosEmpleadoService } from './services/trabajosSupervisadosEmpleado.service';
 
+import { DateFormatPipe } from './utiles/convertidorFechas';
+
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -65,6 +67,7 @@ import { WizardTipoPiezaInspeccionadaComponent } from './components/wizardTipoPi
 import { WizardTrabajosSupervisadosEmpleadoComponent } from './components/wizardTrabajosSupervisadosEmpleado/wizard.component';
 
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
+
 
 // material module
 @NgModule({
@@ -134,7 +137,8 @@ export class MaterialModule { }
     AsignacionService,
     AsignarPersonalService,
     TipoPiezaInspeccionadaService,
-    TrabajosSupervisadosEmpleadoService
+    TrabajosSupervisadosEmpleadoService,
+    DateFormatPipe
   ],
   bootstrap: [AppComponent]
 })

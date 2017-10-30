@@ -5,22 +5,4 @@
   </div>
   <img src="../../assets/img/logo.jpg" class="img-fluid mx-auto d-block" alt="logo">
 
-<mat-card>
-
-    <mat-form-field>
-    <input matInput [max]="selectedDateTo" [matDatepicker]="pickerFrom" placeholder="Fecha de inicio..." [(ngModel)]="selectedDateFrom">
-    <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
-    <mat-datepicker #pickerFrom ></mat-datepicker>
-    </mat-form-field>
-
-    <mat-form-field>
-    <input matInput [min]="selectedDateFrom" [matDatepicker]="pickerTo" placeholder="Fecha de fin..." [(ngModel)]="selectedDateTo">
-    <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
-    <mat-datepicker #pickerTo ></mat-datepicker>
-    </mat-form-field>
-
-</mat-card>
-  <button type="button" name="button" (click)="ver()">probar</button>
-
-
 </div>

@@ -2,203 +2,19 @@
 <div class="container-fluid" id="style">
 
   <div class="centered-content margin-top">
-    <h1>Asignación de Personal</h1>
+    <h1>Trabajos Supervisados</h1>
   </div>
   <br>
   <wizard #wizard navBarLayout="large-empty-symbols">
 
     <!--  STEP 1 -->
 
-    <wizard-step title="Seleccionar orden" navigationSymbol="1" (stepEnter)="resetStep1()">
-      <div class="centered-content margin-top">
-
-        <div class="row">
-          <div class="col-md-11 ">
-            <button (click)="calcularTrabajos()" type="button" [disabled]="ordenVacia()" class="btn btn-secondary boton" nextStep>Continuar</button>
-            <button type="button" class="btn btn-secondary boton" disabled>Volver</button>
-          </div>
-        </div>
-
-        <div class="row">
-          <!-- tabla -->
-          <div class="col-md-4">
-            <table class="table table-hover rounded">
-              <thead>
-                <tr>
-                  <th style="text-align:center;">#</th>
-                  <th style="text-align:center;">{{atributosOrden[0]}}</th>
-                  <th style="text-align:center;">{{atributosOrden[1]}}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of ordenes ; let i = index" (click)="onSelectOrden(item)" [class.selected]="isOrdenSelected(item)">
-                  <td scope="row">{{i}}</td>
-                  <td>{{item.numeroOrden}}</td>
-                  <td>{{item.fechaIngreso | date:'d-MM-y' }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Detalles -->
-          <div class="col-md-4">
-            <div class="card text-center rounded" style="width: 100%;">
-              <h4 class="card-title asig">Detalles</h4>
-
-              <div class="card-body">
-                <div class="card-text" *ngIf="!ordenVacia()">
-
-                  <h6>Numero de Orden: {{selectedOrden.numeroOrden}} </h6>
-                  <h6>Fecha de Ingreso: {{selectedOrden.fechaIngreso | date:'d-MM-y'}}</h6>
-                  <h6>Progreso: {{selectedOrden.progreso}}</h6>
-                  <h6>Observaciones: {{selectedOrden.observaciones}}</h6>
-                </div>
-                <div class="card-text" *ngIf="ordenVacia()">
-                  <h6>Numero de Orden: -</h6>
-                  <h6>Fecha de Ingreso: -</h6>
-                  <h6>Progreso: -</h6>
-                  <h6>Observaciones: - </h6>
-                </div>
-              </div>
-            </div>
-
-            <br><br><br>
-
-  <!--
-            <div class="row">
-                <div class="col-md-12">
-
-                    <button (click)="calcularTrabajos()" type="button" [disabled]="ordenVacia()" class="btn btn-secondary boton" nextStep>Continuar</button>
-            </div>
-          </div>
-
-    -->
-          </div>
-
-          <!--Asignacion-->
-          <div class="col-md-4">
-            <div class="card text-center rounded " style="width: 100%;">
-              <h4 class="card-title asig">Asignación</h4>
-              <div class="card-body">
-                <div class="card-text">
-                  <!--
-                                    <h6>Numero de Orden: {{selectedOrden.numeroOrden}} </h6>
-                                    <h6>Fecha de Ingreso: {{selectedOrden.fechaIngreso}}</h6>
-
-                                    <div *ngIf="!trabajoVacia()">
-                                      <hr>
-                                      <h6>Numero de Trabajo: {{selectedTrabajo.numeroTrabajo}}</h6>
-                                      <h6>Fecha de Realización: {{selectedTrabajo.fechaRealizacion}}</h6>
-                                      <h6>Evaluación: {{selectedTrabajo.evaluacion}}</h6>
-                                      <h6>Tipo de Trabajo: {{selectedTrabajo.tipoTrabajo.nombre}}</h6>
-                                    </div>
-                                  -->
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-
-    </wizard-step>
-
-
-    <!--  STEP 2 -->
-
-    <wizard-step title="Seleccionar trabajo" navigationSymbol="2" (stepEnter)="resetStep2()">
+    <wizard-step title="Seleccionar personal" navigationSymbol="1" (stepEnter)="resetStep1()">
       <div class="centered-content margin-top">
 
         <div class="row">
             <div class="col-md-11">
-              <button (click)="calcularInstrumentos()" type="button" class="btn btn-secondary boton" [disabled]="trabajoVacia()" nextStep>Continuar</button>
-              <button type="button" class="btn btn-secondary boton" previousStep>Volver</button>
-            </div>
-        </div>
-
-        <div class="row">
-
-          <!-- tabla -->
-          <div class="col-md-4">
-            <table class="table table-hover rounded">
-              <thead>
-                <tr>
-                  <th style="text-align:center;">#</th>
-                  <th style="text-align:center;">{{atributosTrabajo[0]}}</th>
-                  <th style="text-align:center;">{{atributosTrabajo[5]}}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of trabajos ; let i = index" (click)="onSelectTrabajo(item)" [class.selected]="isTrabajoSelected(item)">
-                  <td scope="row">{{i}}</td>
-                  <td>{{item.numeroTrabajo}}</td>
-                  <td>{{item.tipoTrabajo.nombre}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Detalles -->
-          <div class="col-md-4">
-            <div class="card text-center rounded" style="width: 100%;">
-              <h4 class="card-title asig">Detalles</h4>
-
-              <div class="card-body">
-                <div class="card-text" *ngIf="!trabajoVacia()">
-                  <h6>Numero de Trabajo: {{selectedTrabajo.numeroTrabajo}}</h6>
-                  <h6>Observación: {{selectedTrabajo.observacion}}</h6>
-                  <h6>Tipo de Trabajo: {{selectedTrabajo.tipoTrabajo.nombre}}</h6>
-                  <h6>Descripción: {{selectedTrabajo.tipoTrabajo.descripcion}}</h6>
-                </div>
-                <div class="card-text" *ngIf="trabajoVacia()">
-                  <h6>Numero de Trabajo: -</h6>
-                  <h6>Observación: - </h6>
-                  <h6>Tipo de trabajo: - </h6>
-                  <h6>Descripción: - </h6>
-                </div>
-              </div>
-            </div>
-            <br><br><br>
-          </div>
-
-          <!--Asignacion-->
-          <div class="col-md-4">
-            <div class="card text-center rounded " style="width: 100%;" *ngIf="!ordenVacia()">
-              <h4 class="card-title asig">Asignación</h4>
-              <div class="card-body">
-                <div class="card-text">
-                  <h6>Numero de Orden: {{selectedOrden.numeroOrden}} </h6>
-                  <h6>Fecha de Ingreso: {{selectedOrden.fechaIngreso | date:'d-MM-y'}}</h6>
-                  <!--
-                              <div *ngIf="!trabajoVacia()">
-                                <hr>
-                                <h6>Numero de Trabajo: {{selectedTrabajo.numeroTrabajo}}</h6>
-                                <h6>Fecha de Realización: {{selectedTrabajo.fechaRealizacion}}</h6>
-                                <h6>Evaluación: {{selectedTrabajo.evaluacion}}</h6>
-                                <h6>Tipo de Trabajo: {{selectedTrabajo.tipoTrabajo.nombre}}</h6>
-                              </div>
-                            -->
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </wizard-step>
-
-    <!--  STEP 3 -->
-
-
-    <wizard-step title="Seleccionar personal" navigationSymbol="3" (stepEnter)="resetStep3()">
-      <div class="centered-content margin-top">
-
-        <div class="row">
-            <div class="col-md-11">
-              <button [disabled]="personalVacia()" *ngIf="!hayInstrumentos()" type="button" class="btn btn-secondary boton" (click)="errorInstrumento()">Continuar</button>
-              <button [disabled]="personalVacia()" *ngIf="hayInstrumentos()" type="button" class="btn btn-secondary boton" nextStep>Continuar</button>
-              <button type="button" class="btn btn-secondary boton" previousStep>Volver</button>
-
+              <button [disabled]="personalVacia()" type="button" class="btn btn-secondary boton" nextStep>Continuar</button>
             </div>
         </div>
 
@@ -261,18 +77,19 @@
 
           </div>
 
-          <!--Asignacion-->
+          <!--Empleado-->
           <div class="col-md-4">
-            <div class="card text-center rounded" style="width: 100%;" *ngIf="!trabajoVacia()">
-              <h4 class="card-title asig">Asignación</h4>
+            <div class="card text-center rounded" style="width: 100%;">
+              <h4 class="card-title asig">Empleado</h4>
               <div class="card-body">
                 <div class="card-text">
+                        <!--
                   <h6>Numero de Orden: {{selectedOrden.numeroOrden}} </h6>
                   <h6>Fecha de Ingreso: {{selectedOrden.fechaIngreso | date:'d-MM-y'}}</h6>
                   <hr>
                   <h6>Numero de Trabajo: {{selectedTrabajo.numeroTrabajo}}</h6>
                   <h6>Tipo de Trabajo: {{selectedTrabajo.tipoTrabajo.nombre}}</h6>
-                  <!--
+
                             <div *ngIf="!personalVacia()">
                               <hr>
                               <h6>Nombre: {{selectedPersonal.nombre}}</h6>
@@ -292,85 +109,50 @@
     </wizard-step>
 
 
-    <!--  STEP 4 -->
+    <!--  STEP 2 -->
 
 
-    <wizard-step title="Seleccionar instrumento" navigationSymbol="4">
+    <wizard-step title="Seleccionar periodo fecha" navigationSymbol="2">
       <div class="centered-content margin-top">
 
         <div class="row">
             <div class="col-md-11">
-              <button type="button" class="btn btn-secondary boton" [disabled]="instrumentoVacia()" nextStep>Continuar</button>
+              <button type="button" class="btn btn-secondary boton" [disabled]="!fechaCompletada()" nextStep>Continuar</button>
               <button type="button" class="btn btn-secondary boton" previousStep>Volver</button>
             </div>
         </div>
 
         <div class="row">
 
-          <!-- tabla -->
+          <!-- date picker -->
 
-          <div class="col-md-4">
-            <table class="table table-hover rounded">
-              <thead>
-                <tr>
-                  <th style="text-align:center;">#</th>
-                  <th style="text-align:center;">{{atributosInstrumento[1]}}</th>
-                  <th style="text-align:center;">{{atributosInstrumento[2]}}</th>
-                  <th style="text-align:center;">{{atributosInstrumento[3]}}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of instrumentos; let i = index" (click)="onSelectInstrumento(item)" [class.selected]="isInstrumentoSelected(item)">
-                  <td scope="row">{{i}}</td>
-                  <td>{{item.nombre}}</td>
-                  <td>{{item.estado}}</td>
-                  <td>{{item.disponibilidad}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <div class="col-md-8">
 
-          <!-- Detalles -->
-          <div class="col-md-4">
-            <div class="card text-center rounded" style="width: 100%;">
-              <h4 class="card-title asig">Detalles</h4>
-              <div class="card-body">
+            <mat-card>
 
-                <div class="card-text" *ngIf="!instrumentoVacia()">
-                  <h6>Numero de Instrumento:  {{selectedInstrumento.numeroInstrumento}}</h6>
-                  <h6>Nombre: {{selectedInstrumento.nombre}}</h6>
-                  <h6>Estado: {{selectedInstrumento.estado}}</h6>
-                  <h6>Disponibilidad: {{selectedInstrumento.disponibilidad}}</h6>
-                  <h6>Fecha de Ingreso: {{selectedInstrumento.fechaIngreso | date:'d-MM-y'}}</h6>
+                <mat-form-field>
+                <input matInput [max]="selectedDateTo" [matDatepicker]="pickerFrom" placeholder="Fecha de inicio..." [(ngModel)]="selectedDateFrom">
+                <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+                <mat-datepicker #pickerFrom ></mat-datepicker>
+                </mat-form-field>
 
-                </div>
-                <div class="card-text" *ngIf="instrumentoVacia()">
-                  <h6>Numero de Instrumento: -</h6>
-                  <h6>Nombre: -</h6>
-                  <h6>Estado: -</h6>
-                  <h6>Disponibilidad: - </h6>
-                  <h6>Fecha de Ingreso: - </h6>
+                <mat-form-field>
+                <input matInput [min]="selectedDateFrom" [matDatepicker]="pickerTo" placeholder="Fecha de fin..." [(ngModel)]="selectedDateTo">
+                <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+                <mat-datepicker #pickerTo ></mat-datepicker>
+                </mat-form-field>
 
-                </div>
-              </div>
-            </div>
-            <br><br><br>
-
+            </mat-card>
 
           </div>
 
-          <!--Asignacion-->
+
+          <!--Empleado-->
           <div class="col-md-4">
             <div class="card text-center rounded" style="width: 100%;" *ngIf="!personalVacia()">
-              <h4 class="card-title asig">Asignación</h4>
+              <h4 class="card-title asig">Empleado</h4>
               <div class="card-body">
                 <div class="card-text">
-                  <h6>Numero de Orden: {{selectedOrden.numeroOrden}} </h6>
-                  <h6>Fecha de Ingreso: {{selectedOrden.fechaIngreso | date:'d-MM-y'}}</h6>
-                  <hr>
-                  <h6>Numero de Trabajo: {{selectedTrabajo.numeroTrabajo}}</h6>
-                  <h6>Tipo de Trabajo: {{selectedTrabajo.tipoTrabajo.nombre}}</h6>
-                  <hr>
                   <h6>Nombre: {{selectedPersonal.nombre}}</h6>
                   <h6>Apellido: {{selectedPersonal.apellido}}</h6>
                   <h6>Puesto: {{selectedPersonal.puesto}}</h6>
@@ -386,15 +168,15 @@
 
 
 
-    <!--STEP 5 -->
+    <!--STEP 3 -->
 
 
-    <wizard-step title="Finalizar asignación" navigationSymbol="5">
+    <wizard-step title="Confirmacion" navigationSymbol="3">
       <div class="centered-content margin-top">
 
         <div class="row">
             <div class="col-md-11">
-              <button type="button" class="btn btn-secondary boton" [routerLink]="['/bienvenida']" routerLinkActive="active" (click)="asignacionRealizada()">Finalizar</button>
+              <button type="button" class="btn btn-secondary boton" [routerLink]="['/bienvenida']" routerLinkActive="active" (click)="consultaRealizada()">Iniciar</button>
               <button type="button" class="btn btn-secondary boton" previousStep>Volver</button>
               <button type="button" class="btn btn-secondary boton" (click)="confirmacion();wizard.reset()">Reset</button>
 
@@ -403,25 +185,19 @@
 
         <div class="row">
 
-          <!--Asignacion-->
-          <div class="col-md-4 centered-content" *ngIf="!instrumentoVacia()">
-            <div class="card text-center margin-bottom rounded" style="width: 100%;">
-              <h4 class="card-title asig">Asignación final</h4>
+          <!--Empleado-->
+          <div class="col-md-4 centered-content">
+            <div class="card text-center margin-bottom rounded" style="width: 100%;" *ngIf="fechaCompletada()">
+              <h4 class="card-title asig">Empleado</h4>
               <div class="card-body">
                 <div class="card-text">
-                  <h6>Numero de Orden: {{selectedOrden.numeroOrden}} </h6>
-                  <h6>Fecha de Ingreso: {{selectedOrden.fechaIngreso | date:'d-MM-y'}}</h6>
-                  <hr>
-                  <h6>Numero de Trabajo: {{selectedTrabajo.numeroTrabajo}}</h6>
-                  <h6>Tipo de Trabajo: {{selectedTrabajo.tipoTrabajo.nombre}}</h6>
-                  <hr>
                   <h6>Nombre: {{selectedPersonal.nombre}}</h6>
                   <h6>Apellido: {{selectedPersonal.apellido}}</h6>
                   <h6>Puesto: {{selectedPersonal.puesto}}</h6>
                   <h6>Estado: {{selectedPersonal.asignado}}</h6>
                   <hr>
-                  <h6>Numero de Instrumento: {{selectedInstrumento.numeroInstrumento}}</h6>
-                  <h6>Nombre: {{selectedInstrumento.nombre}}</h6>
+                  <h6>Fecha de Inicio: {{selectedDateFrom.toLocaleDateString()}}</h6>
+                  <h6>Fecha de Fin: {{selectedDateTo.toLocaleDateString()}}</h6>
                   <hr>
                 </div>
               </div>
@@ -430,6 +206,83 @@
         </div>
       </div>
     </wizard-step>
+
+        <wizard-step title="Resultados Consulta" navigationSymbol="4">
+          <div class="centered-content margin-top">
+
+            <div class="row">
+                <div class="col-md-11">
+                  <button type="button" class="btn btn-secondary boton" previousStep>Volver</button>
+                  <button type="button" class="btn btn-secondary boton" (click)="confirmacion();wizard.reset()">Reset</button>
+                </div>
+            </div>
+
+            <div class="row">
+
+              <!-- tabla -->
+              <div class="col-md-4">
+                <table class="table table-hover rounded">
+                  <thead>
+                    <tr>
+                      <th style="text-align:center;">#</th>
+                      <th style="text-align:center;">{{atributosTrabajo[0]}}</th>
+                      <th style="text-align:center;">{{atributosTrabajo[5]}}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of trabajos ; let i = index" (click)="onSelectTrabajo(item)" [class.selected]="isTrabajoSelected(item)">
+                      <td scope="row">{{i}}</td>
+                      <td>{{item.numeroTrabajo}}</td>
+                      <td>{{item.tipoTrabajo.nombre}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Detalles -->
+              <div class="col-md-4">
+                <div class="card text-center rounded" style="width: 100%;">
+                  <h4 class="card-title asig">Detalles</h4>
+
+                  <div class="card-body">
+                    <div class="card-text" *ngIf="!trabajoVacia()">
+                      <h6>Numero de Trabajo: {{selectedTrabajo.numeroTrabajo}}</h6>
+                      <h6>Observación: {{selectedTrabajo.observacion}}</h6>
+                      <h6>Tipo de Trabajo: {{selectedTrabajo.tipoTrabajo.nombre}}</h6>
+                      <h6>Descripción: {{selectedTrabajo.tipoTrabajo.descripcion}}</h6>
+                    </div>
+                    <div class="card-text" *ngIf="trabajoVacia()">
+                      <h6>Numero de Trabajo: -</h6>
+                      <h6>Observación: - </h6>
+                      <h6>Tipo de trabajo: - </h6>
+                      <h6>Descripción: - </h6>
+                    </div>
+                  </div>
+                </div>
+                <br><br><br>
+              </div>
+
+                        <!--Empleado-->
+                        <div class="col-md-4">
+                          <div class="card text-center rounded" style="width: 100%;" *ngIf="fechaCompletada()">
+                            <h4 class="card-title asig">Empleado</h4>
+                            <div class="card-body">
+                              <div class="card-text">
+                                <h6>Nombre: {{selectedPersonal.nombre}}</h6>
+                                <h6>Apellido: {{selectedPersonal.apellido}}</h6>
+                                <h6>Puesto: {{selectedPersonal.puesto}}</h6>
+                                <h6>Estado: {{selectedPersonal.asignado}}</h6>
+                                <hr>
+                                <h6>Fecha de Inicio: {{selectedDateFrom.toLocaleDateString()}}</h6>
+                                <h6>Fecha de Fin: {{selectedDateTo.toLocaleDateString()}}</h6>
+                                <hr>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+            </div>
+          </div>
+        </wizard-step>
 
   </wizard>
 </div>

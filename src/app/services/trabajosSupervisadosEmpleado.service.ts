@@ -7,8 +7,6 @@ import 'rxjs/add/operator/toPromise';
 
 //clases utilizadas
 import { Asignacion } from './../classes/asignacion';
-import { Instrumento } from './../classes/instrumento';
-import { Orden } from './../classes/orden';
 import { Personal } from './../classes/personal';
 import { Trabajo } from './../classes/trabajo';
 
@@ -22,55 +20,20 @@ export class TrabajosSupervisadosEmpleadoService {
 
 
   //urls hacia movimiento trabajosSupervisadosEmpleado
-  private asignacionUrl = VariablesGlobales.BASE_API_URL + '/movimiento/trabajosSupervisadosEmpleado/registrarAsignacion';
-  private instrumentosUrl = VariablesGlobales.BASE_API_URL + '/movimiento/trabajosSupervisadosEmpleado/obtenerInstrumentosTipoTrabajo';
-  private ordenesUrl = VariablesGlobales.BASE_API_URL + '/movimiento/trabajosSupervisadosEmpleado/obtenerOrdenes';
+  private asignacionUrl = VariablesGlobales.BASE_API_URL + '/movimiento/trabajosSupervisadosEmpleado/obtenerTrabajosSupervisadosEmpleado';
   private personalUrl = VariablesGlobales.BASE_API_URL + '/movimiento/trabajosSupervisadosEmpleado/obtenerPersonal';
-  private trabajosUrl = VariablesGlobales.BASE_API_URL + '/movimiento/trabajosSupervisadosEmpleado/obtenerTrabajosOrden';
-
-
-
-  private atributosInstrumento: string[] = [
-    "Número de Instrumento", "Nombre", "Estado", "Disponibilidad", "Fecha de Ingreso"
-  ];
-
-
-  private atributosOrden: string[] = [
-    "Número de Orden", "Fecha de Ingreso", "Progreso", "Observaciones"
-  ];
-
-
-  private atributosPersonal: string[] = [
-    "Cuil", "Nombre", "Apellido", "Telefonos", "Direccion", "Puesto", "Asignado"
-  ];
 
 
   private atributosTrabajo: string[] = [
     "Número de Trabajo", "Fecha de Realizaciín", "Evaluación", "Observacion", "Orden de Servicio", "Tipo de Trabajo"
   ];
 
+  private atributosPersonal: string[] = [
+    "Cuil", "Nombre", "Apellido", "Telefonos", "Direccion", "Puesto", "Asignado"
+  ];
+
 
   constructor(private http: Http) { }
-
-
-
-  getOrdenes(): Promise<Orden[]> {
-    return this.http.get(this.ordenesUrl)
-      .toPromise()
-      .then(response => response.json() as Orden[])
-      .catch(this.handleError);
-  }
-
-
-  getTrabajosOrden(_idOrden: string): Promise<Trabajo[]> {
-
-    const url = `${this.trabajosUrl}/${_idOrden}`;
-
-    return this.http.get(url)
-      .toPromise()
-      .then(response => response.json() as Trabajo[])
-      .catch(this.handleError);
-  }
 
 
   getPersonalLibre(): Promise<Personal[]> {
@@ -95,25 +58,21 @@ export class TrabajosSupervisadosEmpleadoService {
   }
 
 
-  getInstrumentosTipoTrabajo(_idTipoTrabajo: string): Promise<Instrumento[]> {
+  getTrabajosSupervisadosEmpleado(empleado: string, fechaIni: string, fechaFin: string): Promise<Trabajo[]> {
 
-    const url = `${this.instrumentosUrl}/${_idTipoTrabajo}`;
-
-    return this.http.get(url)
-      .toPromise()
-      .then(response => response.json() as Instrumento[])
-      .catch(this.handleError);
-  }
-
-
-  createAsignacion(trabajo: string, personal: string, instrumento: string): Promise<Asignacion> {
+    //configuracion de parametros para http get
+    var config = {
+      params: {
+        empleado: empleado,
+        fechaIni: fechaIni,
+        fechaFin: fechaFin
+      }
+    };
 
     return this.http
-      .post(this.asignacionUrl, JSON.stringify({ trabajo: trabajo, personal: personal, instrumento: instrumento }), { headers: this.headers })
+      .get(this.asignacionUrl, config)
       .toPromise()
-      .then(res => {
-        return res.json().obj;
-      })
+      .then(response => response.json() as Trabajo[])
       .catch(this.handleError);
   }
 
@@ -126,23 +85,12 @@ export class TrabajosSupervisadosEmpleadoService {
 
 
 
-  getAtributosInstrumento() {
-    return this.atributosInstrumento;
-  }
-
-
-  getAtributosTrabajo() {
-    return this.atributosTrabajo;
-  }
-
-
   getAtributosPersonal() {
     return this.atributosPersonal;
   }
 
-
-  getAtributosOrden() {
-    return this.atributosOrden;
+  getAtributosTrabajo() {
+    return this.atributosTrabajo;
   }
 
 

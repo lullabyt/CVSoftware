@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { DateAdapter, NativeDateAdapter } from '@angular/material';
+import { DateFormatPipe } from '../../utiles/convertidorFechas';
 
 //servicios
 import { TrabajosSupervisadosEmpleadoService } from '../../services/trabajosSupervisadosEmpleado.service';
 
 
 //clases
-import { Orden } from '../../classes/orden';
-import { Trabajo } from '../../classes/trabajo';
 import { Personal } from '../../classes/personal';
-import { Instrumento } from '../../classes/instrumento';
-import { Asignacion } from '../../classes/asignacion';
+import { Trabajo } from '../../classes/trabajo';
 
 //sweet alert
 declare var swal: any;
@@ -23,42 +22,35 @@ declare var swal: any;
 
 export class WizardTrabajosSupervisadosEmpleadoComponent implements OnInit {
 
-  selectedOrden: Orden = null;
-  private ordenes: Orden[] = [];
-  private atributosOrden: string[] = [];
-
-  selectedTrabajo: Trabajo = null;
-  private trabajos: Trabajo[] = [];
-  private atributosTrabajo: string[] = [];
+  selectedDateFrom: Date = null;
+  selectedDateTo: Date = null;
 
   selectedPersonal: Personal = null;
   private personal: Personal[] = [];
   private atributosPersonal: string[] = [];
 
-  selectedInstrumento: Instrumento = null;
-  private instrumentos: Instrumento[] = [];
-  private atributosInstrumento: string[] = [];
+  selectedTrabajo: Trabajo = null;
+  private trabajos: Trabajo[] = [];
+  private atributosTrabajo: string[] = [];
 
 
   constructor(
+    private _trabajosSupervisadosEmpleadoService: TrabajosSupervisadosEmpleadoService,
 
-    private _trabajosSupervisadosEmpleadoService: TrabajosSupervisadosEmpleadoService
-
+    private dateFormatPipe: DateFormatPipe,
+    private dateAdapter: DateAdapter<NativeDateAdapter>
   ) {
-
+    dateAdapter.setLocale('es-ES');
   }
 
 
   ngOnInit() {
 
     //obtenemos nombres de columnas de las tablas
-    this.atributosOrden = this._trabajosSupervisadosEmpleadoService.getAtributosOrden();
-    this.atributosInstrumento = this._trabajosSupervisadosEmpleadoService.getAtributosInstrumento();
-    this.atributosTrabajo = this._trabajosSupervisadosEmpleadoService.getAtributosTrabajo();
     this.atributosPersonal = this._trabajosSupervisadosEmpleadoService.getAtributosPersonal();
+    this.atributosTrabajo = this._trabajosSupervisadosEmpleadoService.getAtributosTrabajo();
 
-    //se obtiene ordenes y personal
-    this.getOrdenes();
+    //se obtiene personal
     this.getPersonal();
 
   }
@@ -66,25 +58,16 @@ export class WizardTrabajosSupervisadosEmpleadoComponent implements OnInit {
 
   // mensajes para el usuario en formato sweet alert
 
-  errorInstrumento() {
-    swal({
-      title: 'Error!',
-      text: 'Ningún instrumento se encuentra disponible en este momento. Pruebe más tarde.',
-      type: 'error',
-      confirmButtonText: 'Ok',
-      confirmButtonColor: '#3b3a30',
-      allowOutsideClick: false,
-      allowEscapeKey: false
-    })
-  }
+  consultaRealizada() {
 
-  asignacionRealizada() {
     try {
-      this._trabajosSupervisadosEmpleadoService.createAsignacion(this.selectedTrabajo._id, this.selectedPersonal._id, this.selectedInstrumento._id);
+
+      //se obtienen los trabajos resultantes de la consulta
+      this.calcularTrabajos();
 
       swal({
         title: 'Hecho!',
-        text: 'Asignación Realizada.',
+        text: 'Consulta Realizada con éxito.',
         type: 'success',
         confirmButtonText: 'Ok',
         confirmButtonColor: '#3b3a30',
@@ -93,16 +76,19 @@ export class WizardTrabajosSupervisadosEmpleadoComponent implements OnInit {
       })
 
     } catch (err) {
+
       swal({
         title: 'Error!',
-        text: 'No se pudo realizar la asignación. Pruebe más tarde.',
+        text: 'No se pudo realizar la consulta. Pruebe más tarde.',
         type: 'error',
         confirmButtonText: 'Ok',
         confirmButtonColor: '#3b3a30',
         allowOutsideClick: false,
         allowEscapeKey: false
       })
+
     };
+
   }
 
   confirmacion() {
@@ -117,46 +103,6 @@ export class WizardTrabajosSupervisadosEmpleadoComponent implements OnInit {
       allowEscapeKey: false
     })
   }
-
-
-  //ORDENES
-
-  onSelectOrden(orden: Orden): void {
-
-    this.selectedOrden = orden;
-  }
-
-  isOrdenSelected(orden: Orden) { return orden === this.selectedOrden; }
-
-  ordenVacia() {
-    return this.selectedOrden === null;
-  }
-
-  //obtiene ordenes
-  getOrdenes(): void {
-    this._trabajosSupervisadosEmpleadoService.getOrdenes().then(ordenes => this.ordenes = ordenes);
-  }
-
-
-
-  //TRABAJOS
-
-  //obtiene trabajos segun la orden seleccionada
-  calcularTrabajos() {
-    this._trabajosSupervisadosEmpleadoService.getTrabajosOrden(this.selectedOrden._id).then(trabajos => this.trabajos = trabajos);
-  }
-
-
-  onSelectTrabajo(trabajo: Trabajo): void {
-    this.selectedTrabajo = trabajo;
-  }
-
-  isTrabajoSelected(trabajo: Trabajo) { return trabajo === this.selectedTrabajo; }
-
-  trabajoVacia() {
-    return this.selectedTrabajo === null;
-  }
-
 
 
   //PERSONAL
@@ -206,26 +152,40 @@ export class WizardTrabajosSupervisadosEmpleadoComponent implements OnInit {
     */
 
 
+  //PERIODO FECHA
 
-  // INSTRUMENTOS
-
-  // obtiene instrumentos segun el tipo de trabajo del trabajo seleccionado
-  calcularInstrumentos() {
-    this._trabajosSupervisadosEmpleadoService.getInstrumentosTipoTrabajo(this.selectedTrabajo.tipoTrabajo._id).then(instrumentos => this.instrumentos = instrumentos);
+  fechaCompletada() {
+    return (this.selectedDateFrom !== null && this.selectedDateTo !== null);
   }
 
-  isInstrumentoSelected(instrumento: Instrumento) { return instrumento === this.selectedInstrumento; }
 
-  instrumentoVacia() {
-    return this.selectedInstrumento === null;
+
+  //TRABAJOS
+
+
+  //se obtienen los trabajos resultantes de la consulta
+  calcularTrabajos() {
+
+    //var fechaIni = this.selectedDateTo.toLocaleDateString();
+    //var fechaFin = this.selectedDateFrom.toLocaleDateString();
+    let fechaIni = this.dateFormatPipe.transform(this.selectedDateFrom);
+    let fechaFin = this.dateFormatPipe.transform(this.selectedDateTo);
+
+
+    this._trabajosSupervisadosEmpleadoService.getTrabajosSupervisadosEmpleado(this.selectedPersonal._id, fechaIni, fechaFin)
+      .then(trabajos => this.trabajos = trabajos);
+
   }
 
-  hayInstrumentos() {
-    return this.instrumentos.length > 0;
+
+  onSelectTrabajo(trabajo: Trabajo): void {
+    this.selectedTrabajo = trabajo;
   }
 
-  onSelectInstrumento(instrumento: Instrumento): void {
-    this.selectedInstrumento = instrumento;
+  isTrabajoSelected(trabajo: Trabajo) { return trabajo === this.selectedTrabajo; }
+
+  trabajoVacia() {
+    return this.selectedTrabajo === null;
   }
 
 
@@ -234,21 +194,8 @@ export class WizardTrabajosSupervisadosEmpleadoComponent implements OnInit {
   //de manera que no quede informacion desactualizada al volver a pasos anteriores
 
   resetStep1() {
-    this.selectedTrabajo = null;
-    this.selectedPersonal = null;
-    this.selectedInstrumento = null;
-    this.instrumentos = [];
-    this.trabajos = [];
-  }
-
-  resetStep2() {
-    this.selectedPersonal = null;
-    this.selectedInstrumento = null;
-    this.instrumentos = [];
-  }
-
-  resetStep3() {
-    this.selectedInstrumento = null;
+    this.selectedDateFrom = null;
+    this.selectedDateTo = null;
   }
 
 
