@@ -20,6 +20,8 @@ const ordenes = require('./server/routes/ordenes');
 const personal = require('./server/routes/personal');
 const tipoInstrumentos = require('./server/routes/tipoInstrumentos');
 const tipoTrabajos = require('./server/routes/tipoTrabajos');
+const tipoPiezas = require('./server/routes/tipoPiezas');
+const piezas = require('./server/routes/piezas');
 
 
 const app = express();
@@ -78,6 +80,8 @@ app.use('/api/ordenes', ordenes);
 app.use('/api/personal', personal);
 app.use('/api/tipoInstrumentos', tipoInstrumentos);
 app.use('/api/tipoTrabajos', tipoTrabajos);
+app.use('/api/tipoPiezas', tipoPiezas);
+app.use('/api/piezas', piezas);
 
 
 // Catch all other routes and return the index file

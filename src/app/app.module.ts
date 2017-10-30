@@ -100,7 +100,8 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-  ]
+  ],
+  declarations: []
 })
 export class MaterialModule { }
 
