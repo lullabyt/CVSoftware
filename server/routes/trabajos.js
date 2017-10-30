@@ -36,6 +36,24 @@ router.get('/:_id', (req, res) => {
     });
 });
 
+//get trabajos entre fechas
+// FALTA POPULAR LA PIEZA Y EL TIPO DE PIEZA!!
+router.get('/porFecha/:fechaInicio/:fechaFin', (req, res) => {
+  console.log("ESTA EN TRABAJOS!!");
+  Trabajo.find(
+    //{evaluacion: 'En curso'}
+    //{fechaRealizacion: {$gte : req.params.fechaInicio, $lte: req.params.fechaFin}}
+  ).populate(
+      'ordenServicio')
+    .then(function(trabajos) {
+      res.json(trabajos);
+      console.log('SON'+ trabajos);
+    }, function(err) {
+      res.send(err);
+    });
+});
+
+
 
 // make this available to our users in our Node applications
 module.exports = router;

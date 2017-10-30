@@ -8,13 +8,13 @@ import { WizardAsignarPersonalComponent } from './components/wizardAsignarPerson
 import { WizardTipoPiezaInspeccionadaComponent } from './components/wizardTipoPiezaInspeccionada/wizard.component';
 import { WizardTrabajosSupervisadosEmpleadoComponent } from './components/wizardTrabajosSupervisadosEmpleado/wizard.component';
 
-
 const routes: Routes = [
 
   { path: 'bienvenida', component: BienvenidaComponent },
   { path: 'wizardAsignarPersonal', component: WizardAsignarPersonalComponent },
   { path: 'wizardTipoPiezaInspeccionada', component: WizardTipoPiezaInspeccionadaComponent },
   { path: 'wizardTrabajosSupervisadosEmpleado', component: WizardTrabajosSupervisadosEmpleadoComponent },
+
 
 
   { path: '', redirectTo: '/bienvenida', pathMatch: 'full' },

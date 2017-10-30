@@ -14,6 +14,11 @@ var trabajoSchema = new Schema({
   fechaRealizacion: Date,
   evaluacion: { type: String, default:'En curso'},
   observacion: String,
+  pieza: {
+    type: Schema.ObjectId,
+    ref: 'Pieza',
+    required: true
+  },
   ordenServicio: {
     type: Schema.ObjectId,
     ref: 'Orden',
