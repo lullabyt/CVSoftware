@@ -57,7 +57,7 @@
                   <h6>Nombre: {{selectedPersonal.nombre}}</h6>
                   <h6>Apellido: {{selectedPersonal.apellido}}</h6>
                   <h6>Dirección: {{selectedPersonal.direccion}}</h6>
-                  <h6>Teléfono: {{selectedPersonal.telefonos}}</h6>
+                  <h6>Teléfono: {{selectedPersonal.telefono}}</h6>
                   <h6>Puesto: {{selectedPersonal.puesto}}</h6>
                   <h6>Estado: {{selectedPersonal.asignado}}</h6>
 
@@ -171,12 +171,12 @@
     <!--STEP 3 -->
 
 
-    <wizard-step title="Confirmacion" navigationSymbol="3">
+    <wizard-step title="Confirmacion" navigationSymbol="3" (stepEnter)="resetStep3()">
       <div class="centered-content margin-top">
 
         <div class="row">
             <div class="col-md-11">
-              <button type="button" class="btn btn-secondary boton" [routerLink]="['/bienvenida']" routerLinkActive="active" (click)="consultaRealizada()">Iniciar</button>
+              <button type="button" class="btn btn-secondary boton" (click)="consultaRealizada()">Iniciar</button>
               <button type="button" class="btn btn-secondary boton" previousStep>Volver</button>
               <button type="button" class="btn btn-secondary boton" (click)="confirmacion();wizard.reset()">Reset</button>
 
@@ -212,6 +212,7 @@
 
             <div class="row">
                 <div class="col-md-11">
+                  <button type="button" class="btn btn-secondary boton" [routerLink]="['/bienvenida']">Menu</button>
                   <button type="button" class="btn btn-secondary boton" previousStep>Volver</button>
                   <button type="button" class="btn btn-secondary boton" (click)="confirmacion();wizard.reset()">Reset</button>
                 </div>
@@ -230,10 +231,10 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let item of trabajos ; let i = index" (click)="onSelectTrabajo(item)" [class.selected]="isTrabajoSelected(item)">
+                    <tr *ngFor="let item of trabajos ; let i = index" (click)="onSelectTrabajo(item.trabajo)" [class.selected]="isTrabajoSelected(item.trabajo)">
                       <td scope="row">{{i}}</td>
-                      <td>{{item.numeroTrabajo}}</td>
-                      <td>{{item.tipoTrabajo.nombre}}</td>
+                      <td>{{item.trabajo.numeroTrabajo}}</td>
+                      <td>{{item.trabajo.tipoTrabajo.nombre}}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -247,15 +248,17 @@
                   <div class="card-body">
                     <div class="card-text" *ngIf="!trabajoVacia()">
                       <h6>Numero de Trabajo: {{selectedTrabajo.numeroTrabajo}}</h6>
-                      <h6>Observación: {{selectedTrabajo.observacion}}</h6>
                       <h6>Tipo de Trabajo: {{selectedTrabajo.tipoTrabajo.nombre}}</h6>
+                      <h6>Evaluacion: {{selectedTrabajo.evaluacion}}</h6>
                       <h6>Descripción: {{selectedTrabajo.tipoTrabajo.descripcion}}</h6>
+                      <h6>Observación: {{selectedTrabajo.observacion}}</h6>
                     </div>
                     <div class="card-text" *ngIf="trabajoVacia()">
                       <h6>Numero de Trabajo: -</h6>
-                      <h6>Observación: - </h6>
                       <h6>Tipo de trabajo: - </h6>
+                      <h6>Evaluacion: - </h6>
                       <h6>Descripción: - </h6>
+                      <h6>Observación: - </h6>
                     </div>
                   </div>
                 </div>

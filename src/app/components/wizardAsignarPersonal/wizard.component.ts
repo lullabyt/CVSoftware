@@ -20,7 +20,8 @@ import { Instrumento } from '../../classes/instrumento';
 import { Asignacion } from '../../classes/asignacion';
 
 //sweet alert
-declare var swal: any;
+import swal from 'sweetalert2';
+//declare var swal: any;
 
 @Component({
   selector: 'app-wizard',
@@ -89,7 +90,7 @@ export class WizardAsignarPersonalComponent implements OnInit {
       confirmButtonColor: '#3b3a30',
       allowOutsideClick: false,
       allowEscapeKey: false
-    })
+    });
   }
 
   asignacionRealizada() {
@@ -104,7 +105,7 @@ export class WizardAsignarPersonalComponent implements OnInit {
         confirmButtonColor: '#3b3a30',
         allowOutsideClick: false,
         allowEscapeKey: false
-      })
+      });
 
     } catch (err) {
       swal({
@@ -115,7 +116,7 @@ export class WizardAsignarPersonalComponent implements OnInit {
         confirmButtonColor: '#3b3a30',
         allowOutsideClick: false,
         allowEscapeKey: false
-      })
+      });
     };
   }
 
@@ -129,7 +130,7 @@ export class WizardAsignarPersonalComponent implements OnInit {
       confirmButtonColor: '#3b3a30',
       allowOutsideClick: false,
       allowEscapeKey: false
-    })
+    });
   }
 
 

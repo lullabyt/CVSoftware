@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DateAdapter, NativeDateAdapter } from '@angular/material';
 import { DateFormatPipe } from '../../utiles/convertidorFechas';
 
@@ -6,12 +6,16 @@ import { DateFormatPipe } from '../../utiles/convertidorFechas';
 import { TrabajosSupervisadosEmpleadoService } from '../../services/trabajosSupervisadosEmpleado.service';
 
 
+import { WizardComponent } from 'ng2-archwizard';
+
+
 //clases
 import { Personal } from '../../classes/personal';
 import { Trabajo } from '../../classes/trabajo';
 
 //sweet alert
-declare var swal: any;
+import swal from 'sweetalert2';
+//declare var swal: any;
 
 @Component({
   selector: 'app-wizard',
@@ -20,7 +24,11 @@ declare var swal: any;
 })
 
 
+
 export class WizardTrabajosSupervisadosEmpleadoComponent implements OnInit {
+  @ViewChild(WizardComponent)
+  public wizard: WizardComponent;
+
 
   selectedDateFrom: Date = null;
   selectedDateTo: Date = null;
@@ -35,6 +43,7 @@ export class WizardTrabajosSupervisadosEmpleadoComponent implements OnInit {
 
 
   constructor(
+
     private _trabajosSupervisadosEmpleadoService: TrabajosSupervisadosEmpleadoService,
 
     private dateFormatPipe: DateFormatPipe,
@@ -61,22 +70,12 @@ export class WizardTrabajosSupervisadosEmpleadoComponent implements OnInit {
   consultaRealizada() {
 
     try {
-
       //se obtienen los trabajos resultantes de la consulta
-      this.calcularTrabajos();
+      this.calcularTrabajos().then(trabajos => this.trabajos = trabajos).then(() => { this.informarUsuario(); });
 
-      swal({
-        title: 'Hecho!',
-        text: 'Consulta Realizada con éxito.',
-        type: 'success',
-        confirmButtonText: 'Ok',
-        confirmButtonColor: '#3b3a30',
-        allowOutsideClick: false,
-        allowEscapeKey: false
-      })
 
     } catch (err) {
-
+      //se produjo error cualquiera
       swal({
         title: 'Error!',
         text: 'No se pudo realizar la consulta. Pruebe más tarde.',
@@ -85,11 +84,46 @@ export class WizardTrabajosSupervisadosEmpleadoComponent implements OnInit {
         confirmButtonColor: '#3b3a30',
         allowOutsideClick: false,
         allowEscapeKey: false
-      })
+      });
+      console.log(err);
 
     };
+  }
+
+  informarUsuario() {
+
+    if (this.hayTrabajos()) {
+      //existen trabajos
+      //avanzar al paso final
+      this.wizard.goToNextStep();
+
+      swal({
+        title: 'Hecho!',
+        text: 'Consulta realizada con éxito.',
+        type: 'success',
+        confirmButtonText: 'Ok',
+        confirmButtonColor: '#3b3a30',
+        allowOutsideClick: false,
+        allowEscapeKey: false
+      });
+
+    } else {
+
+      //trabajos vacio
+      swal({
+        title: 'Error!',
+        text: 'No existen trabajos que cumplan con sus especificaciones.',
+        type: 'error',
+        confirmButtonText: 'Ok',
+        confirmButtonColor: '#3b3a30',
+        allowOutsideClick: false,
+        allowEscapeKey: false
+      });
+
+    }
 
   }
+
 
   confirmacion() {
 
@@ -101,7 +135,7 @@ export class WizardTrabajosSupervisadosEmpleadoComponent implements OnInit {
       confirmButtonColor: '#3b3a30',
       allowOutsideClick: false,
       allowEscapeKey: false
-    })
+    });
   }
 
 
@@ -164,16 +198,15 @@ export class WizardTrabajosSupervisadosEmpleadoComponent implements OnInit {
 
 
   //se obtienen los trabajos resultantes de la consulta
-  calcularTrabajos() {
+  calcularTrabajos(): Promise<Trabajo[]> {
 
     //var fechaIni = this.selectedDateTo.toLocaleDateString();
     //var fechaFin = this.selectedDateFrom.toLocaleDateString();
     let fechaIni = this.dateFormatPipe.transform(this.selectedDateFrom);
     let fechaFin = this.dateFormatPipe.transform(this.selectedDateTo);
 
+    return this._trabajosSupervisadosEmpleadoService.getTrabajosSupervisadosEmpleado(this.selectedPersonal._id, fechaIni, fechaFin);
 
-    this._trabajosSupervisadosEmpleadoService.getTrabajosSupervisadosEmpleado(this.selectedPersonal._id, fechaIni, fechaFin)
-      .then(trabajos => this.trabajos = trabajos);
 
   }
 
@@ -189,6 +222,10 @@ export class WizardTrabajosSupervisadosEmpleadoComponent implements OnInit {
   }
 
 
+  hayTrabajos() {
+    return this.trabajos.length > 0;
+  }
+
 
   //Reset pasos del wizard
   //de manera que no quede informacion desactualizada al volver a pasos anteriores
@@ -196,6 +233,11 @@ export class WizardTrabajosSupervisadosEmpleadoComponent implements OnInit {
   resetStep1() {
     this.selectedDateFrom = null;
     this.selectedDateTo = null;
+  }
+
+  resetStep3() {
+    this.trabajos = [];
+    this.selectedTrabajo = null;
   }
 
 

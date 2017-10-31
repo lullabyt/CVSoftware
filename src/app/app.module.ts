@@ -28,9 +28,6 @@ import {
   MatRippleModule,
   MatSelectModule,
   MatSidenavModule,
-  MatSliderModule,
-  MatSlideToggleModule,
-  MatSnackBarModule,
   MatSortModule,
   MatTableModule,
   MatTabsModule,
@@ -95,14 +92,11 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
     MatRippleModule,
     MatSelectModule,
     MatSidenavModule,
-    MatSliderModule,
-    MatSlideToggleModule,
-    MatSnackBarModule,
     MatSortModule,
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
-    MatTooltipModule,
+    MatTooltipModule
   ],
   declarations: []
 })

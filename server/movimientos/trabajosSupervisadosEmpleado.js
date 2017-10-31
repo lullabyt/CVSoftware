@@ -42,7 +42,7 @@ router.get('/obtenerPersonalOcupado', (req, res) => {
 
 router.get('/obtenerTrabajosSupervisadosEmpleado', (req, res) => {
 
-  const urlAsignacion = VariablesGlobales.BASE_API_URL + '/api/asignaciones';
+  const urlAsignacion = VariablesGlobales.BASE_API_URL + '/api/trabajos/supervisadosEmpleado';
 
   getContentQuery(urlAsignacion, req.query)
     .then((asig) => {

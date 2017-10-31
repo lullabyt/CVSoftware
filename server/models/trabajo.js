@@ -12,7 +12,10 @@ var trabajoSchema = new Schema({
     unique: true
   },
   fechaRealizacion: Date,
-  evaluacion: { type: String, default:'En curso'},
+  evaluacion: {
+    type: String,
+    default: 'En curso'
+  },
   observacion: String,
   pieza: {
     type: Schema.ObjectId,
@@ -29,6 +32,11 @@ var trabajoSchema = new Schema({
     ref: 'TipoTrabajo',
     required: true
   }, //reference to the associated trabajo
+  supervisor: {
+    type: Schema.ObjectId,
+    ref: 'Personal',
+    required: true
+  } //reference to the associated personal
 });
 
 // the schema is useless so far
