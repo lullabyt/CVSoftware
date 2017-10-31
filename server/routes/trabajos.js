@@ -13,7 +13,6 @@ router.get('/', (req, res) => {
     //  .populate('tipoTrabajo')
     .then(function(trabajos) {
       res.json(trabajos);
-      console.log(req.query);
     }, function(err) {
 
       res.send(err);
@@ -21,18 +20,22 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/fechas',(req,res) => {
+
+router.get('/fechas', (req, res) => {
   console.log(req.query);
-  Trabajo.find(
-    {fechaRealizacion: {$gte : req.query.fechaIni, $lte: req.query.fechaFin}}
-  ). populate(
+  Trabajo.find({
+    fechaRealizacion: {
+      $gte: req.query.fechaIni,
+      $lte: req.query.fechaFin
+    }
+  }).populate(
     'pieza'
   ).then(function(trabajos) {
-      res.json(trabajos);
-      console.log(trabajos);
-    }, function(err) {
-      res.send(err);
-    });
+    res.json(trabajos);
+    console.log(trabajos);
+  }, function(err) {
+    res.send(err);
+  });
 });
 
 
@@ -86,9 +89,8 @@ router.get('/supervisadosEmpleado', (req, res) => {
 });
 
 
-
-router.post('/',(req, res) => {
-console.log(req.body);
+router.post('/', (req, res) => {
+  console.log(req.body);
 
   var trabajo = new Trabajo({
     numeroTrabajo: req.body.numeroTrabajo,
@@ -109,6 +111,7 @@ console.log(req.body);
   });
 });
 
+
 //get todos los trabajos pertenecientes a una orden especifica, junto con sus respectivos tipos de trabajo
 router.get('/:_id', (req, res) => {
   Trabajo.find({
@@ -124,6 +127,8 @@ router.get('/:_id', (req, res) => {
       res.send(err);
     });
 });
+
+
 
 
 // make this available to our users in our Node applications
