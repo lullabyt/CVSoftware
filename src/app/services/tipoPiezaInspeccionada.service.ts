@@ -32,14 +32,18 @@ export class TipoPiezaInspeccionadaService {
 
   getTipoPiezaIns(fechaInicio: string, fechaFin: string): Promise<any> {
     console.log("ENTRO AL SERVICE")
-    return this.http
-    .get(this.tipoPiezaUrl, JSON.stringify({ fechaInicio: fechaInicio, fechaFin: fechaFin }))
-      .toPromise()
-      .then(res => {
-        // ver que devolver
-        return res.json().obj;
-      })
-      .catch(this.handleError);
+      var config = {
+        params: {
+          fechaIni: fechaInicio,
+          fechaFin: fechaFin
+        }
+      };
+
+      return this.http
+        .get(this.tipoPiezaUrl, config)
+        .toPromise()
+        .then(response => response.json().obj)
+        .catch(this.handleError);
 
   }
 
