@@ -4,7 +4,7 @@ const router = express.Router();
 const request = require('request');
 
 const VariablesGlobales = require('../utiles/variablesGlobales');
-
+var TipoPieza = require('../models/tipoPieza');
 
 
 //MOVIMIENTO TIPO PIEZA MAS INSPECCIONADA
@@ -14,13 +14,19 @@ const VariablesGlobales = require('../utiles/variablesGlobales');
 
 router.get('/', (req, res) => {
   const urlTrabajos = VariablesGlobales.BASE_API_URL +'/api/trabajos/fechas';
+
   getContentQuery(urlTrabajos, req.query)
     .then((trabajos) => {
 
+      //Aca hacer calculo y devolver resultado
+      /*
+      var resultado = {
+      tipoPieza: TipoPieza = ,
+      cantidad:Number = cant
+    }
+      */
 
-
-      res.json(trabajos);
-      console.log('YA VOLVIO A TIPO PIEZA');
+      res.json(resultado);
     })
     .catch((err) => res.send(err));
 });

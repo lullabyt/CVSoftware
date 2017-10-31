@@ -23,10 +23,9 @@ router.get('/', (req, res) => {
 router.get('/fechas',(req,res) => {
   console.log(req.query);
   Trabajo.find(
-    //{evaluacion: 'En curso'}
-    //{fechaRealizacion: {$gte : req.params.fechaInicio, $lte: req.params.fechaFin}}
+    {fechaRealizacion: {$gte : req.query.fechaIni, $lte: req.query.fechaFin}}
   ). populate(
-    'pieza pieza.tipoPieza'
+    'pieza'
   ).then(function(trabajos) {
       res.json(trabajos);
       console.log(trabajos);
