@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 
-var Pieza = require('../models/instrumento');
+var Pieza = require('../models/pieza');
 
 
 
@@ -14,6 +14,22 @@ router.get('/', (req, res) => {
   }, function(err) {
     res.send(err);
 
+  });
+});
+
+router.post('/',(req, res) => {
+
+  var piez = new Pieza({
+    idPieza: req.body.idPieza,
+    tipoPieza: req.body.tipoPieza
+  });
+
+  //una vez creada se guarda en la base de datos
+  piez.save().then(function() {
+    res.json(piez);
+
+  }, function(err) {
+    res.send("Error al crear pieza");
   });
 });
 

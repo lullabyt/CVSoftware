@@ -14,6 +14,22 @@ router.get('/', (req, res) => {
   });
 });
 
+router.post('/',(req, res) => {
+  var tipo = new TipoPieza({
+    idTipoPieza: req.body.idTipoPieza,
+    nombre: req.body.nombre,
+    descripcion: req.body.descripcion
+  });
+
+  //una vez creada se guarda en la base de datos
+  tipo.save().then(function() {
+    res.json(tipo);
+
+  }, function(err) {
+    res.send("Error al crear tipo");
+  });
+});
+
 
 
 // make this available to our users in our Node applications
