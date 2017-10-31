@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 
-var Pieza = require('../models/instrumento');
+var Pieza = require('../models/pieza');
 
 
 
