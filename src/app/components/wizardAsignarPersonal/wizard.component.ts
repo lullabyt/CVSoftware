@@ -83,9 +83,9 @@ export class WizardAsignarPersonalComponent implements OnInit {
 
   errorInstrumento() {
     swal({
-      title: 'Error!',
-      text: 'Ningún instrumento se encuentra disponible en este momento. Pruebe más tarde.',
-      type: 'error',
+      title: 'Sin instrumentos!',
+      text: 'Ningún instrumento para ' + this.selectedTrabajo.tipoTrabajo.nombre + ' se encuentra disponible en este momento. Pruebe más tarde.',
+      type: 'warning',
       confirmButtonText: 'Ok',
       confirmButtonColor: '#3b3a30',
       allowOutsideClick: false,

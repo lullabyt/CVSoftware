@@ -2,9 +2,9 @@
 <div class="container-fluid" id="style">
 
   <div class="centered-content margin-top">
-    <h1>Trabajos Supervisados</h1>
+    <h1>Trabajos Supervisados por Empleado en Período</h1>
   </div>
-  <br>
+  <br><br>
   <wizard #wizard navBarLayout="large-empty-symbols">
 
     <!--  STEP 1 -->
@@ -15,6 +15,7 @@
         <div class="row">
             <div class="col-md-11">
               <button [disabled]="personalVacia()" type="button" class="btn btn-secondary boton" nextStep>Continuar</button>
+              <button type="button" class="btn btn-secondary boton" disabled>Volver</button>
             </div>
         </div>
 
@@ -212,7 +213,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                  <button type="button" class="btn btn-secondary boton" [routerLink]="['/bienvenida']">Menu</button>
+                  <button type="button" class="btn btn-secondary boton" [routerLink]="['/bienvenida']">Inicio</button>
                   <button type="button" class="btn btn-secondary boton" previousStep>Volver</button>
                   <button type="button" class="btn btn-secondary boton" (click)="confirmacion();wizard.reset()">Reset</button>
                 </div>

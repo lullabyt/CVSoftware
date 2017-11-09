@@ -111,9 +111,9 @@ export class WizardTrabajosSupervisadosEmpleadoComponent implements OnInit {
 
       //trabajos vacio
       swal({
-        title: 'Error!',
-        text: 'No existen trabajos que cumplan con sus especificaciones.',
-        type: 'error',
+        title: 'Sin resultados!',
+        text: 'No existen trabajos supervisados por ' + this.selectedPersonal.apellido + ' en el período especificado.',
+        type: 'warning',
         confirmButtonText: 'Ok',
         confirmButtonColor: '#3b3a30',
         allowOutsideClick: false,
