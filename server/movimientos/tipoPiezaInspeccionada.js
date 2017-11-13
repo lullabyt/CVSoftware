@@ -17,17 +17,27 @@ router.get('/', (req, res) => {
 
   getContentQuery(urlTrabajos, req.query)
     .then((trabajos) => {
-
-      //Aca hacer calculo y devolver resultado
-      /*
-      var resultado = {
-      tipoPieza: TipoPieza = ,
-      cantidad:Number = cant
-    }
-      */
-
-      res.json(resultado);
-    })
+      var i=0;
+      var idaux = null;
+      for (variable of trabajos) {
+        if(variable.count>i){
+          i=variable.count;
+          idaux=variable._id;
+        }
+      }
+      if(idaux!=null){
+        const urlTipoPieza = VariablesGlobales.BASE_API_URL +'/api/tipoPiezas/'+idaux[0];
+        getContentQuery(urlTipoPieza,null).then((tPieza) =>{
+          res.json({
+            nombre: tPieza.nombre,
+            descripcion: tPieza.descripcion,
+            cantidad:i
+          });
+        })
+      } else {
+        res.json(null);
+      }
+   })
     .catch((err) => res.send(err));
 });
 
@@ -57,7 +67,6 @@ const getContentQuery = function(url, queryData) {
 
   })
 };
-
 
 
 module.exports = router;

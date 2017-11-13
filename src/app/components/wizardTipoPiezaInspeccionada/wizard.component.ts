@@ -5,8 +5,7 @@ import { DateFormatPipe } from '../../utiles/convertidorFechas';
 import { TipoPiezaInspeccionadaService } from '../../services/tipoPiezaInspeccionada.service';
 
 import { TipoPieza } from '../../classes/tipoPieza';
-
-declare var swal: any;
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-wizard',
@@ -19,7 +18,8 @@ export class WizardTipoPiezaInspeccionadaComponent implements OnInit {
 
   private selectedDateFrom: Date = null;
   private selectedDateTo: Date = null;
-  private tipoPieza:TipoPieza = null;
+  private nombreTipoPieza:String = null;
+  private descripcion: String = null;
   private cantidad: Number = null;
 
 
@@ -52,13 +52,36 @@ export class WizardTipoPiezaInspeccionadaComponent implements OnInit {
   }
 
   consultarPieza(){
-    console.log("LLAMANDO AL SERVICE");
     var resultado: any;
     let fechaIni = this.dateFormatPipe.transform(this.selectedDateFrom);
     let fechaFin = this.dateFormatPipe.transform(this.selectedDateTo);
     this._tipoPiezaInspeccionadaService.getTipoPiezaIns(fechaIni,fechaFin).then(resultado => {
-      this.tipoPieza = resultado.tipoPieza;
-      this.cantidad = resultado.cantidad;
+      console.log(resultado);
+      if(resultado!==null){
+        swal({
+          title: 'Hecho!',
+          text: 'Consulta realizada con éxito.',
+          type: 'success',
+          confirmButtonText: 'Ok',
+          confirmButtonColor: '#3b3a30',
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        });
+        this.nombreTipoPieza = resultado.nombre;
+        this.descripcion = resultado.descripcion;
+        this.cantidad = resultado.cantidad;
+      } else {
+        swal({
+          title: 'Sin resultados!',
+          text: 'No existen tipo de piezas inspeccionadas',
+          type: 'warning',
+          confirmButtonText: 'Ok',
+          confirmButtonColor: '#3b3a30',
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        });
+      }
+
     });
 
   }

@@ -14,6 +14,14 @@ router.get('/', (req, res) => {
   });
 });
 
+router.get('/:_id', (req, res) => {
+  TipoPieza.findById(req.params._id).then(function(tipoPieza) {
+    res.json(tipoPieza);
+  }, function(err) {
+    res.send(err);
+  });
+});
+
 router.post('/',(req, res) => {
   var tipo = new TipoPieza({
     idTipoPieza: req.body.idTipoPieza,

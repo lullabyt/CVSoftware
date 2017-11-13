@@ -29,17 +29,19 @@
         <div class="row justify-content-center">
             <div class="">
               <div class="card" *ngIf="!cantidadVacia()">
-                    <h4 class="card-header">{{tipoPieza?.nombre}}</h4>
+                    <h4 class="card-header">Nombre: {{nombreTipoPieza}}</h4>
                     <div class="card-body">
+                      <p class="card-text">Descripción: {{descripcion}}</p>
                       <p class="card-text">Cantidad de inspecciones: {{cantidad}}</p>
-                      <button type="button" class="btn btn-secondary boton" [routerLink]="['/bienvenida']" routerLinkActive="active" >Volver a Inicio</button>
+                      <button type="button" class="btn btn-secondary boton" [routerLink]="['/bienvenida']" routerLinkActive="active" (click)="volver()" >Volver a Inicio</button>
                     </div>
               </div>
               <div class="card" *ngIf="cantidadVacia()">
-                    <h4 class="card-header"></h4>
+                    <h4 class="card-header">Nombre: --</h4>
                     <div class="card-body">
-                      <p class="card-text">Cantidad de inspecciones: </p>
-                      <button type="button" class="btn btn-secondary boton" [routerLink]="['/bienvenida']" routerLinkActive="active" >Volver a Inicio</button>
+                      <p class="card-text">Descripción: --</p>
+                      <p class="card-text">Cantidad de inspecciones: --</p>
+                      <button type="button" class="btn btn-secondary boton" [routerLink]="['/bienvenida']" routerLinkActive="active" (click)="volver()">Volver a Inicio</button>
                     </div>
               </div>
             </div>

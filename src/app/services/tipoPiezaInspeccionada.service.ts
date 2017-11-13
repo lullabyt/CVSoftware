@@ -42,7 +42,7 @@ export class TipoPiezaInspeccionadaService {
       return this.http
         .get(this.tipoPiezaUrl, config)
         .toPromise()
-        .then(response => response.json().obj)
+        .then(response => response.json()as any)
         .catch(this.handleError);
 
   }

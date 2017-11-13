@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-
+const mongoose = require('mongoose');
 
 var Trabajo = require('../models/trabajo');
 var Asignacion = require('../models/asignacion');
+var TipoTrabajo = require('../models/tipoTrabajo');
 
 
 // Get all trabajos
@@ -22,20 +23,43 @@ router.get('/', (req, res) => {
 
 
 router.get('/fechas', (req, res) => {
-  console.log(req.query);
-  Trabajo.find({
-    fechaRealizacion: {
-      $gte: req.query.fechaIni,
-      $lte: req.query.fechaFin
-    }
-  }).populate(
-    'pieza'
-  ).then(function(trabajos) {
+  var ini = new Date(req.query.fechaIni);
+  var fin = new Date(req.query.fechaFin);
+  Trabajo.aggregate([
+    {
+      $match: {
+        fechaRealizacion: {
+          $gte: ini,
+          $lte: fin
+        }
+      }
+    },
+    {
+      $unwind: "$pieza"
+    },
+  {
+     $lookup:
+        {
+           from: "piezas",
+           localField: "pieza",
+           foreignField: "_id",
+           as: "pieza"
+       }
+  },
+
+    { $group :
+      {
+      _id : "$pieza.tipoPieza",
+        count: { $sum: 1 }
+      }
+
+  }
+]).then(function(trabajos) {
     res.json(trabajos);
-    console.log(trabajos);
   }, function(err) {
     res.send(err);
   });
+
 });
 
 
