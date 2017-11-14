@@ -22,7 +22,7 @@ export class TipoPiezaInspeccionadaService {
 
 
   //urls hacia movimiento tipoPiezaInspeccionada
-  private tipoPiezaUrl = VariablesGlobales.BASE_API_URL + '/movimiento/tipoPiezaInspeccionada';
+  private tipoPiezaUrl = VariablesGlobales.BASE_API_URL + '/gestionOrdenes/movimiento/tipoPiezaInspeccionada/obtenerTipoPieza';
 
 
   constructor(private http: Http) { }
@@ -31,19 +31,19 @@ export class TipoPiezaInspeccionadaService {
 
 
   getTipoPiezaIns(fechaInicio: string, fechaFin: string): Promise<any> {
-    console.log("ENTRO AL SERVICE")
-      var config = {
-        params: {
-          fechaIni: fechaInicio,
-          fechaFin: fechaFin
-        }
-      };
 
-      return this.http
-        .get(this.tipoPiezaUrl, config)
-        .toPromise()
-        .then(response => response.json()as any)
-        .catch(this.handleError);
+    var config = {
+      params: {
+        fechaIni: fechaInicio,
+        fechaFin: fechaFin
+      }
+    };
+
+    return this.http
+      .get(this.tipoPiezaUrl, config)
+      .toPromise()
+      .then(response => response.json() as any)
+      .catch(this.handleError);
 
   }
 

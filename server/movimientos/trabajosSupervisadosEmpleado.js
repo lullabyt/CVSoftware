@@ -21,8 +21,8 @@ router.get('/obtenerPersonalLibre', (req, res) => {
 
   const urlPersonalLibre = VariablesGlobales.BASE_API_URL + '/api/personal/libre';
 
-  getContent(urlPersonalLibre)
-    .then((libre) => res.send(libre))
+  getContentQuery(urlPersonalLibre,null)
+    .then((libre) => res.status(200).json(libre))
     .catch((err) => res.send(err));
 
 });
@@ -32,8 +32,8 @@ router.get('/obtenerPersonalOcupado', (req, res) => {
 
   const urlPersonalOcupado = VariablesGlobales.BASE_API_URL + '/api/personal/ocupado';
 
-  getContent(urlPersonalOcupado)
-    .then((ocupado) => res.send(ocupado))
+  getContentQuery(urlPersonalOcupado,null)
+    .then((ocupado) => res.status(200).json(ocupado))
     .catch((err) => res.send(err));
 
 });
@@ -46,7 +46,7 @@ router.get('/obtenerTrabajosSupervisadosEmpleado', (req, res) => {
 
   getContentQuery(urlAsignacion, req.query)
     .then((asig) => {
-      res.json(asig);
+      res.status(200).json(asig);
     })
     .catch((err) => res.send(err));
 });

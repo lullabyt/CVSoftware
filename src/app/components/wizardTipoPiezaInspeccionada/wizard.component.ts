@@ -18,16 +18,16 @@ export class WizardTipoPiezaInspeccionadaComponent implements OnInit {
 
   private selectedDateFrom: Date = null;
   private selectedDateTo: Date = null;
-  private nombreTipoPieza:String = null;
+  private nombreTipoPieza: String = null;
   private descripcion: String = null;
   private cantidad: Number = null;
 
 
   constructor(dateAdapter: DateAdapter<NativeDateAdapter>,
-              private _tipoPiezaInspeccionadaService: TipoPiezaInspeccionadaService,
-              private dateFormatPipe: DateFormatPipe
-    ) {
-              dateAdapter.setLocale('es-ES');
+    private _tipoPiezaInspeccionadaService: TipoPiezaInspeccionadaService,
+    private dateFormatPipe: DateFormatPipe
+  ) {
+    dateAdapter.setLocale('es-ES');
   }
 
   ngOnInit() {
@@ -48,16 +48,17 @@ export class WizardTipoPiezaInspeccionadaComponent implements OnInit {
   }
 
   fechasVacias() {
-    return (this.selectedDateFrom === null || this.selectedDateTo ===null );
+    return (this.selectedDateFrom === null || this.selectedDateTo === null);
   }
 
-  consultarPieza(){
+  consultarPieza() {
     var resultado: any;
     let fechaIni = this.dateFormatPipe.transform(this.selectedDateFrom);
     let fechaFin = this.dateFormatPipe.transform(this.selectedDateTo);
-    this._tipoPiezaInspeccionadaService.getTipoPiezaIns(fechaIni,fechaFin).then(resultado => {
-      console.log(resultado);
-      if(resultado!==null){
+    this._tipoPiezaInspeccionadaService.getTipoPiezaIns(fechaIni, fechaFin).then(resultado => {
+
+      if (resultado !== null) {
+
         swal({
           title: 'Hecho!',
           text: 'Consulta realizada con éxito.',
@@ -70,23 +71,39 @@ export class WizardTipoPiezaInspeccionadaComponent implements OnInit {
         this.nombreTipoPieza = resultado.nombre;
         this.descripcion = resultado.descripcion;
         this.cantidad = resultado.cantidad;
+
       } else {
+
         swal({
           title: 'Sin resultados!',
-          text: 'No existen tipo de piezas inspeccionadas',
+          text: 'No se realizaron inspecciones de piezas en el período especificado',
           type: 'warning',
           confirmButtonText: 'Ok',
           confirmButtonColor: '#3b3a30',
           allowOutsideClick: false,
           allowEscapeKey: false
         });
+
       }
 
-    });
+    }).catch((err) => {
 
+      //se produjo error cualquiera
+      swal({
+        title: 'Error!',
+        text: 'No se pudo realizar la consulta. Pruebe más tarde.',
+        type: 'error',
+        confirmButtonText: 'Ok',
+        confirmButtonColor: '#3b3a30',
+        allowOutsideClick: false,
+        allowEscapeKey: false
+      });
+      console.log(err);
+    });
   }
 
-  cantidadVacia(){
+
+  cantidadVacia() {
     return this.cantidad === null;
   }
 

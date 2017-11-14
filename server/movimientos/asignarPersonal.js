@@ -12,7 +12,7 @@ const VariablesGlobales = require('../utiles/variablesGlobales');
 
 router.get('/', (req, res) => {
 
-  res.send('Movimiento asignar personal. No has seleccionado ninguna opción!');
+  res.status(200).json('Movimiento asignar personal. No has seleccionado ninguna opción!');
 
 });
 
@@ -23,7 +23,7 @@ router.get('/obtenerOrdenes', (req, res) => {
   const urlOrdenes = VariablesGlobales.BASE_API_URL + '/api/ordenes';
 
   getContent(urlOrdenes)
-    .then((ordenes) => res.send(ordenes))
+    .then((ordenes) => res.status(200).json(ordenes))
     .catch((err) => res.send(err));
 
 });
@@ -37,7 +37,7 @@ router.get('/obtenerTrabajosOrden/:_id', (req, res) => {
   const urlTrabajos = VariablesGlobales.BASE_API_URL + '/api/trabajos/' + ordenServicio;
 
   getContent(urlTrabajos)
-    .then((trabajos) => res.send(trabajos))
+    .then((trabajos) => res.status(200).json(trabajos))
     .catch((err) => res.send(err));
 
 });
@@ -49,7 +49,7 @@ router.get('/obtenerPersonalLibre', (req, res) => {
   const urlPersonalLibre = VariablesGlobales.BASE_API_URL + '/api/personal/libre';
 
   getContent(urlPersonalLibre)
-    .then((libre) => res.send(libre))
+    .then((libre) => res.status(200).json(libre))
     .catch((err) => res.send(err));
 
 });
@@ -60,7 +60,7 @@ router.get('/obtenerPersonalOcupado', (req, res) => {
   const urlPersonalOcupado = VariablesGlobales.BASE_API_URL + '/api/personal/ocupado';
 
   getContent(urlPersonalOcupado)
-    .then((ocupado) => res.send(ocupado))
+    .then((ocupado) => res.status(200).json(ocupado))
     .catch((err) => res.send(err));
 
 });
@@ -74,7 +74,7 @@ router.get('/obtenerInstrumentosTipoTrabajo/:_id', (req, res) => {
   const urlInstrumentos = VariablesGlobales.BASE_API_URL + '/api/instrumentos/' + tipoTrabajo;
 
   getContent(urlInstrumentos)
-    .then((instrumentos) => res.send(instrumentos))
+    .then((instrumentos) => res.status(200).json(instrumentos))
     .catch((err) => res.send(err));
 
 });
@@ -99,7 +99,7 @@ router.post('/registrarAsignacion', (req, res) => {
       //Busca el instrumento y Actualiza el estado ya que ahora se encuentra en una asignacion
       patchContent(urlInstrumento, modif, req.headers).then(() => {
 
-        res.json(asig);
+        res.status(200).json(asig);
       })
     })
     .catch((err) => res.send(err));
@@ -112,22 +112,26 @@ router.post('/registrarAsignacion', (req, res) => {
 const getContent = function(url) {
   // return new pending promise
   return new Promise((resolve, reject) => {
-    // select http or https module, depending on reqested url
-    //  const lib = url.startsWith('https') ? require('https') : require('http');
-    const request = http.get(url, (response) => {
+
+    var options = {
+      method: 'get',
+      json: true, // Use,If you are sending JSON data
+      url: url
+    };
+
+    request(options, (err, response, body) => {
       // handle http errors
+      if (err) {
+        reject(err);
+      }
       if (response.statusCode < 200 || response.statusCode > 299) {
         reject(new Error('Failed to load page, status code: ' + response.statusCode));
       }
-      // temporary data holder
-      const body = [];
-      // on every content chunk, push it to the data array
-      response.on('data', (chunk) => body.push(chunk));
-      // we are done, resolve promise with those joined chunks
-      response.on('end', () => resolve(body.join('')));
+      //devuelve respuesta post
+      resolve(body);
+
     });
-    // handle connection errors of the request
-    request.on('error', (err) => reject(err))
+
   })
 };
 
@@ -139,7 +143,6 @@ const postContent = function(url, postData, headers) {
 
   // return new pending promise
   return new Promise((resolve, reject) => {
-
     //optiones para request post
     var options = {
       method: 'post',

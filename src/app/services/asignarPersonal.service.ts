@@ -20,13 +20,12 @@ export class AsignarPersonalService {
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
 
-
   //urls hacia movimiento asignarPersonal
-  private asignacionUrl = VariablesGlobales.BASE_API_URL + '/movimiento/asignarPersonal/registrarAsignacion';
-  private instrumentosUrl = VariablesGlobales.BASE_API_URL + '/movimiento/asignarPersonal/obtenerInstrumentosTipoTrabajo';
-  private ordenesUrl = VariablesGlobales.BASE_API_URL + '/movimiento/asignarPersonal/obtenerOrdenes';
-  private personalUrl = VariablesGlobales.BASE_API_URL + '/movimiento/asignarPersonal/obtenerPersonal';
-  private trabajosUrl = VariablesGlobales.BASE_API_URL + '/movimiento/asignarPersonal/obtenerTrabajosOrden';
+  private asignacionUrl = VariablesGlobales.BASE_API_URL + '/gestionOrdenes/movimiento/asignarPersonal/registrarAsignacion';
+  private instrumentosUrl = VariablesGlobales.BASE_API_URL + '/gestionOrdenes/movimiento/asignarPersonal/obtenerInstrumentosTipoTrabajo';
+  private ordenesUrl = VariablesGlobales.BASE_API_URL + '/gestionOrdenes/movimiento/asignarPersonal/obtenerOrdenes';
+  private personalUrl = VariablesGlobales.BASE_API_URL + '/gestionOrdenes/movimiento/asignarPersonal/obtenerPersonal';
+  private trabajosUrl = VariablesGlobales.BASE_API_URL + '/gestionOrdenes/movimiento/asignarPersonal/obtenerTrabajosOrden';
 
 
 

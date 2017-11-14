@@ -22,6 +22,7 @@ router.get('/ocupado', (req, res) => {
   Asignacion.find({
       progreso: 'En curso'
     })
+  //  .distinct('trabajo')
     .populate(
       'personal')
     .then(function(asignaciones) {

@@ -72,9 +72,8 @@ export class WizardAsignarPersonalComponent implements OnInit {
     this.atributosTrabajo = this._asignarPersonalService.getAtributosTrabajo();
     this.atributosPersonal = this._asignarPersonalService.getAtributosPersonal();
 
-    //se obtiene ordenes y personal
+    //se obtiene ordenes
     this.getOrdenes();
-    this.getPersonal();
 
   }
 
@@ -252,6 +251,7 @@ export class WizardAsignarPersonalComponent implements OnInit {
     this.selectedTrabajo = null;
     this.selectedPersonal = null;
     this.selectedInstrumento = null;
+    this.personal = [];
     this.instrumentos = [];
     this.trabajos = [];
   }
@@ -259,6 +259,7 @@ export class WizardAsignarPersonalComponent implements OnInit {
   resetStep2() {
     this.selectedPersonal = null;
     this.selectedInstrumento = null;
+    this.personal = [];
     this.instrumentos = [];
   }
 

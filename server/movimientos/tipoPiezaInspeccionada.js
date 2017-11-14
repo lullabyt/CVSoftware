@@ -10,36 +10,45 @@ var TipoPieza = require('../models/tipoPieza');
 //MOVIMIENTO TIPO PIEZA MAS INSPECCIONADA
 
 
-
-
 router.get('/', (req, res) => {
-  const urlTrabajos = VariablesGlobales.BASE_API_URL +'/api/trabajos/fechas';
+
+  res.send('Movimiento tipo pieza inspeccionada. No has seleccionado ninguna opción!');
+
+});
+
+
+router.get('/obtenerTipoPieza', (req, res) => {
+
+  const urlTrabajos = VariablesGlobales.BASE_API_URL + '/api/trabajos/fechas';
 
   getContentQuery(urlTrabajos, req.query)
     .then((trabajos) => {
-      var i=0;
+      var i = 0;
       var idaux = null;
       for (variable of trabajos) {
-        if(variable.count>i){
-          i=variable.count;
-          idaux=variable._id;
+        if (variable.count > i) {
+          i = variable.count;
+          idaux = variable._id;
         }
       }
-      if(idaux!=null){
-        const urlTipoPieza = VariablesGlobales.BASE_API_URL +'/api/tipoPiezas/'+idaux[0];
-        getContentQuery(urlTipoPieza,null).then((tPieza) =>{
-          res.json({
+      if (idaux != null) {
+        const urlTipoPieza = VariablesGlobales.BASE_API_URL + '/api/tipoPiezas/' + idaux[0];
+        getContentQuery(urlTipoPieza, null).then((tPieza) => {
+          res.status(200).json({
             nombre: tPieza.nombre,
             descripcion: tPieza.descripcion,
-            cantidad:i
+            cantidad: i
           });
         })
       } else {
-        res.json(null);
+        res.status(200).json(null);
       }
-   })
+    })
     .catch((err) => res.send(err));
 });
+
+
+
 
 const getContentQuery = function(url, queryData) {
   // return new pending promise
@@ -67,6 +76,7 @@ const getContentQuery = function(url, queryData) {
 
   })
 };
+
 
 
 module.exports = router;

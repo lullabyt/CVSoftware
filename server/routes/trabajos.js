@@ -89,6 +89,7 @@ router.get('/supervisadosEmpleado', (req, res) => {
             }
 
           }, "trabajo -_id")
+        //  .distinct('trabajo')
           .populate({
             path: 'trabajo',
             populate: {
