@@ -5,6 +5,8 @@ const request = require('request');
 
 const VariablesGlobales = require('../utiles/variablesGlobales');
 
+var ObjectId = require('mongoose').Types.ObjectId;
+
 
 
 //MOVIMIENTO ASIGNAR PERSONAL
@@ -34,11 +36,18 @@ router.get('/obtenerTrabajosOrden/:_id', (req, res) => {
 
   var ordenServicio = req.params._id;
 
-  const urlTrabajos = VariablesGlobales.BASE_API_URL + '/api/trabajos/' + ordenServicio;
+  if (checkObjectId(ordenServicio)) {
 
-  getContent(urlTrabajos)
-    .then((trabajos) => res.status(200).json(trabajos))
-    .catch((err) => res.send(err));
+    const urlTrabajos = VariablesGlobales.BASE_API_URL + '/api/trabajos/' + ordenServicio;
+
+    getContent(urlTrabajos)
+      .then((trabajos) => res.status(200).json(trabajos))
+      .catch((err) => res.send(err));
+
+  } else {
+
+    res.send("formato id invalido");
+  }
 
 });
 
@@ -71,38 +80,56 @@ router.get('/obtenerInstrumentosTipoTrabajo/:_id', (req, res) => {
 
   var tipoTrabajo = req.params._id;
 
-  const urlInstrumentos = VariablesGlobales.BASE_API_URL + '/api/instrumentos/' + tipoTrabajo;
+  if (checkObjectId(tipoTrabajo)) {
 
-  getContent(urlInstrumentos)
-    .then((instrumentos) => res.status(200).json(instrumentos))
-    .catch((err) => res.send(err));
+    const urlInstrumentos = VariablesGlobales.BASE_API_URL + '/api/instrumentos/' + tipoTrabajo;
 
+    getContent(urlInstrumentos)
+      .then((instrumentos) => res.status(200).json(instrumentos))
+      .catch((err) => res.send(err));
+
+  } else {
+
+    res.send("formato id invalido");
+  }
 });
 
 
 router.post('/registrarAsignacion', (req, res) => {
 
   var idInstrumento = req.body.instrumento;
+  var idTrabajo = req.body.trabajo;
+  var idPersonal = req.body.personal;
 
-  var modif = {
+  if (checkObjectId(idInstrumento) && checkObjectId(idTrabajo) && checkObjectId(idPersonal)) {
 
-    disponibilidad: "ocupado"
+    var modif = {
 
-  };
+      disponibilidad: "ocupado"
 
-  const urlAsignacion = VariablesGlobales.BASE_API_URL + '/api/asignaciones';
-  const urlInstrumento = VariablesGlobales.BASE_API_URL + '/api/instrumentos/' + idInstrumento;
+    };
 
-  postContent(urlAsignacion, req.body, req.headers)
-    .then((asig) => {
+    const urlAsignacion = VariablesGlobales.BASE_API_URL + '/api/asignaciones';
+    const urlInstrumento = VariablesGlobales.BASE_API_URL + '/api/instrumentos/' + idInstrumento;
 
-      //Busca el instrumento y Actualiza el estado ya que ahora se encuentra en una asignacion
-      patchContent(urlInstrumento, modif, req.headers).then(() => {
+    postContent(urlAsignacion, req.body, req.headers)
+      .then((asig) => {
 
-        res.status(200).json(asig);
+        //Busca el instrumento y Actualiza el estado ya que ahora se encuentra en una asignacion
+        patchContent(urlInstrumento, modif, req.headers).then(() => {
+
+          res.status(200).json(asig);
+        })
       })
-    })
-    .catch((err) => res.send(err));
+      .catch((err) => res.send(err));
+
+
+  } else {
+
+    res.send("formato id invalido");
+  }
+
+
 });
 
 
@@ -206,6 +233,30 @@ const patchContent = function(url, patchData, headers) {
 
   })
 };
+
+
+
+// funcion que verifica formato ObjectId
+
+const checkObjectId = function(id) {
+
+  if (ObjectId.isValid(id)) {
+
+    var prueba = new ObjectId(id);
+
+    if (prueba == id) {
+      return true
+
+    } else {
+      return false
+    }
+
+  } else {
+    return false
+  }
+
+};
+
 
 
 module.exports = router;

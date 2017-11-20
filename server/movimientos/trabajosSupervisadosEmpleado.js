@@ -6,6 +6,8 @@ const request = require('request');
 const VariablesGlobales = require('../utiles/variablesGlobales');
 
 
+var ObjectId = require('mongoose').Types.ObjectId;
+
 
 //MOVIMIENTO TRABAJOS SUPERVISADOS EMPLEADO
 
@@ -21,7 +23,7 @@ router.get('/obtenerPersonalLibre', (req, res) => {
 
   const urlPersonalLibre = VariablesGlobales.BASE_API_URL + '/api/personal/libre';
 
-  getContentQuery(urlPersonalLibre,null)
+  getContentQuery(urlPersonalLibre, null)
     .then((libre) => res.status(200).json(libre))
     .catch((err) => res.send(err));
 
@@ -32,7 +34,7 @@ router.get('/obtenerPersonalOcupado', (req, res) => {
 
   const urlPersonalOcupado = VariablesGlobales.BASE_API_URL + '/api/personal/ocupado';
 
-  getContentQuery(urlPersonalOcupado,null)
+  getContentQuery(urlPersonalOcupado, null)
     .then((ocupado) => res.status(200).json(ocupado))
     .catch((err) => res.send(err));
 
@@ -42,13 +44,30 @@ router.get('/obtenerPersonalOcupado', (req, res) => {
 
 router.get('/obtenerTrabajosSupervisadosEmpleado', (req, res) => {
 
-  const urlAsignacion = VariablesGlobales.BASE_API_URL + '/api/trabajos/supervisadosEmpleado';
+  if (isValidDate(req.query.fechaIni) && isValidDate(req.query.fechaFin) && req.query.fechaIni <= req.query.fechaFin) {
 
-  getContentQuery(urlAsignacion, req.query)
-    .then((asig) => {
-      res.status(200).json(asig);
-    })
-    .catch((err) => res.send(err));
+    if (checkObjectId(req.query.empleado)) {
+
+      const urlAsignacion = VariablesGlobales.BASE_API_URL + '/api/trabajos/supervisadosEmpleado';
+
+      getContentQuery(urlAsignacion, req.query)
+        .then((asig) => {
+          res.status(200).json(asig);
+        })
+        .catch((err) => res.send(err));
+
+    } else {
+
+      res.send("formato id empleado invalido");
+    }
+
+
+  } else {
+
+    res.send("formato dates invalido");
+  }
+
+
 });
 
 
@@ -108,6 +127,40 @@ const getContentQuery = function(url, queryData) {
 
   })
 };
+
+
+
+// funcion que verifica formato ObjectId
+
+const checkObjectId = function(id) {
+
+  if (ObjectId.isValid(id)) {
+
+    var prueba = new ObjectId(id);
+
+    if (prueba == id) {
+      return true
+
+    } else {
+      return false
+    }
+
+  } else {
+    return false
+  }
+
+};
+
+
+const isValidDate = function(dateString) {
+  var regEx = /^\d{4}-\d{2}-\d{2}$/;
+  if (!dateString.match(regEx)) return false; // Invalid format
+  var d = new Date(dateString);
+  if (!d.getTime()) return false; // Invalid date (or this could be epoch)
+  return d.toISOString().slice(0, 10) === dateString;
+}
+
+
 
 
 module.exports = router;

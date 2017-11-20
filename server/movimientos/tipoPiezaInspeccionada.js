@@ -19,32 +19,42 @@ router.get('/', (req, res) => {
 
 router.get('/obtenerTipoPieza', (req, res) => {
 
-  const urlTrabajos = VariablesGlobales.BASE_API_URL + '/api/trabajos/fechas';
 
-  getContentQuery(urlTrabajos, req.query)
-    .then((trabajos) => {
-      var i = 0;
-      var idaux = null;
-      for (variable of trabajos) {
-        if (variable.count > i) {
-          i = variable.count;
-          idaux = variable._id;
+  if (isValidDate(req.query.fechaIni) && isValidDate(req.query.fechaFin) && req.query.fechaIni <= req.query.fechaFin) {
+
+    const urlTrabajos = VariablesGlobales.BASE_API_URL + '/api/trabajos/fechas';
+
+    getContentQuery(urlTrabajos, req.query)
+      .then((trabajos) => {
+        var i = 0;
+        var idaux = null;
+        for (variable of trabajos) {
+          if (variable.count > i) {
+            i = variable.count;
+            idaux = variable._id;
+          }
         }
-      }
-      if (idaux != null) {
-        const urlTipoPieza = VariablesGlobales.BASE_API_URL + '/api/tipoPiezas/' + idaux[0];
-        getContentQuery(urlTipoPieza, null).then((tPieza) => {
-          res.status(200).json({
-            nombre: tPieza.nombre,
-            descripcion: tPieza.descripcion,
-            cantidad: i
-          });
-        })
-      } else {
-        res.status(200).json(null);
-      }
-    })
-    .catch((err) => res.send(err));
+        if (idaux != null) {
+          const urlTipoPieza = VariablesGlobales.BASE_API_URL + '/api/tipoPiezas/' + idaux[0];
+          getContentQuery(urlTipoPieza, null).then((tPieza) => {
+            res.status(200).json({
+              nombre: tPieza.nombre,
+              descripcion: tPieza.descripcion,
+              cantidad: i
+            });
+          })
+        } else {
+          res.status(200).json(null);
+        }
+      })
+      .catch((err) => res.send(err));
+
+  } else {
+
+    res.send("formato dates invalido");
+  }
+
+
 });
 
 
@@ -76,6 +86,15 @@ const getContentQuery = function(url, queryData) {
 
   })
 };
+
+
+const isValidDate = function(dateString) {
+  var regEx = /^\d{4}-\d{2}-\d{2}$/;
+  if (!dateString.match(regEx)) return false; // Invalid format
+  var d = new Date(dateString);
+  if (!d.getTime()) return false; // Invalid date (or this could be epoch)
+  return d.toISOString().slice(0, 10) === dateString;
+}
 
 
 
