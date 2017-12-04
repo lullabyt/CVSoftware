@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 });
 
 
-router.get('/movimiento', (req, res) => {
+router.get('/movimientos', (req, res) => {
 
   return res.status(200).json({
     msg: "asignarPersonal, tipoPiezaInspeccionada, trabajosSupervisadosEmpleado, finalizarTrabajo, empleadoMasTrabajos, trabajoMasPedido"
@@ -24,7 +24,7 @@ router.get('/movimiento', (req, res) => {
 });
 
 
-router.all('/movimiento/asignarPersonal*', (req, res) => {
+router.all('/movimientos/asignarPersonal*', (req, res) => {
 
   var fullUrl = req.protocol + '://' + req.hostname + puertoTeamFF + req.url;
   var opciones = getOption(fullUrl, req.method, req.body, req.query, req.headers);
@@ -37,7 +37,7 @@ router.all('/movimiento/asignarPersonal*', (req, res) => {
 });
 
 
-router.all('/movimiento/tipoPiezaInspeccionada*', (req, res) => {
+router.all('/movimientos/tipoPiezaInspeccionada*', (req, res) => {
 
   var fullUrl = req.protocol + '://' + req.hostname + puertoTeamFF + req.url;
   var opciones = getOption(fullUrl, req.method, req.body, req.query, req.headers);
@@ -50,7 +50,7 @@ router.all('/movimiento/tipoPiezaInspeccionada*', (req, res) => {
 });
 
 
-router.all('/movimiento/trabajosSupervisadosEmpleado*', (req, res) => {
+router.all('/movimientos/trabajosSupervisadosEmpleado*', (req, res) => {
 
   var fullUrl = req.protocol + '://' + req.hostname + puertoTeamFF + req.url;
   var opciones = getOption(fullUrl, req.method, req.body, req.query, req.headers);
@@ -63,7 +63,7 @@ router.all('/movimiento/trabajosSupervisadosEmpleado*', (req, res) => {
 });
 
 
-router.all('/movimiento/finalizarTrabajo*', (req, res) => {
+router.all('/movimientos/finalizarTrabajo*', (req, res) => {
 
   var fullUrl = req.protocol + '://' + req.hostname + puertoTeamJE + req.url;
   var opciones = getOption(fullUrl, req.method, req.body, req.query, req.headers);
@@ -76,7 +76,7 @@ router.all('/movimiento/finalizarTrabajo*', (req, res) => {
 });
 
 
-router.all('/movimiento/empleadoMasTrabajos*', (req, res) => {
+router.all('/movimientos/empleadoMasTrabajos*', (req, res) => {
 
   var fullUrl = req.protocol + '://' + req.hostname + puertoTeamJE + req.url;
   var opciones = getOption(fullUrl, req.method, req.body, req.query, req.headers);
@@ -88,7 +88,7 @@ router.all('/movimiento/empleadoMasTrabajos*', (req, res) => {
 });
 
 
-router.all('/movimiento/trabajoMasPedido*', (req, res) => {
+router.all('/movimientos/trabajoMasPedido*', (req, res) => {
 
   var fullUrl = req.protocol + '://' + req.hostname + puertoTeamJE + req.url;
   var opciones = getOption(fullUrl, req.method, req.body, req.query, req.headers);

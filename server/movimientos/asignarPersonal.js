@@ -42,11 +42,11 @@ router.get('/obtenerTrabajosOrden/:_id', (req, res) => {
 
     getContent(urlTrabajos)
       .then((trabajos) => res.status(200).json(trabajos))
-      .catch((err) => res.send(err));
+      .catch((err) => res.status(400).send(err));
 
   } else {
 
-    res.send("formato id invalido");
+    res.status(400).send("formato id invalido");
   }
 
 });
@@ -86,17 +86,16 @@ router.get('/obtenerInstrumentosTipoTrabajo/:_id', (req, res) => {
 
     getContent(urlInstrumentos)
       .then((instrumentos) => res.status(200).json(instrumentos))
-      .catch((err) => res.send(err));
+      .catch((err) => res.status(400).send(err));
 
   } else {
 
-    res.send("formato id invalido");
+     res.status(400).send("formato id invalido");
   }
 });
 
 
 router.post('/registrarAsignacion', (req, res) => {
-
   var idInstrumento = req.body.instrumento;
   var idTrabajo = req.body.trabajo;
   var idPersonal = req.body.personal;
@@ -121,12 +120,11 @@ router.post('/registrarAsignacion', (req, res) => {
           res.status(200).json(asig);
         })
       })
-      .catch((err) => res.send(err));
+      .catch((err) => res.status(400).send(err));
 
 
   } else {
-
-    res.send("formato id invalido");
+    res.status(400).send("formato id invalido");
   }
 
 

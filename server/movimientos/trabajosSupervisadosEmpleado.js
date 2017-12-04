@@ -54,17 +54,17 @@ router.get('/obtenerTrabajosSupervisadosEmpleado', (req, res) => {
         .then((asig) => {
           res.status(200).json(asig);
         })
-        .catch((err) => res.send(err));
+        .catch((err) =>   res.status(400).send(err));
 
     } else {
 
-      res.send("formato id empleado invalido");
+        res.status(400).send("formato id empleado invalido");
     }
 
 
   } else {
 
-    res.send("formato dates invalido");
+      res.status(400).send("formato dates invalido");
   }
 
 
@@ -153,11 +153,13 @@ const checkObjectId = function(id) {
 
 
 const isValidDate = function(dateString) {
+  if(dateString){
   var regEx = /^\d{4}-\d{2}-\d{2}$/;
   if (!dateString.match(regEx)) return false; // Invalid format
   var d = new Date(dateString);
   if (!d.getTime()) return false; // Invalid date (or this could be epoch)
   return d.toISOString().slice(0, 10) === dateString;
+  } else {return false;}
 }
 
 

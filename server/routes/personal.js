@@ -22,16 +22,24 @@ router.get('/ocupado', (req, res) => {
   Asignacion.find({
       progreso: 'En curso'
     })
-  //  .distinct('trabajo')
+    //  .distinct('trabajo')
     .populate(
       'personal')
     .then(function(asignaciones) {
+
       var pers = [];
-      asignaciones.forEach(function(asignacion) {
+      if (asignaciones.length > 0) {
+        for (asignacion of asignaciones) {
+          if (!pers.includes(asignacion.personal)) {
+            pers.push(asignacion.personal);
+          }
+        }
+      }
+      /*  asignaciones.forEach(function(asignacion) {
+          console.log("hey" + pers);
+          pers.push(asignacion.personal);
 
-        pers.push(asignacion.personal);
-
-      })
+        })*/
 
       res.json(pers);
 
@@ -49,12 +57,19 @@ router.get('/libre', (req, res) => {
       progreso: 'En curso'
     })
     .then(function(asignaciones) {
+
       var pers = [];
+      if (asignaciones.length > 0) {
+        for (asignacion of asignaciones) {
+          pers.push(asignacion.personal);
+        }
+      }
+      /*
       asignaciones.forEach(function(asignacion) {
 
         pers.push(asignacion.personal);
 
-      });
+      });*/
 
       // si la persona no esta en el arreglo pers entonces no se encuentra asignado
       Personal.find({

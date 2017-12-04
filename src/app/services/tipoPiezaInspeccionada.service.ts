@@ -22,7 +22,7 @@ export class TipoPiezaInspeccionadaService {
 
 
   //urls hacia movimiento tipoPiezaInspeccionada
-  private tipoPiezaUrl = VariablesGlobales.BASE_API_URL + '/gestionOrdenes/movimiento/tipoPiezaInspeccionada/obtenerTipoPieza';
+  private tipoPiezaUrl = VariablesGlobales.BASE_API_URL + '/gestionOrdenes/movimientos/tipoPiezaInspeccionada/obtenerTipoPieza';
 
 
   constructor(private http: Http) { }

@@ -20,8 +20,8 @@ export class TrabajosSupervisadosEmpleadoService {
 
 
   //urls hacia movimiento trabajosSupervisadosEmpleado
-  private asignacionUrl = VariablesGlobales.BASE_API_URL + '/gestionOrdenes/movimiento/trabajosSupervisadosEmpleado/obtenerTrabajosSupervisadosEmpleado';
-  private personalUrl = VariablesGlobales.BASE_API_URL + '/gestionOrdenes/movimiento/trabajosSupervisadosEmpleado/obtenerPersonal';
+  private asignacionUrl = VariablesGlobales.BASE_API_URL + '/gestionOrdenes/movimientos/trabajosSupervisadosEmpleado/obtenerTrabajosSupervisadosEmpleado';
+  private personalUrl = VariablesGlobales.BASE_API_URL + '/gestionOrdenes/movimientos/trabajosSupervisadosEmpleado/obtenerPersonal';
 
 
   private atributosTrabajo: string[] = [

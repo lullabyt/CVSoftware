@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
-
+let config = require('config');
 
 //get rutas movimientos
 const asignarPersonal = require('./server/movimientos/asignarPersonal');
@@ -31,7 +31,7 @@ const app = express();
 var mongoose = require('mongoose');
 
 //direccion a la base de datos
-var dbURI = 'mongodb://localhost/bmInsp';
+var dbURI = config.DBHost;
 
 
 //Set up default mongoose connection
@@ -46,7 +46,7 @@ mongoose.connect(dbURI, {
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.on('connected', function() {
-  console.log('Mongoose connected a: ' + dbURI);
+  //console.log('Mongoose connected a: ' + dbURI);
 });
 db.on('disconnected', function() {
   console.log('Mongoose disconnected');
@@ -66,9 +66,9 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 
 // Set rutas movimientos
-app.use('/movimiento/asignarPersonal', asignarPersonal);
-app.use('/movimiento/tipoPiezaInspeccionada', tipoPiezaInspeccionada);
-app.use('/movimiento/trabajosSupervisadosEmpleado', trabajosSupervisadosEmpleado);
+app.use('/movimientos/asignarPersonal', asignarPersonal);
+app.use('/movimientos/tipoPiezaInspeccionada', tipoPiezaInspeccionada);
+app.use('/movimientos/trabajosSupervisadosEmpleado', trabajosSupervisadosEmpleado);
 
 
 // Set our api routes
@@ -83,11 +83,11 @@ app.use('/api/tipoTrabajos', tipoTrabajos);
 app.use('/api/tipoPiezas', tipoPiezas);
 app.use('/api/piezas', piezas);
 
-
+/*
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
-});
+});*/
 
 /**
  * Get port from environment and store in Express.
@@ -104,3 +104,5 @@ const server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 server.listen(port, () => console.log(`API running on localhost:${port}`));
+
+module.exports = server;

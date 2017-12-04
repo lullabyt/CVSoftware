@@ -19,7 +19,6 @@ router.get('/', (req, res) => {
 
 router.get('/obtenerTipoPieza', (req, res) => {
 
-
   if (isValidDate(req.query.fechaIni) && isValidDate(req.query.fechaFin) && req.query.fechaIni <= req.query.fechaFin) {
 
     const urlTrabajos = VariablesGlobales.BASE_API_URL + '/api/trabajos/fechas';
@@ -44,16 +43,16 @@ router.get('/obtenerTipoPieza', (req, res) => {
             });
           })
         } else {
+
           res.status(200).json(null);
         }
       })
-      .catch((err) => res.send(err));
+      .catch((err) =>   res.status(400).send(err));
 
   } else {
 
-    res.send("formato dates invalido");
+      res.status(400).send("formato dates invalido");
   }
-
 
 });
 
@@ -89,11 +88,15 @@ const getContentQuery = function(url, queryData) {
 
 
 const isValidDate = function(dateString) {
+
+  if(dateString){
   var regEx = /^\d{4}-\d{2}-\d{2}$/;
   if (!dateString.match(regEx)) return false; // Invalid format
   var d = new Date(dateString);
   if (!d.getTime()) return false; // Invalid date (or this could be epoch)
   return d.toISOString().slice(0, 10) === dateString;
+  } else {return false;}
+
 }
 
 
